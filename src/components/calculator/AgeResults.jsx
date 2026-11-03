@@ -14,8 +14,9 @@ import {
   Printer,
   Share2,
 } from 'lucide-react';
+import Confetti from './Confetti.jsx';
 import { useResultActions } from '../../hooks/useResultActions.js';
-import { formatDate } from '../../utils/date.js';
+import { formatDate, getTodayIso, toIsoDate } from '../../utils/date.js';
 import { formatCountdown, pluralize } from '../../utils/formatResult.js';
 
 const AGE_CARDS = [
@@ -26,11 +27,13 @@ const AGE_CARDS = [
 
 function AgeCard({ value, singular, plural, icon: Icon, tone, iconTone }) {
   return (
-    <div className={`flex flex-col items-center rounded-2xl px-1 py-5 text-center sm:py-6 ${tone}`}>
-      <Icon aria-hidden="true" className={`size-7 sm:size-8 ${iconTone}`} />
-      <p className="mt-2 flex flex-col">
-        <span className="text-4xl font-extrabold tracking-tight tabular-nums sm:text-5xl">{value}</span>
-        <span className="mt-1 text-sm font-semibold sm:text-base">{value === 1 ? singular : plural}</span>
+    <div
+      className={`flex flex-col items-center justify-center gap-1 rounded-2xl px-1 py-3 text-center min-[375px]:flex-row min-[375px]:gap-2 sm:gap-3 sm:py-4 ${tone}`}
+    >
+      <Icon aria-hidden="true" className={`size-5 shrink-0 sm:size-7 ${iconTone}`} />
+      <p className="flex flex-col">
+        <span className="text-2xl leading-none font-extrabold tracking-tight tabular-nums sm:text-3xl">{value}</span>
+        <span className="mt-1 text-xs font-semibold sm:text-sm">{value === 1 ? singular : plural}</span>
       </p>
     </div>
   );
@@ -182,8 +185,12 @@ export default function AgeResults({ result, isStale }) {
     if (result) headingRef.current?.focus();
   }, [result]);
 
+  // Celebrate only a birthday happening today, not an anniversary on another chosen date.
+  const isBirthdayToday = result?.nextBirthday.isToday && toIsoDate(result.asOfDate) === getTodayIso();
+
   return (
     <section aria-label="Your results" className="rounded-3xl bg-card p-4 shadow-card sm:p-6 print:shadow-none">
+      {isBirthdayToday && <Confetti trigger={result} />}
       <ResultsHeader result={result} headingRef={headingRef} />
       {result ? <ResultDetails result={result} isStale={isStale} /> : <EmptyState />}
     </section>

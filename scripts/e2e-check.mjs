@@ -236,6 +236,70 @@ async function checkPrint(browser, baseUrl) {
   await page.close();
 }
 
+async function checkConfetti(browser, baseUrl) {
+  console.log('\nBirthday confetti');
+  const page = await browser.newPage();
+  await page.setViewport({ width: 375, height: 812 });
+  await page.goto(baseUrl, { waitUntil: 'networkidle0' });
+
+  const birthdayToday = await page.evaluate(() => {
+    const now = new Date();
+    const pad = (value) => String(value).padStart(2, '0');
+    return `${now.getFullYear() - 24}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  });
+  const paintedPixels = () =>
+    page.evaluate(() => {
+      const canvas = document.querySelector('[data-testid="confetti"]');
+      if (!canvas) return 0;
+      const { data } = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+      let count = 0;
+      for (let index = 3; index < data.length; index += 4) if (data[index] > 0) count += 1;
+      return count;
+    });
+  const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  await setDate(page, '#dob', '1998-06-15');
+  await clickButton(page, 'Calculate Age');
+  await settle();
+  check('no confetti on an ordinary day', (await page.$('[data-testid="confetti"]')) === null);
+
+  await setDate(page, '#dob', birthdayToday);
+  await clickButton(page, 'Calculate Age');
+  await pause(1000);
+  const during = await paintedPixels();
+  check('confetti is drawn on a birthday', during > 500, `${during} pixels`);
+  await page.screenshot({ path: `${OUTPUT_DIR}/confetti.png` });
+
+  const blocksClicks = await page.$eval('[data-testid="confetti"]', (canvas) => getComputedStyle(canvas).pointerEvents !== 'none');
+  check('confetti does not block clicks', !blocksClicks);
+  check(
+    'confetti causes no horizontal scroll',
+    await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
+  );
+
+  await pause(5500);
+  check('confetti clears itself', (await paintedPixels()) === 0);
+
+  await clickButton(page, 'Calculate Age');
+  await pause(800);
+  check('calculating again replays the confetti', (await paintedPixels()) > 500);
+  await page.close();
+
+  const calmPage = await browser.newPage();
+  await calmPage.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+  await calmPage.goto(baseUrl, { waitUntil: 'networkidle0' });
+  await setDate(calmPage, '#dob', birthdayToday);
+  await clickButton(calmPage, 'Calculate Age');
+  await pause(800);
+  const calmPixels = await calmPage.$eval('[data-testid="confetti"]', (canvas) => {
+    const { data } = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+    return data.some((value) => value > 0);
+  });
+  check('reduced-motion users get no animation', !calmPixels);
+  check('reduced-motion users still see the birthday message', await hasText(calmPage, 'Happy birthday!'));
+  await calmPage.close();
+}
+
 async function checkCopy(browser, baseUrl) {
   console.log('\nClipboard');
   const context = browser.defaultBrowserContext();
@@ -278,6 +342,7 @@ try {
   }
   await checkSeo(browser, baseUrl);
   await checkPrint(browser, baseUrl);
+  await checkConfetti(browser, baseUrl);
   await checkCopy(browser, baseUrl);
 } finally {
   await browser.close();
