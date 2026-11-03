@@ -173,6 +173,26 @@ async function checkSeo(browser, baseUrl) {
   }
   check('structured data is valid JSON', validStructuredData);
 
+  // What a crawler receives before any JavaScript runs.
+  const rawHtml = await (await fetch(baseUrl)).text();
+  check('raw HTML contains the h1', /<h1[^>]*>Age Calculator<\/h1>/.test(rawHtml));
+  check('raw HTML contains the page content', rawHtml.includes('Frequently asked questions'));
+  check('no unreplaced placeholders', !rawHtml.includes('__SITE_URL__'));
+  check('no leftover template comments', !rawHtml.includes('google-site-verification-->'));
+
+  const schemas = [...rawHtml.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(
+    (match) => JSON.parse(match[1]),
+  );
+  const types = schemas.map((schema) => schema['@type']);
+  check('structured data types', ['WebApplication', 'WebSite', 'FAQPage'].every((type) => types.includes(type)), types.join(', '));
+
+  const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
+  const pageText = await page.evaluate(() => document.body.textContent.replace(/\s+/g, ' '));
+  const hiddenFromPage = (faq?.mainEntity ?? []).filter(
+    ({ name, acceptedAnswer }) => !pageText.includes(name) || !pageText.includes(acceptedAnswer.text),
+  );
+  check('every FAQ schema entry is on the page', hiddenFromPage.length === 0, hiddenFromPage.map((item) => item.name).join(', '));
+
   for (const path of ['/robots.txt', '/sitemap.xml', '/favicon.svg', '/og-image.png', '/privacy.html']) {
     const response = await fetch(new URL(path, baseUrl));
     check(`${path} is served`, response.ok, String(response.status));
