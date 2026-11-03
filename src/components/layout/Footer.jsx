@@ -5,7 +5,10 @@ export default function Footer() {
     <footer className="mt-12 px-4 pb-10 text-center text-sm text-ink/80 print:hidden">
       <p>Your dates stay in your browser. They are never sent or stored.</p>
       <p className="mt-1">
-        © {new Date().getFullYear()} {siteConfig.name}
+        © {new Date().getFullYear()} {siteConfig.name} ·{' '}
+        <a href="/privacy.html" className="font-semibold text-primary underline underline-offset-2">
+          Privacy Policy
+        </a>
       </p>
     </footer>
   );
