@@ -8,7 +8,7 @@ export default function AgeCalculator() {
   return (
     <div
       data-testid="calculator-layout"
-      className="grid items-start gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7.5fr)]"
+      className="grid items-start gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7.5fr)] print:block"
     >
       <AgeForm
         dob={dob}

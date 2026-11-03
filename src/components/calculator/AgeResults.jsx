@@ -38,14 +38,15 @@ function AgeCard({ value, singular, plural, icon: Icon, tone, iconTone }) {
 
 function DetailItem({ icon: Icon, label, value, iconTone = 'text-primary', iconBg = 'bg-secondary' }) {
   return (
-    <div className="flex items-center gap-4 py-4 print:break-inside-avoid">
-      <span className={`grid size-12 shrink-0 place-items-center rounded-xl ${iconBg}`}>
-        <Icon aria-hidden="true" className={`size-6 ${iconTone}`} />
-      </span>
-      <div className="min-w-0">
-        <dt className="text-sm font-medium text-muted">{label}</dt>
-        <dd className="mt-0.5 font-extrabold">{value}</dd>
-      </div>
+    // A div in a dl may only contain dt and dd, so the icon is positioned from inside the dt.
+    <div className="relative flex min-h-20 flex-col justify-center py-4 pl-16 print:break-inside-avoid">
+      <dt className="text-sm font-medium text-muted">
+        <span className={`absolute top-1/2 left-0 grid size-12 -translate-y-1/2 place-items-center rounded-xl ${iconBg}`}>
+          <Icon aria-hidden="true" className={`size-6 ${iconTone}`} />
+        </span>
+        {label}
+      </dt>
+      <dd className="mt-0.5 font-extrabold">{value}</dd>
     </div>
   );
 }
@@ -55,7 +56,7 @@ function ActionButton({ icon: Icon, onClick, children }) {
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-line bg-white px-3 text-sm font-bold text-primary transition-colors outline-none hover:border-mint hover:bg-secondary focus-visible:ring-3 focus-visible:ring-mint"
+      className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-xl border-2 border-line bg-white px-1 text-sm font-bold text-primary transition-colors outline-none hover:border-mint hover:bg-secondary focus-visible:ring-3 focus-visible:ring-mint"
     >
       <Icon aria-hidden="true" className="size-4" />
       {children}
@@ -160,7 +161,7 @@ function ResultDetails({ result, isStale }) {
         {pluralize(result.days, 'day')}.
       </p>
 
-      <div className="mt-5 flex flex-wrap gap-3 print:hidden">
+      <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3 print:hidden">
         <ActionButton icon={Copy} onClick={copy}>Copy</ActionButton>
         <ActionButton icon={Share2} onClick={share}>Share</ActionButton>
         <ActionButton icon={Printer} onClick={print}>Print</ActionButton>
