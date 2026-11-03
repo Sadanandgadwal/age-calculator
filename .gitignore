@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+coverage/
+
+# Local environment files (may hold real IDs or secrets)
+.env
+.env.*
+!.env.example
+
+# Vercel CLI link data
+.vercel/
+
+# Test and audit artifacts
+e2e-output/
+
+# Logs
+*.log
+
+# Editor and OS files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
