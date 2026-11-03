@@ -186,6 +186,16 @@ async function checkSeo(browser, baseUrl) {
   const types = schemas.map((schema) => schema['@type']);
   check('structured data types', ['WebApplication', 'WebSite', 'FAQPage'].every((type) => types.includes(type)), types.join(', '));
 
+  const authorUrl = 'https://sadanandgadwal.com';
+  check('author metadata is present', rawHtml.includes('<meta name="author" content="Sadanand Gadwal"') && rawHtml.includes(`<link rel="author" href="${authorUrl}"`));
+  check(
+    'structured data names the author',
+    schemas
+      .filter((schema) => ['WebApplication', 'WebSite'].includes(schema['@type']))
+      .every((schema) => schema.author?.name === 'Sadanand Gadwal' && schema.author?.url === authorUrl),
+  );
+  check('author is not displayed on the page', !(await page.evaluate(() => /sadanand/i.test(document.body.innerText))));
+
   const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
   const pageText = await page.evaluate(() => document.body.textContent.replace(/\s+/g, ' '));
   const hiddenFromPage = (faq?.mainEntity ?? []).filter(
