@@ -1,4 +1,4 @@
-import { Cake } from 'lucide-react';
+import { Cake, GraduationCap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -40,6 +40,32 @@ export const TOOLS = [
       return { faqs: [...USEFUL_INFO, ...FAQS] };
     },
   },
+  {
+    id: 'marks-percentage-calculator',
+    name: 'Marks & Percentage Calculator',
+    route: '/marks-percentage-calculator',
+    categories: ['calculators'],
+    icon: GraduationCap,
+    description: 'Calculate exam totals, percentage and grades, and the marks you need to reach a target.',
+    keywords: ['marks', 'exam', 'result', 'grade', 'subject', 'score', 'cgpa', 'target', 'school', 'percentage'],
+    featured: true,
+    addedOn: '2026-11-03',
+    seo: {
+      title: 'Marks & Percentage Calculator – Calculate Exam Results',
+      description:
+        'Calculate total marks, percentage and grade across any number of subjects. Find your highest and lowest subjects and the marks needed to reach your target.',
+      featureList: [
+        'Subject-wise and overall marks',
+        'Total, percentage and average marks',
+        'Highest and lowest scoring subjects',
+        'Configurable grading scales',
+        'Target percentage and remaining marks',
+      ],
+    },
+    load: () => import('../tools/marks-percentage/Page.jsx'),
+    loadContent: () => import('../tools/marks-percentage/content.js'),
+  },
 ];
 
 export const getToolByRoute = (route) => TOOLS.find((tool) => tool.route === route);
+export const getToolById = (id) => TOOLS.find((tool) => tool.id === id);

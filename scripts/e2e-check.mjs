@@ -280,6 +280,68 @@ async function checkRoutes(browser, siteUrl) {
   check('every page has a unique description', descriptions.size === routes.length);
 }
 
+async function checkMarks(browser, siteUrl) {
+  console.log('\nMarks & Percentage Calculator');
+  const url = new URL('/marks-percentage-calculator', siteUrl).href;
+  await browser.defaultBrowserContext().overridePermissions(new URL(siteUrl).origin, ['clipboard-read', 'clipboard-write', 'clipboard-sanitized-write']);
+
+  for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
+    const label = `${viewport.width}px`;
+    const page = await browser.newPage();
+    const problems = [];
+    page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+    page.on('pageerror', (error) => problems.push(error.message));
+    await page.bringToFront();
+    await page.setViewport(viewport);
+    await page.goto(url, { waitUntil: 'networkidle0' });
+    const noOverflow = () => page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth);
+
+    await clickButton(page, 'Calculate');
+    await settle();
+    check(`${label}: shows validation errors`, await hasText(page, 'Please enter a subject name.'));
+    await runAxe(page, `${label} errors`);
+
+    await page.$eval('details.group', (details) => { details.open = true; });
+    await settle();
+    await runAxe(page, `${label} grading scale open`);
+    check(`${label}: no horizontal scroll with the grading scale open`, await noOverflow());
+
+    await clickButton(page, 'Add subject');
+    await settle();
+    const subjects = [['Maths', '100', '90'], ['Art', '50', '20'], ['Music', '50', '40'], ['Very Long Subject Name For Layout Testing', '100', '50']];
+    for (const [index, [name, max, obtained]] of subjects.entries()) {
+      const id = index + 1;
+      await setDate(page, `#subject-${id}-name`, name);
+      await setDate(page, `#subject-${id}-max`, max);
+      await setDate(page, `#subject-${id}-obtained`, obtained);
+    }
+    await clickButton(page, 'Calculate');
+    await settle();
+    check(`${label}: calculates the percentage`, await hasText(page, '66.67%'));
+    check(`${label}: no horizontal scroll with results`, await noOverflow());
+    await runAxe(page, `${label} results`);
+    await page.screenshot({ path: `${OUTPUT_DIR}/marks-${viewport.width}.png`, fullPage: true });
+
+    await clickButton(page, 'Copy results');
+    await settle();
+    check(`${label}: copies results`, (await page.evaluate(() => navigator.clipboard.readText())).includes('Maths: 90 / 100 (90%)'));
+
+    await clickButton(page, 'Target');
+    await settle();
+    await setDate(page, '#target-percent', '75');
+    await setDate(page, '#target-obtained', '200');
+    await setDate(page, '#target-max', '250');
+    await setDate(page, '#target-remaining', '250');
+    await page.evaluate(() => [...document.querySelectorAll('button')].find((button) => button.textContent.trim() === 'Calculate' && button.offsetParent).click());
+    await settle();
+    check(`${label}: calculates target marks`, await hasText(page, 'You need 175 of the 250 marks remaining.'));
+    check(`${label}: no horizontal scroll in target mode`, await noOverflow());
+    await runAxe(page, `${label} target`);
+    check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
+    await page.close();
+  }
+}
+
 async function checkPlatform(browser, siteUrl) {
   console.log('\nPlatform');
   const page = await browser.newPage();
@@ -296,9 +358,9 @@ async function checkPlatform(browser, siteUrl) {
     await page.waitForSelector('h1');
   };
 
-  await page.type('#tool-search', 'age');
+  await page.type('#tool-search', 'birthday');
   await settle();
-  check('home search finds a tool by name', await hasText(page, '1 tool found for “age”'));
+  check('home search finds a tool by name', await hasText(page, '1 tool found for “birthday”'));
 
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('zzzz');
@@ -485,6 +547,7 @@ try {
   await checkPrint(browser, baseUrl);
   await checkConfetti(browser, baseUrl);
   await checkCopy(browser, baseUrl);
+  await checkMarks(browser, siteUrl);
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {

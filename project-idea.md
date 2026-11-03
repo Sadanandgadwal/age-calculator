@@ -13,6 +13,9 @@ Examples:
 - Time Calculator
 - Text Case Converter
 - Word Counter
+- SGPA to CGPA
+- Percentage to SGPA
+- Percentage to CGPA
 
 
 

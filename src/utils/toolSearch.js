@@ -28,6 +28,12 @@ export function searchTools(tools, query) {
 export const getToolsInCategory = (tools, categoryId) =>
   tools.filter((tool) => tool.categories.includes(categoryId));
 
+export function getRelatedTools(tools, tool, limit = 3) {
+  const others = tools.filter(({ id }) => id !== tool.id);
+  const sharesCategory = ({ categories }) => categories.some((id) => tool.categories.includes(id));
+  return [...others.filter(sharesCategory), ...others.filter((other) => !sharesCategory(other))].slice(0, limit);
+}
+
 export const getFeaturedTools = (tools) => tools.filter((tool) => tool.featured);
 
 /** Newest first. ISO dates sort correctly as text. */

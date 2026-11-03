@@ -30,6 +30,7 @@ describe('routes', () => {
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
+    ['/marks-percentage-calculator', 'Marks & Percentage Calculator'],
   ])('%s shows its page', async (path, heading) => {
     renderAt(path);
     expect(await pageHeading(heading)).toBeInTheDocument();
@@ -136,9 +137,9 @@ describe('homepage', () => {
 
   it('searches by tool name and replaces the listings with results', async () => {
     const user = renderAt('/');
-    await user.type(search(), 'age');
+    await user.type(search(), 'birthday');
 
-    expect(screen.getByRole('status')).toHaveTextContent('1 tool found for “age”');
+    expect(screen.getByRole('status')).toHaveTextContent('1 tool found for “birthday”');
     expect(screen.getByRole('link', { name: 'Open Tool: Age Calculator' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Popular tools' })).not.toBeInTheDocument();
   });

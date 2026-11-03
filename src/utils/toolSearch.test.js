@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getFeaturedTools, getRecentTools, getToolsInCategory, searchTools } from './toolSearch.js';
+import { getFeaturedTools, getRecentTools, getRelatedTools, getToolsInCategory, searchTools } from './toolSearch.js';
 
 const tool = (id, overrides = {}) => ({
   id,
@@ -65,6 +65,12 @@ describe('tool listings', () => {
     expect(ids(getToolsInCategory(TOOLS, 'date-time'))).toEqual(['Date Calculator', 'Age Calculator']);
     expect(ids(getToolsInCategory(TOOLS, 'calculators'))).toEqual(['Age Calculator']);
     expect(getToolsInCategory(TOOLS, 'missing')).toEqual([]);
+  });
+
+  it('lists related tools, sharing a category first, excluding the tool itself', () => {
+    const age = TOOLS[1];
+    expect(ids(getRelatedTools(TOOLS, age))).toEqual(['Date Calculator', 'Weight Converter', 'GST Calculator']);
+    expect(ids(getRelatedTools(TOOLS, age, 1))).toEqual(['Date Calculator']);
   });
 
   it('lists featured tools', () => {

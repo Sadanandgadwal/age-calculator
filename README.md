@@ -9,6 +9,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | Tool | Route |
 | --- | --- |
 | Age Calculator | `/age-calculator` |
+| Marks & Percentage Calculator | `/marks-percentage-calculator` |
 
 ## Adding a tool
 
