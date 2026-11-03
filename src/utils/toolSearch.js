@@ -1,0 +1,35 @@
+import { getCategory } from '../data/toolCategories.js';
+
+const normalize = (text) => text.trim().toLowerCase();
+
+function searchableText(tool) {
+  const categoryNames = tool.categories.map((id) => getCategory(id)?.name ?? id);
+  return normalize([tool.name, tool.description, ...tool.keywords, ...categoryNames].join(' '));
+}
+
+/**
+ * Finds tools matching every word of the query, across names, descriptions,
+ * keywords and categories. Tools with a matching name come first.
+ */
+export function searchTools(tools, query) {
+  const search = normalize(query);
+  if (!search) return tools;
+
+  const words = search.split(/\s+/);
+  const matches = tools.filter((tool) => {
+    const text = searchableText(tool);
+    return words.every((word) => text.includes(word));
+  });
+
+  const nameMatches = (tool) => normalize(tool.name).includes(search);
+  return [...matches.filter(nameMatches), ...matches.filter((tool) => !nameMatches(tool))];
+}
+
+export const getToolsInCategory = (tools, categoryId) =>
+  tools.filter((tool) => tool.categories.includes(categoryId));
+
+export const getFeaturedTools = (tools) => tools.filter((tool) => tool.featured);
+
+/** Newest first. ISO dates sort correctly as text. */
+export const getRecentTools = (tools, limit = 3) =>
+  [...tools].sort((a, b) => b.addedOn.localeCompare(a.addedOn)).slice(0, limit);

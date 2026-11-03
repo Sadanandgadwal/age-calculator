@@ -20,6 +20,16 @@ const VIEWPORTS = [
   { name: 'tablet', width: 768, height: 1024, stacked: false },
   { name: 'desktop', width: 1440, height: 900, stacked: false },
 ];
+const STATIC_ROUTES = [
+  { path: '/', h1: 'Everyday Tools, All in One Place' },
+  { path: '/all-tools', h1: 'All Tools' },
+  { path: '/calculators', h1: 'Calculators' },
+  { path: '/converters', h1: 'Converters' },
+  { path: '/date-time', h1: 'Date & Time' },
+  { path: '/finance', h1: 'Finance' },
+  { path: '/about', h1: 'About ToolNest' },
+  { path: '/contact', h1: 'Contact' },
+];
 const OUTPUT_DIR = 'e2e-output';
 const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 
@@ -184,7 +194,7 @@ async function checkSeo(browser, baseUrl) {
     (match) => JSON.parse(match[1]),
   );
   const types = schemas.map((schema) => schema['@type']);
-  check('structured data types', ['WebApplication', 'WebSite', 'FAQPage'].every((type) => types.includes(type)), types.join(', '));
+  check('structured data types', ['WebApplication', 'BreadcrumbList', 'FAQPage'].every((type) => types.includes(type)), types.join(', '));
 
   const authorUrl = 'https://sadanandgadwal.com';
   check('author metadata is present', rawHtml.includes('<meta name="author" content="Sadanand Gadwal"') && rawHtml.includes(`<link rel="author" href="${authorUrl}"`));
@@ -203,10 +213,140 @@ async function checkSeo(browser, baseUrl) {
   );
   check('every FAQ schema entry is on the page', hiddenFromPage.length === 0, hiddenFromPage.map((item) => item.name).join(', '));
 
-  for (const path of ['/robots.txt', '/sitemap.xml', '/favicon.svg', '/og-image.png', '/privacy.html']) {
+  for (const path of ['/robots.txt', '/sitemap.xml', '/favicon.svg', '/og-image.png', '/og-site.png', '/privacy.html', '/404.html']) {
     const response = await fetch(new URL(path, baseUrl));
     check(`${path} is served`, response.ok, String(response.status));
   }
+  await page.close();
+}
+
+/** Every route: direct loading, refresh, its own SEO tags, layout and accessibility. */
+async function checkRoutes(browser, siteUrl) {
+  console.log('\nRoutes');
+  const sitemap = await (await fetch(new URL('/sitemap.xml', siteUrl))).text();
+  const sitemapPaths = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => new URL(match[1]).pathname);
+  const routes = [...new Set([...STATIC_ROUTES.map(({ path }) => path), ...sitemapPaths])];
+  const expectedH1 = new Map(STATIC_ROUTES.map(({ path, h1 }) => [path, h1]));
+
+  check('sitemap lists the home page and tools', sitemapPaths.includes('/') && sitemapPaths.includes('/age-calculator'));
+  check('sitemap has no duplicates', new Set(sitemapPaths).size === sitemapPaths.length);
+
+  const titles = new Map();
+  const descriptions = new Map();
+
+  for (const path of routes) {
+    const url = new URL(path, siteUrl).href;
+    const raw = await fetch(url);
+    const html = await raw.text();
+    const title = html.match(/<title>(.*?)<\/title>/)?.[1] ?? '';
+    const description = html.match(/<meta name="description" content="(.*?)"/)?.[1] ?? '';
+    const canonical = html.match(/<link rel="canonical" href="(.*?)"/)?.[1] ?? '';
+    const isNoindex = html.includes('content="noindex');
+
+    check(`${path}: raw HTML is correct`, raw.ok && /<h1[^>]*>/.test(html) && canonical.endsWith(path) && Boolean(description));
+    check(`${path}: only indexable pages are in the sitemap`, sitemapPaths.includes(path) === !isNoindex);
+    titles.set(title, path);
+    descriptions.set(description, path);
+
+    for (const viewport of [{ width: 320, height: 640 }, { width: 1440, height: 900 }]) {
+      const page = await browser.newPage();
+      const problems = [];
+      page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+      page.on('pageerror', (error) => problems.push(error.message));
+      await page.setViewport(viewport);
+      await page.goto(url, { waitUntil: 'networkidle0' });
+      await page.reload({ waitUntil: 'networkidle0' });
+      await page.waitForSelector('h1');
+
+      const state = await page.evaluate(() => ({
+        h1: [...document.querySelectorAll('h1')].map((heading) => heading.textContent),
+        title: document.title,
+        overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+        author: /sadanand/i.test(document.body.innerText),
+      }));
+      const label = `${path} at ${viewport.width}px`;
+      const wanted = expectedH1.get(path);
+      check(`${label}: one h1 and the right title after refresh`, state.h1.length === 1 && (!wanted || state.h1[0] === wanted) && state.title === title.replace(/&amp;/g, '&'), state.h1.join(', '));
+      check(`${label}: no horizontal scroll`, !state.overflow);
+      check(`${label}: author is not displayed`, !state.author);
+      await runAxe(page, label);
+      check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
+      await page.screenshot({ path: `${OUTPUT_DIR}/route${path === '/' ? '-home' : path.replace(/\//g, '-')}-${viewport.width}.png`, fullPage: true });
+      await page.close();
+    }
+  }
+
+  check('every page has a unique title', titles.size === routes.length);
+  check('every page has a unique description', descriptions.size === routes.length);
+}
+
+async function checkPlatform(browser, siteUrl) {
+  console.log('\nPlatform');
+  const page = await browser.newPage();
+  const problems = [];
+  page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+  page.on('pageerror', (error) => problems.push(error.message));
+  await page.setViewport({ width: 1440, height: 900 });
+  await page.goto(siteUrl, { waitUntil: 'networkidle0' });
+
+  const heading = () => page.$eval('h1', (element) => element.textContent);
+  const clickLink = async (selector) => {
+    await page.click(selector);
+    await settle();
+    await page.waitForSelector('h1');
+  };
+
+  await page.type('#tool-search', 'age');
+  await settle();
+  check('home search finds a tool by name', await hasText(page, '1 tool found for “age”'));
+
+  await page.$eval('#tool-search', (input) => input.select());
+  await page.keyboard.type('zzzz');
+  await settle();
+  check('home search shows the empty state', await hasText(page, 'No tools match your search'));
+  await runAxe(page, 'empty search');
+
+  await page.$eval('#tool-search', (input) => input.select());
+  await page.keyboard.type('date & time');
+  await settle();
+  check('home search finds a tool by category', await hasText(page, '1 tool found'));
+
+  await clickLink('a[aria-label="Open Tool: Age Calculator"]');
+  check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');
+  check('navigating updates the title', (await page.title()).startsWith('Age Calculator'));
+  check('navigating updates the canonical URL', (await page.$eval('link[rel="canonical"]', (link) => link.href)).endsWith('/age-calculator'));
+
+  await clickLink('nav[aria-label="Main"] a[href="/date-time"]');
+  check('main navigation opens a category', (await heading()) === 'Date & Time');
+
+  await clickLink('nav[aria-label="Filter by category"] a[href="/finance"]');
+  check('category filter opens a category', (await heading()) === 'Finance');
+  check('empty category explains itself', await hasText(page, 'No tools here yet'));
+
+  await page.goBack();
+  await settle();
+  check('browser back button works', (await heading()) === 'Date & Time');
+
+  await page.setViewport({ width: 375, height: 812 });
+  await page.goto(siteUrl, { waitUntil: 'networkidle0' });
+  check('mobile menu starts closed', (await page.$('#mobile-menu')) === null);
+  await page.click('button[aria-controls="mobile-menu"]');
+  await settle();
+  await runAxe(page, 'mobile menu open');
+  await clickLink('#mobile-menu a[href="/about"]');
+  check('mobile menu navigates and closes', (await heading()) === 'About ToolNest' && (await page.$('#mobile-menu')) === null);
+
+  const missing = await page.goto(new URL('/no-such-page', siteUrl).href, { waitUntil: 'networkidle0' });
+  await page.waitForSelector('h1');
+  check('unknown URL shows the not-found page', (await heading()) === 'Page not found');
+  check('not-found page blocks indexing', (await page.$eval('meta[name="robots"]', (tag) => tag.content)).startsWith('noindex'));
+  await runAxe(page, 'not found');
+  await page.screenshot({ path: `${OUTPUT_DIR}/route-not-found.png`, fullPage: true });
+  check('unknown URL returns status 404', missing.status() === 404, String(missing.status()));
+
+  // Browsers log every 404 response, including the one requested on purpose above.
+  const realProblems = problems.filter((problem) => !/404 \(Not Found\)/.test(problem));
+  check('no console errors during navigation', realProblems.length === 0, realProblems.join(' | '));
   await page.close();
 }
 
@@ -327,8 +467,9 @@ async function checkCopy(browser, baseUrl) {
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
 const server = process.env.E2E_URL ? null : await preview({ preview: { port: 4173 }, logLevel: 'silent' });
-const baseUrl = process.env.E2E_URL ?? server.resolvedUrls.local[0];
-console.log(`Checking ${baseUrl}`);
+const siteUrl = process.env.E2E_URL ?? server.resolvedUrls.local[0];
+const baseUrl = new URL('/age-calculator', siteUrl).href;
+console.log(`Checking ${siteUrl}`);
 
 const browser = await puppeteer.launch({
   executablePath: process.env.CHROME_PATH ?? '/usr/bin/google-chrome',
@@ -344,6 +485,8 @@ try {
   await checkPrint(browser, baseUrl);
   await checkConfetti(browser, baseUrl);
   await checkCopy(browser, baseUrl);
+  await checkRoutes(browser, siteUrl);
+  await checkPlatform(browser, siteUrl);
 } finally {
   await browser.close();
   await server?.close();

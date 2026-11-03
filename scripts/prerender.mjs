@@ -1,27 +1,31 @@
 #!/usr/bin/env node
 /**
- * Writes the rendered page into dist/index.html, so search engines and social
- * previews get the full content without running JavaScript.
+ * Writes a complete HTML file for every page, plus 404.html and sitemap.xml, so
+ * search engines and social previews get each page's content and tags without
+ * running JavaScript.
  *
  * The browser then replaces this HTML with an identical live app (see main.jsx).
  * Today's date only exists in the browser, so a fresh render avoids any mismatch
  * with the date captured at build time.
  */
-import { readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 const DIST = resolve('dist');
 const SSR_DIR = resolve('.ssr-build');
 const ROOT_MARKER = '<div id="root"></div>';
+const HEAD_MARKER = '<!--page-head-->';
+const TITLE_PATTERN = /<title>.*?<\/title>/;
+const NOT_FOUND_PATH = '/__not-found__';
 
-const { renderPage } = await import(pathToFileURL(resolve(SSR_DIR, 'entry-server.js')).href);
-const { appHtml, faqScript } = renderPage();
+const { absoluteUrl, getAllPaths, renderPage } = await import(
+  pathToFileURL(resolve(SSR_DIR, 'entry-server.js')).href
+);
 
-const indexPath = resolve(DIST, 'index.html');
-const template = readFileSync(indexPath, 'utf8');
-if (!template.includes(ROOT_MARKER)) {
-  throw new Error(`Prerender failed: ${ROOT_MARKER} was not found in dist/index.html`);
+const template = readFileSync(resolve(DIST, 'index.html'), 'utf8');
+for (const marker of [ROOT_MARKER, HEAD_MARKER]) {
+  if (!template.includes(marker)) throw new Error(`Prerender failed: ${marker} is missing from index.html`);
 }
 
 // Loading the font early stops the text from visibly changing as the page appears.
@@ -30,11 +34,36 @@ const fontPreload = font
   ? `<link rel="preload" href="/assets/${font}" as="font" type="font/woff2" crossorigin />`
   : '';
 
-const html = template
-  .replace(ROOT_MARKER, () => `<div id="root">${appHtml}</div>`)
-  .replace('</head>', () => `${fontPreload}${faqScript}</head>`);
+async function buildPage(path, outputFile) {
+  const page = await renderPage(path);
+  const html = template
+    .replace(TITLE_PATTERN, () => page.titleHtml)
+    .replace(HEAD_MARKER, () => fontPreload + page.headHtml)
+    .replace(ROOT_MARKER, () => `<div id="root">${page.appHtml}</div>`);
 
-writeFileSync(indexPath, html);
+  const file = resolve(DIST, outputFile);
+  mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(file, html);
+  return page;
+}
+
+const today = new Date().toISOString().slice(0, 10);
+const sitemapEntries = [];
+
+for (const path of getAllPaths()) {
+  const output = path === '/' ? 'index.html' : `${path.slice(1)}/index.html`;
+  const { indexable } = await buildPage(path, output);
+  if (indexable) {
+    sitemapEntries.push(`  <url>\n    <loc>${absoluteUrl(path)}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`);
+  }
+}
+
+await buildPage(NOT_FOUND_PATH, '404.html');
+
+writeFileSync(
+  resolve(DIST, 'sitemap.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries.join('\n')}\n</urlset>\n`,
+);
 rmSync(SSR_DIR, { recursive: true, force: true });
 
-console.log(`Prerendered dist/index.html (${Math.round(html.length / 1024)} kB)`);
+console.log(`Prerendered ${getAllPaths().length} pages and 404.html (${sitemapEntries.length} in the sitemap)`);

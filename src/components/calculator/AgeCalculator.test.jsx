@@ -312,6 +312,8 @@ describe('AgeCalculator', () => {
 
         expect(navigator.share).toHaveBeenCalledOnce();
         expect(navigator.share.mock.calls[0][0].text).toContain('28 years, 4 months, 19 days');
+        expect(navigator.share.mock.calls[0][0].title).toBe('Age Calculator');
+        expect(navigator.share.mock.calls[0][0].url).toMatch(/\/age-calculator$/);
       });
 
       it('stays quiet when the user closes the share sheet', async () => {

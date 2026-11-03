@@ -1,24 +1,25 @@
-# Age Calculator
+# ToolNest
 
-A fast, responsive web app that calculates your exact age in years, months and days. It also shows total days, weeks and months lived, your next birthday, and the weekday you were born on.
+Free, simple online tools for everyday calculations. All calculations run in the browser, so what you enter is never sent to a server.
 
-All calculations run in the browser, so the dates you enter are never sent to a server.
+Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 
-Built with React, Vite, JavaScript, Tailwind CSS and Lucide icons.
+## Tools
 
-## Features
+| Tool | Route |
+| --- | --- |
+| Age Calculator | `/age-calculator` |
 
-- Exact age on any selected date, past or future
-- Correct handling of leap years, month lengths and 29 February birthdays
-- Friendly validation for missing, incomplete, impossible and future dates
-- Copy, share and print actions
-- Responsive layout for phones, tablets and desktops
-- SEO metadata, sitemap and robots.txt
-- AdSense slots that stay off until you configure them
+## Adding a tool
+
+1. Add the page under `src/tools/<tool-id>/`.
+2. Add one entry to `src/data/toolsRegistry.js`.
+
+The route, cards, search, category listings, SEO tags and sitemap entry all come from the registry.
 
 ## Getting started
 
-You need Node.js 20.19 or newer. The repository's `.nvmrc` pins the version used for development.
+You need Node.js 22.22 or newer. The repository's `.nvmrc` pins the version used for development.
 
 ```bash
 nvm use        # optional, if you use nvm
@@ -60,6 +61,7 @@ Copy `.env.example` to `.env.local` for local builds, or set the variables in yo
 | Variable | Purpose |
 | --- | --- |
 | `VITE_SITE_URL` | Public URL with no trailing slash, used for canonical, Open Graph and sitemap URLs. On Vercel it defaults to the project's production domain. |
+| `VITE_CONTACT_EMAIL` | Public email address shown on the Contact page. The page stays out of search results until it's set. |
 | `VITE_GOOGLE_SITE_VERIFICATION` | Google Search Console ownership code: only the `content` value of its HTML tag |
 | `VITE_ADSENSE_PUBLISHER_ID` | AdSense publisher ID, such as `ca-pub-1234567890123456` |
 | `VITE_AD_SLOT_HEADER` | Ad unit ID for the slot above the calculator |
@@ -103,7 +105,7 @@ If you add a custom domain, set `VITE_SITE_URL` to it and redeploy so the SEO UR
 
 ## SEO
 
-`npm run build` prerenders the page into `dist/index.html`, so crawlers get the full content without running JavaScript. The browser then replaces that HTML with the live app. The FAQ structured data is generated from `src/content/faqs.js`, so it always matches the visible text.
+`npm run build` prerenders every route into `dist/`, along with `404.html` and `sitemap.xml`, so crawlers get full content and unique tags without running JavaScript. The browser then replaces that HTML with the live app. Page tags come from `src/seo/pageMeta.js`, and FAQ structured data comes from each tool's visible copy. Empty categories stay out of the sitemap and are marked `noindex`.
 
 After the first production deployment:
 
@@ -129,19 +131,22 @@ Each month is added to the original birth date, so a shortened month doesn't car
 ## Project structure
 
 ```text
-build/               Build plugin for SEO URLs, robots.txt and sitemap.xml
-public/              Static files: icons, Open Graph image, privacy policy
-scripts/             Browser checks
+build/               Build plugin for robots.txt and the local preview server
+public/              Static files: icons, Open Graph images, privacy policy
+scripts/             Prerendering and browser checks
 src/
   components/
     ads/             AdSense slot
-    calculator/      Form, results and date field
-    content/         Useful information and FAQ
-    layout/          Header, footer, logo and background
+    calculator/      Age Calculator form, results and date field
+    common/          Navigation, breadcrumb, tool cards and search
+    content/         Age Calculator information and FAQ
+    layout/          App layout, page header, footer and background
   config/            Site and AdSense configuration
   content/           Copy for the information sections
-  hooks/             Calculator state and result actions
-  pages/             Page composition
+  data/              Tool registry and categories
+  hooks/             Calculator state, result actions and page tags
+  pages/             Pages
+  seo/               Page metadata and head tags
   styles/            Tailwind entry and design tokens
   test/              Test setup
   utils/             Date, age, validation and formatting logic
