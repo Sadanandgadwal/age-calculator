@@ -60,6 +60,7 @@ Copy `.env.example` to `.env.local` for local builds, or set the variables in yo
 | Variable | Purpose |
 | --- | --- |
 | `VITE_SITE_URL` | Public URL with no trailing slash, used for canonical, Open Graph and sitemap URLs. On Vercel it defaults to the project's production domain. |
+| `VITE_GOOGLE_SITE_VERIFICATION` | Google Search Console ownership code: only the `content` value of its HTML tag |
 | `VITE_ADSENSE_PUBLISHER_ID` | AdSense publisher ID, such as `ca-pub-1234567890123456` |
 | `VITE_AD_SLOT_HEADER` | Ad unit ID for the slot above the calculator |
 | `VITE_AD_SLOT_IN_CONTENT` | Ad unit ID for the slot between the calculator and the information section |
@@ -99,6 +100,18 @@ npx vercel --prod
 After deploying, verify the live site with `E2E_URL=https://your-site.vercel.app npm run test:e2e`.
 
 If you add a custom domain, set `VITE_SITE_URL` to it and redeploy so the SEO URLs use that domain.
+
+## SEO
+
+`npm run build` prerenders the page into `dist/index.html`, so crawlers get the full content without running JavaScript. The browser then replaces that HTML with the live app. The FAQ structured data is generated from `src/content/faqs.js`, so it always matches the visible text.
+
+After the first production deployment:
+
+1. Add the site to [Google Search Console](https://search.google.com/search-console) and submit `/sitemap.xml`. To verify with an HTML tag, set `VITE_GOOGLE_SITE_VERIFICATION` and redeploy.
+2. Import the site into [Bing Webmaster Tools](https://www.bing.com/webmasters).
+3. Check the live page with Google's [Rich Results Test](https://search.google.com/test/rich-results).
+
+Vercel marks preview deployments as `noindex`, so only the production domain should appear in search results.
 
 ## How age is calculated
 

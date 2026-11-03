@@ -5,10 +5,11 @@ import tailwindcss from '@tailwindcss/vite';
 import { resolveSiteUrl, siteMeta } from './build/siteMeta.js';
 
 export default defineConfig(({ mode }) => {
-  const siteUrl = resolveSiteUrl({ ...process.env, ...loadEnv(mode, process.cwd(), 'VITE_') });
+  const env = { ...process.env, ...loadEnv(mode, process.cwd(), 'VITE_') };
+  const siteUrl = resolveSiteUrl(env);
 
   return {
-    plugins: [react(), tailwindcss(), siteMeta(siteUrl)],
+    plugins: [react(), tailwindcss(), siteMeta(siteUrl, env.VITE_GOOGLE_SITE_VERIFICATION)],
     define: {
       'import.meta.env.VITE_SITE_URL': JSON.stringify(siteUrl),
     },
