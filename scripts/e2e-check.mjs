@@ -723,6 +723,20 @@ const DATE_TIME_CHECKS = [
         ],
       }),
   },
+  {
+    name: 'business',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Business Days Calculator',
+        path: '/business-days-calculator',
+        screenshot: 'business-days',
+        requiredError: 'Please choose an end date.',
+        flows: [
+          { inputs: { '#biz-start': '2026-11-02', '#biz-end': '2026-11-08' }, answer: 'Total Calendar Days\n7 days' },
+          { inputs: { '#biz-start': '2026-01-01', '#biz-end': '2026-12-31' }, answer: 'Total Calendar Days\n365 days' },
+        ],
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -754,7 +768,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '7 tools found'));
+  check('home search finds tools by category', await hasText(page, '8 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');

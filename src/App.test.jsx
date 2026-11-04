@@ -45,6 +45,7 @@ describe('routes', () => {
     ['/countdown-timer', 'Countdown Timer'],
     ['/stopwatch', 'Online Stopwatch'],
     ['/time-zone-converter', 'Time Zone Converter'],
+    ['/business-days-calculator', 'Business Days Calculator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

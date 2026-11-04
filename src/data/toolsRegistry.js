@@ -1,4 +1,4 @@
-import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
+import { AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -511,6 +511,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/time-zone/Page.jsx'),
     loadContent: () => import('../tools/time-zone/content.js'),
+  },
+  {
+    id: 'business-days-calculator',
+    name: 'Business Days Calculator',
+    route: '/business-days-calculator',
+    categories: ['date-time'],
+    icon: BriefcaseBusiness,
+    description: 'Count the working days between two dates, with your own weekend days and holidays.',
+    keywords: ['business days', 'working days', 'work days', 'weekdays', 'holidays', 'weekend', 'office days', 'sla'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Business Days Calculator – Count Working Days',
+      description:
+        'Count the working days between two dates. Set your own weekend days, exclude holidays, and choose whether the end date counts. See weekends and calendar days too.',
+      featureList: ['Working days between two dates', 'Configurable weekend days', 'Optional holiday dates', 'Inclusive or exclusive counting'],
+    },
+    load: () => import('../tools/business-days/Page.jsx'),
+    loadContent: () => import('../tools/business-days/content.js'),
   },
 ];
 
