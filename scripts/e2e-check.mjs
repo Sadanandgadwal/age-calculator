@@ -648,7 +648,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '2 tools found'));
+  check('home search finds tools by category', await hasText(page, '3 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');
@@ -860,6 +860,19 @@ try {
     flows: [
       { inputs: { '#emi-amount': '1000000', '#emi-rate': '8.5', '#emi-tenure': '20' }, answer: '₹8,678.23' },
       { inputs: { '#emi-amount': '9999999999999', '#emi-rate': '12', '#emi-tenure': '30' }, answer: 'Yearly schedule' },
+    ],
+  });
+  await checkFlows(browser, siteUrl, {
+    title: 'Time Calculator',
+    path: '/time-calculator',
+    screenshot: 'time',
+    requiredError: 'Please enter a time.',
+    flows: [
+      { inputs: { '#time-a-hours': '1', '#time-a-minutes': '45', '#time-b-minutes': '30' }, answer: '2 hours, 15 minutes, 0 seconds' },
+      { mode: 'Subtract times', inputs: { '#time-a-hours': '0', '#time-a-minutes': '30', '#time-b-hours': '1', '#time-b-minutes': '' }, answer: '−0 hours, 30 minutes, 0 seconds' },
+      { mode: 'Time between', inputs: { '#time-start': '22:00', '#time-end': '06:00' }, answer: '8 hours, 0 minutes, 0 seconds' },
+      { mode: 'Time after', inputs: { '#time-start': '23:30', '#time-a-hours': '1', '#time-a-minutes': '' }, answer: '12:30 AM' },
+      { mode: 'Time before', inputs: { '#time-start': '00:30', '#time-a-hours': '1', '#time-a-minutes': '' }, answer: '11:30 PM' },
     ],
   });
   await checkRoutes(browser, siteUrl);

@@ -29,6 +29,7 @@ describe('routes', () => {
     ['/date-time', 'Date & Time'],
     ['/finance', 'Finance'],
     ['/emi-calculator', 'EMI Calculator'],
+    ['/time-calculator', 'Time Calculator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

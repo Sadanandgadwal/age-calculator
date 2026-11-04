@@ -1,4 +1,4 @@
-import { Cake, CalendarRange, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale } from 'lucide-react';
+import { Cake, CalendarRange, Clock, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -207,6 +207,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/emi/Page.jsx'),
     loadContent: () => import('../tools/emi/content.js'),
+  },
+  {
+    id: 'time-calculator',
+    name: 'Time Calculator',
+    route: '/time-calculator',
+    categories: ['calculators', 'date-time'],
+    icon: Clock,
+    description: 'Add and subtract time, and find the time between or after clock times.',
+    keywords: ['time', 'hours', 'minutes', 'seconds', 'duration', 'clock', 'shift', 'overnight', 'add time', 'subtract time'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Time Calculator – Add, Subtract and Compare Times',
+      description:
+        'Add and subtract hours, minutes and seconds, find the time between two clock times, and work out the time before or after a duration with this free calculator.',
+      featureList: ['Add and subtract times', 'Time between two clock times', 'Overnight time handling', 'Time before or after a duration', 'Total hours, minutes and seconds'],
+    },
+    load: () => import('../tools/time/Page.jsx'),
+    loadContent: () => import('../tools/time/content.js'),
   },
 ];
 
