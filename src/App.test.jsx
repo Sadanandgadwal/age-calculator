@@ -30,6 +30,7 @@ describe('routes', () => {
     ['/finance', 'Finance'],
     ['/emi-calculator', 'EMI Calculator'],
     ['/time-calculator', 'Time Calculator'],
+    ['/discount-calculator', 'Discount Calculator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

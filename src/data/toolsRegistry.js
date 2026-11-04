@@ -1,4 +1,4 @@
-import { Cake, CalendarRange, Clock, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale } from 'lucide-react';
+import { Cake, CalendarRange, Clock, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -226,6 +226,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/time/Page.jsx'),
     loadContent: () => import('../tools/time/content.js'),
+  },
+  {
+    id: 'discount-calculator',
+    name: 'Discount Calculator',
+    route: '/discount-calculator',
+    categories: ['calculators', 'finance'],
+    icon: Tag,
+    description: 'Find the sale price, your savings, the discount percentage or the original price.',
+    keywords: ['discount', 'sale', 'price', 'off', 'savings', 'coupon', 'offer', 'shopping', 'markdown'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Discount Calculator – Find Sale Price and Savings',
+      description:
+        'Calculate the price after a discount, how much you save, the discount percentage and the original price. A free, simple discount calculator for everyday shopping.',
+      featureList: ['Price after a percentage discount', 'Price after a fixed discount', 'Discount percentage from two prices', 'Original price from a sale price'],
+    },
+    load: () => import('../tools/discount/Page.jsx'),
+    loadContent: () => import('../tools/discount/content.js'),
   },
 ];
 

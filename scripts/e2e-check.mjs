@@ -875,6 +875,18 @@ try {
       { mode: 'Time before', inputs: { '#time-start': '00:30', '#time-a-hours': '1', '#time-a-minutes': '' }, answer: '11:30 PM' },
     ],
   });
+  await checkFlows(browser, siteUrl, {
+    title: 'Discount Calculator',
+    path: '/discount-calculator',
+    screenshot: 'discount',
+    requiredError: 'Please enter the original price.',
+    flows: [
+      { inputs: { '#discount-a': '1000', '#discount-b': '20' }, answer: '₹800.00' },
+      { mode: 'Amount off', inputs: { '#discount-a': '1000', '#discount-b': '250' }, answer: '₹750.00' },
+      { mode: 'Find the discount', inputs: { '#discount-a': '1000', '#discount-b': '750' }, answer: '25%' },
+      { mode: 'Find the original price', inputs: { '#discount-a': '800', '#discount-b': '20' }, answer: '₹1,000.00' },
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {
