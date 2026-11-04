@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -891,6 +891,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/random-number-generator/Page.jsx'),
     loadContent: () => import('../tools/random-number-generator/content.js'),
+  },
+  {
+    id: 'password-generator',
+    name: 'Password Generator',
+    route: '/password-generator',
+    categories: ['text-tools'],
+    icon: KeyRound,
+    description: 'Create strong random passwords in your browser, never sent anywhere.',
+    keywords: ['password generator', 'strong password', 'random password', 'secure password', 'create password'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Password Generator – Create Strong Random Passwords',
+      description:
+        'Create strong random passwords with your choice of length and characters. Made in your browser with secure randomness, never sent or stored.',
+      featureList: ['Length from 4 to 128 characters', 'Letters, numbers and symbols', 'Option to skip look-alike characters', 'Strength estimate', 'Never sent or stored'],
+    },
+    load: () => import('../tools/password-generator/Page.jsx'),
+    loadContent: () => import('../tools/password-generator/content.js'),
   },
 ];
 

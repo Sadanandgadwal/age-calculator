@@ -1105,6 +1105,25 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'password',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Password Generator',
+        path: '/password-generator',
+        screenshot: 'password-generator',
+        copyOnly: true,
+        steps: async (page, label) => {
+          await clickButton(page, 'Generate');
+          await settle();
+          const first = await outputText(page);
+          check(`${label}: creates a 16 character password`, first.length === 16);
+          await clickButton(page, 'Generate');
+          await settle();
+          check(`${label}: creates a new password each time`, (await outputText(page)) !== first);
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
