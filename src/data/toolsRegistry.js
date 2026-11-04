@@ -1,4 +1,4 @@
-import { Cake, CalendarRange, Clock, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag } from 'lucide-react';
+import { Cake, CalendarRange, Clock, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Users } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -245,6 +245,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/discount/Page.jsx'),
     loadContent: () => import('../tools/discount/content.js'),
+  },
+  {
+    id: 'bill-split-calculator',
+    name: 'Bill Split Calculator',
+    route: '/bill-split-calculator',
+    categories: ['calculators', 'finance'],
+    icon: Users,
+    description: 'Split a bill between friends, with tax and tip, down to the last paisa.',
+    keywords: ['bill', 'split', 'share', 'restaurant', 'tip', 'friends', 'group', 'dinner', 'divide', 'expense'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Bill Split Calculator – Split Bills, Tax and Tips',
+      description:
+        'Split a bill between any number of people, including tax and tip. See what each person pays, exact to the paisa or rounded up, with this free bill split calculator.',
+      featureList: ['Equal split between any number of people', 'Optional tax and tip', 'Exact shares to the paisa', 'Round up to whole rupees'],
+    },
+    load: () => import('../tools/bill-split/Page.jsx'),
+    loadContent: () => import('../tools/bill-split/content.js'),
   },
 ];
 

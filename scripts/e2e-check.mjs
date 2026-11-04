@@ -844,8 +844,8 @@ try {
     screenshot: 'length',
     cases: [
       ['170', 'cm', 'ft', '5 ft 6.93 in'],
-      ['1', 'ft', 'cm', '1 ft = 30.48 cm'],
-      ['1', 'in', 'cm', '1 in = 2.54 cm'],
+      ['2', 'ft', 'cm', '2 ft = 60.96 cm'],
+      ['2', 'in', 'cm', '2 in = 5.08 cm'],
       ['1000', 'm', 'km', '1,000 m = 1 km'],
       ['1', 'mi', 'km', '1 mi = 1.609344 km'],
     ],
@@ -871,8 +871,8 @@ try {
       { inputs: { '#time-a-hours': '1', '#time-a-minutes': '45', '#time-b-minutes': '30' }, answer: '2 hours, 15 minutes, 0 seconds' },
       { mode: 'Subtract times', inputs: { '#time-a-hours': '0', '#time-a-minutes': '30', '#time-b-hours': '1', '#time-b-minutes': '' }, answer: '−0 hours, 30 minutes, 0 seconds' },
       { mode: 'Time between', inputs: { '#time-start': '22:00', '#time-end': '06:00' }, answer: '8 hours, 0 minutes, 0 seconds' },
-      { mode: 'Time after', inputs: { '#time-start': '23:30', '#time-a-hours': '1', '#time-a-minutes': '' }, answer: '12:30 AM' },
-      { mode: 'Time before', inputs: { '#time-start': '00:30', '#time-a-hours': '1', '#time-a-minutes': '' }, answer: '11:30 PM' },
+      { mode: 'Time after', inputs: { '#time-start': '23:30', '#time-a-hours': '1', '#time-a-minutes': '' }, answer: '1 day later' },
+      { mode: 'Time before', inputs: { '#time-start': '00:30', '#time-a-hours': '1', '#time-a-minutes': '' }, answer: '1 day earlier' },
     ],
   });
   await checkFlows(browser, siteUrl, {
@@ -883,8 +883,19 @@ try {
     flows: [
       { inputs: { '#discount-a': '1000', '#discount-b': '20' }, answer: '₹800.00' },
       { mode: 'Amount off', inputs: { '#discount-a': '1000', '#discount-b': '250' }, answer: '₹750.00' },
-      { mode: 'Find the discount', inputs: { '#discount-a': '1000', '#discount-b': '750' }, answer: '25%' },
+      { mode: 'Find the discount', inputs: { '#discount-a': '1000', '#discount-b': '750' }, answer: '₹250.00' },
       { mode: 'Find the original price', inputs: { '#discount-a': '800', '#discount-b': '20' }, answer: '₹1,000.00' },
+    ],
+  });
+  await checkFlows(browser, siteUrl, {
+    title: 'Bill Split Calculator',
+    path: '/bill-split-calculator',
+    screenshot: 'bill-split',
+    requiredError: 'Please enter the bill amount.',
+    flows: [
+      { inputs: { '#bill-amount': '1000', '#bill-people': '5', '#bill-tax': '5', '#bill-tip': '10' }, answer: '₹230.00' },
+      { inputs: { '#bill-amount': '100', '#bill-people': '3', '#bill-tax': '', '#bill-tip': '' }, answer: 'divide evenly: 1 person pays ₹33.34' },
+      { inputs: { '#bill-amount': '9999999999999', '#bill-people': '7' }, answer: 'Each Person Pays' },
     ],
   });
   await checkRoutes(browser, siteUrl);

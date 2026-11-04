@@ -31,6 +31,7 @@ describe('routes', () => {
     ['/emi-calculator', 'EMI Calculator'],
     ['/time-calculator', 'Time Calculator'],
     ['/discount-calculator', 'Discount Calculator'],
+    ['/bill-split-calculator', 'Bill Split Calculator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
