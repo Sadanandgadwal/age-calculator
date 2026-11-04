@@ -22,6 +22,10 @@ describe('countCharacters', () => {
     expect(countCharacters('a😀b')).toBe(3);
     expect(countCharacters('👨‍👩‍👧')).toBe(1);
     expect(countCharacters('é')).toBe(1);
+    expect(countCharacters('e\u0301x')).toBe(2);
+    expect(countCharacters('1\ufe0f\u20e3 ok')).toBe(4);
+    expect(countCharacters('नमस्ते ok')).toBe(splitGraphemes('नमस्ते ok').length);
+    expect(countCharacters('a\nb\tc')).toBe(5);
     expect(countCharacters('')).toBe(0);
   });
 });
