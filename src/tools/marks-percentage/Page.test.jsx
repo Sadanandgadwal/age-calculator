@@ -200,6 +200,16 @@ describe('overall mode', () => {
     expect(screen.getByLabelText('Total obtained marks')).toHaveValue('');
   });
 
+  it('copies the result', async () => {
+    const user = setup();
+    await user.click(screen.getByRole('button', { name: 'Overall' }));
+    type('Total obtained marks', '450');
+    type('Total maximum marks', '500');
+    await calculate(user);
+    await user.click(screen.getByRole('button', { name: 'Copy results' }));
+    expect(await navigator.clipboard.readText()).toContain('Percentage: 90%');
+  });
+
   it('validates marks', async () => {
     const user = setup();
     await user.click(screen.getByRole('button', { name: 'Overall' }));
@@ -245,6 +255,23 @@ describe('target mode', () => {
 
     type('Target percentage', '95');
     expect(screen.getByText(/isn't reachable.*90%/)).toBeInTheDocument();
+  });
+
+  it('validates, copies and resets', async () => {
+    const user = setup();
+    await user.click(screen.getByRole('button', { name: 'Target' }));
+    await calculate(user);
+    expect(screen.getByText('Please enter your target percentage.')).toBeInTheDocument();
+    expect(screen.getByLabelText('Target percentage')).toHaveFocus();
+
+    fill('75', '200', '250', '250');
+    await user.click(screen.getByRole('button', { name: 'Copy results' }));
+    expect(await navigator.clipboard.readText()).toContain('Marks needed: 175 of 250 remaining');
+
+    await user.click(screen.getByRole('button', { name: 'Reset' }));
+    expect(screen.getByLabelText('Target percentage')).toHaveValue('');
+    expect(screen.getByLabelText('Maximum marks remaining')).toHaveValue('');
+    expect(screen.queryByText(/You need/)).not.toBeInTheDocument();
   });
 
   it('hides the grading scale, which does not apply', async () => {
