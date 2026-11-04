@@ -4,11 +4,13 @@ import { Menu, X } from 'lucide-react';
 import BrandMark from './BrandMark.jsx';
 import { siteConfig } from '../../config/site.js';
 import { CATEGORIES } from '../../data/toolCategories.js';
+import { TOOLS } from '../../data/toolsRegistry.js';
+import { getActiveCategories } from '../../utils/toolSearch.js';
 
 const NAV_LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/all-tools', label: 'All Tools' },
-  ...CATEGORIES.map(({ route, name }) => ({ to: route, label: name })),
+  ...getActiveCategories(CATEGORIES, TOOLS).map(({ route, name }) => ({ to: route, label: name })),
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];

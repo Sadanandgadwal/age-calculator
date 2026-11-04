@@ -86,6 +86,30 @@ describe('routes', () => {
   });
 });
 
+describe('new categories', () => {
+  const NEW_CATEGORIES = [
+    ['/text-tools', 'Text & Writing'],
+    ['/pdf-tools', 'PDF Tools'],
+    ['/image-tools', 'Image Tools'],
+    ['/developer-tools', 'Developer Tools'],
+    ['/everyday-tools', 'Everyday Tools'],
+  ];
+
+  it.each(NEW_CATEGORIES)('%s has its own page, and stays out of search results while empty', async (path, name) => {
+    renderAt(path);
+    expect(await pageHeading(name)).toBeInTheDocument();
+    expect(screen.getByText('No tools here yet')).toBeInTheDocument();
+    expect(getPageMeta(path).indexable).toBe(false);
+  });
+
+  it('stay out of the category filters until they have tools', async () => {
+    renderAt('/all-tools');
+    await pageHeading('All Tools');
+    const filters = within(screen.getByRole('navigation', { name: 'Filter by category' })).getAllByRole('link');
+    expect(filters.map((link) => link.textContent)).toEqual(['All Tools', 'Calculators', 'Converters', 'Date & Time', 'Finance']);
+  });
+});
+
 describe('navigation', () => {
   it('offers every main section', async () => {
     renderAt('/');

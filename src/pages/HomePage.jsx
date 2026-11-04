@@ -8,7 +8,7 @@ import { siteConfig } from '../config/site.js';
 import { CATEGORIES } from '../data/toolCategories.js';
 import { TOOLS } from '../data/toolsRegistry.js';
 import { pluralize } from '../utils/formatResult.js';
-import { getFeaturedTools, getRecentTools, getToolsInCategory, searchTools } from '../utils/toolSearch.js';
+import { getActiveCategories, getFeaturedTools, getRecentTools, getToolsInCategory, searchTools } from '../utils/toolSearch.js';
 
 function ToolSection({ id, title, tools }) {
   return (
@@ -28,7 +28,7 @@ function CategoryLinks() {
         Browse by category
       </h2>
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {CATEGORIES.map(({ id, name, route, description, icon: Icon }) => {
+        {getActiveCategories(CATEGORIES, TOOLS).map(({ id, name, route, description, icon: Icon }) => {
           const count = getToolsInCategory(TOOLS, id).length;
           return (
             <li key={id}>

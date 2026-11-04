@@ -928,6 +928,16 @@ async function checkPlatform(browser, siteUrl) {
   await settle();
   check('browser back button works', (await heading()) === 'Date & Time');
 
+  const sitemap = await (await fetch(new URL('/sitemap.xml', siteUrl))).text();
+  for (const [path, name] of [['/text-tools', 'Text & Writing'], ['/pdf-tools', 'PDF Tools'], ['/image-tools', 'Image Tools'], ['/developer-tools', 'Developer Tools'], ['/everyday-tools', 'Everyday Tools']]) {
+    const response = await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
+    check(`${path} opens its page`, response.status() === 200 && (await heading()) === name);
+    check(`${path} is noindex while empty`, (await page.$eval('meta[name="robots"]', (tag) => tag.content)).includes('noindex'));
+    check(`${path} is not in the sitemap`, !sitemap.includes(`${path}<`));
+    check(`${path} is not in the main navigation`, (await page.$(`nav[aria-label="Main"] a[href="${path}"]`)) === null);
+    await runAxe(page, path);
+  }
+
   await page.setViewport({ width: 375, height: 812 });
   await page.goto(siteUrl, { waitUntil: 'networkidle0' });
   check('mobile menu starts closed', (await page.$('#mobile-menu')) === null);

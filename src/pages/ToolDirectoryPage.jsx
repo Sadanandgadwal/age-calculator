@@ -7,11 +7,11 @@ import ToolResults from '../components/common/ToolResults.jsx';
 import ToolSearch from '../components/common/ToolSearch.jsx';
 import { CATEGORIES } from '../data/toolCategories.js';
 import { TOOLS } from '../data/toolsRegistry.js';
-import { getToolsInCategory, searchTools } from '../utils/toolSearch.js';
+import { getActiveCategories, getToolsInCategory, searchTools } from '../utils/toolSearch.js';
 
 const FILTERS = [
   { to: '/all-tools', label: 'All Tools' },
-  ...CATEGORIES.map(({ route, name }) => ({ to: route, label: name })),
+  ...getActiveCategories(CATEGORIES, TOOLS).map(({ route, name }) => ({ to: route, label: name })),
 ];
 
 const filterClass = ({ isActive }) =>

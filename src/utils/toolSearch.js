@@ -28,6 +28,9 @@ export function searchTools(tools, query) {
 export const getToolsInCategory = (tools, categoryId) =>
   tools.filter((tool) => tool.categories.includes(categoryId));
 
+export const getActiveCategories = (categories, tools) =>
+  categories.filter(({ id }) => getToolsInCategory(tools, id).length > 0);
+
 export function getRelatedTools(tools, tool, limit = 3) {
   const rank = ({ categories }) => {
     if (categories[0] === tool.categories[0]) return 0;

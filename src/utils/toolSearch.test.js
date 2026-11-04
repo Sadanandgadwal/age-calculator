@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getFeaturedTools, getRecentTools, getRelatedTools, getToolsInCategory, searchTools } from './toolSearch.js';
+import { getActiveCategories, getFeaturedTools, getRecentTools, getRelatedTools, getToolsInCategory, searchTools } from './toolSearch.js';
 
 const tool = (id, overrides = {}) => ({
   id,
@@ -90,6 +90,11 @@ describe('tool listings', () => {
 
   it('lists featured tools', () => {
     expect(ids(getFeaturedTools(TOOLS))).toEqual(['Age Calculator']);
+  });
+
+  it('keeps only categories that have tools, in their original order', () => {
+    const categories = [{ id: 'converters' }, { id: 'pdf-tools' }, { id: 'calculators' }];
+    expect(getActiveCategories(categories, TOOLS)).toEqual([{ id: 'converters' }, { id: 'calculators' }]);
   });
 
   it('lists recent tools newest first, up to the limit, without reordering the source', () => {
