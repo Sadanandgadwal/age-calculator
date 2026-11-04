@@ -34,6 +34,7 @@ describe('routes', () => {
     ['/bill-split-calculator', 'Bill Split Calculator'],
     ['/temperature-converter', 'Temperature Converter'],
     ['/area-converter', 'Area Converter'],
+    ['/volume-converter', 'Volume Converter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

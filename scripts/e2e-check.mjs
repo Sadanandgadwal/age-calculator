@@ -922,6 +922,18 @@ try {
       ['18', 'sqft', 'sqyd', '18 sq ft = 2 sq yd'],
     ],
   });
+  await checkConverter(browser, siteUrl, {
+    title: 'Volume Converter',
+    path: '/volume-converter',
+    screenshot: 'volume',
+    clearLabel: 'Reset',
+    cases: [
+      ['2', 'usgal', 'l', '2 US gal = 7.570823568 L'],
+      ['2', 'ukgal', 'l', '2 UK gal = 9.09218 L'],
+      ['3', 'm3', 'l', '3 m³ = 3,000 L'],
+      ['8', 'cup', 'ml', '8 US cup = 1,892.705892 mL'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {

@@ -1,4 +1,4 @@
-import { Cake, CalendarRange, Clock, GraduationCap, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
+import { Beaker, Cake, CalendarRange, Clock, GraduationCap, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -302,6 +302,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/area/Page.jsx'),
     loadContent: () => import('../tools/area/content.js'),
+  },
+  {
+    id: 'volume-converter',
+    name: 'Volume Converter',
+    route: '/volume-converter',
+    categories: ['converters'],
+    icon: Beaker,
+    description: 'Convert between litres, millilitres, US gallons, UK gallons, US cups and cubic metres.',
+    keywords: ['volume', 'capacity', 'litre', 'liter', 'millilitre', 'ml', 'gallon', 'us gallon', 'uk gallon', 'imperial', 'cup', 'cubic metre', 'm3'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Volume Converter – Litres, Gallons, Cups and Cubic Metres',
+      description:
+        'Convert volume between litres, millilitres, US gallons, UK gallons, US cups and cubic metres. Instant, accurate results using exact definitions, free to use.',
+      featureList: ['Litres, millilitres and cubic metres', 'Separate US and UK gallons', 'US cups', 'Instant conversion as you type', 'Conversion formula and rate'],
+    },
+    load: () => import('../tools/volume/Page.jsx'),
+    loadContent: () => import('../tools/volume/content.js'),
   },
 ];
 
