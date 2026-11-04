@@ -707,6 +707,22 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+  {
+    name: 'timezone',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Time Zone Converter',
+        path: '/time-zone-converter',
+        screenshot: 'time-zone',
+        requiredError: 'Please choose a time.',
+        flows: [
+          { inputs: { '#tz-date': '2026-02-10', '#tz-time': '12:00' }, answer: 'Eastern Standard Time' },
+          { inputs: { '#tz-date': '2026-08-10', '#tz-time': '12:00' }, answer: 'Eastern Daylight Time' },
+          { selects: { '#tz-from': 'America/New_York', '#tz-to': 'Asia/Kolkata' }, inputs: { '#tz-date': '2026-03-08', '#tz-time': '02:30' }, answer: 'skipped when the clocks go forward' },
+          { selects: { '#tz-from': 'Asia/Dubai', '#tz-to': 'UTC' }, inputs: { '#tz-date': '2026-02-10', '#tz-time': '02:00' }, answer: 'Tuesday, 10 Feb 2026' },
+        ],
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -738,7 +754,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '6 tools found'));
+  check('home search finds tools by category', await hasText(page, '7 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');

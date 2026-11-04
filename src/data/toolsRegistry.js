@@ -1,4 +1,4 @@
-import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
+import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -492,6 +492,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/stopwatch/Page.jsx'),
     loadContent: () => import('../tools/stopwatch/content.js'),
+  },
+  {
+    id: 'time-zone-converter',
+    name: 'Time Zone Converter',
+    route: '/time-zone-converter',
+    categories: ['date-time'],
+    icon: Globe,
+    description: 'Convert a date and time between world time zones, with UTC offsets and daylight saving included.',
+    keywords: ['time zone', 'timezone', 'ist', 'est', 'edt', 'pst', 'pdt', 'gmt', 'utc', 'uae', 'dubai', 'world clock', 'daylight saving', 'dst'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Time Zone Converter – IST, EST, PST, GMT, UTC and More',
+      description:
+        'Convert a date and time between major world time zones, including IST, EST, PST, GMT, UTC and UAE time. See the converted day and UTC offsets, with daylight saving.',
+      featureList: ['Major countries and cities', 'UTC offsets and time difference', 'Automatic daylight saving', 'Converted date and day'],
+    },
+    load: () => import('../tools/time-zone/Page.jsx'),
+    loadContent: () => import('../tools/time-zone/content.js'),
   },
 ];
 
