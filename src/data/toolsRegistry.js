@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -853,6 +853,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/slug-generator/Page.jsx'),
     loadContent: () => import('../tools/slug-generator/content.js'),
+  },
+  {
+    id: 'lorem-ipsum-generator',
+    name: 'Lorem Ipsum Generator',
+    route: '/lorem-ipsum-generator',
+    categories: ['text-tools'],
+    icon: Pilcrow,
+    description: 'Create placeholder text by paragraphs, sentences or words.',
+    keywords: ['lorem ipsum', 'placeholder text', 'dummy text', 'filler text', 'sample text', 'mockup text'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Lorem Ipsum Generator – Free Placeholder Text',
+      description:
+        'Create lorem ipsum placeholder text by paragraphs, sentences or words, for designs and mockups. Choose how much you need and copy it in one click.',
+      featureList: ['Paragraphs, sentences or words', 'Classic opening line option', 'Choose how much you need', 'Word and character counts', 'One-click copy'],
+    },
+    load: () => import('../tools/lorem-ipsum-generator/Page.jsx'),
+    loadContent: () => import('../tools/lorem-ipsum-generator/content.js'),
   },
 ];
 

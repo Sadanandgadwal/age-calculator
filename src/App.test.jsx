@@ -63,6 +63,7 @@ describe('routes', () => {
     ['/find-replace-text', 'Find & Replace Text'],
     ['/text-sorter', 'Text Sorter'],
     ['/slug-generator', 'Slug Generator'],
+    ['/lorem-ipsum-generator', 'Lorem Ipsum Generator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

@@ -1067,6 +1067,21 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'lorem',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Lorem Ipsum Generator',
+        path: '/lorem-ipsum-generator',
+        screenshot: 'lorem-ipsum',
+        steps: async (page, label) => {
+          check(`${label}: starts with the classic opening`, (await outputText(page)).startsWith('Lorem ipsum dolor'));
+          await clickButton(page, 'Words');
+          await setText(page, '#lorem-count', '25');
+          check(`${label}: gives the requested number of words`, (await resultCards(page)).some((card) => card.includes('25') && card.includes('Words')));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

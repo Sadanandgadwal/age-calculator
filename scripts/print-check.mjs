@@ -63,6 +63,7 @@ const CASES = [
   { route: '/find-replace-text', steps: [['#replace-text', 'one two one'], ['#replace-find', 'one'], ['#replace-with', 'three'], ['click', 'Replace all']], expected: ['Find', 'Replace with', 'Replacements made', 'three two three'] },
   { route: '/text-sorter', steps: [['#sort-text', 'pear\napple\nplum']], expected: ['Order', 'A to Z', 'Sorted lines', 'apple'] },
   { route: '/slug-generator', steps: [['#slug-text', 'Hello Big World']], expected: ['Title', 'Separator', 'hello-big-world'] },
+  { route: '/lorem-ipsum-generator', steps: [], expected: ['Paragraphs', 'Words', 'Placeholder text', 'Lorem ipsum dolor'] },
 ];
 
 const failures = [];
