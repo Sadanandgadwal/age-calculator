@@ -25,12 +25,12 @@ function isExact(value, text) {
 
 export const relation = (value, text) => (isExact(value, text) ? '=' : '≈');
 
-export function evaluateConversion(text, fromId, toId, units, { precise = false } = {}) {
+export function evaluateConversion(text, fromId, toId, units, { precise = false, allowNegative = false } = {}) {
   if (!String(text ?? '').trim()) return {};
 
   const value = parseDecimal(text);
   if (value === null) return { error: 'Please enter a valid number.' };
-  if (value < 0) return { error: 'Please enter a value of 0 or more.' };
+  if (value < 0 && !allowNegative) return { error: 'Please enter a value of 0 or more.' };
 
   const from = units.find(({ id }) => id === fromId);
   const to = units.find(({ id }) => id === toId);

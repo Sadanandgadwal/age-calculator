@@ -15,6 +15,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | CM to Feet Converter | `/cm-to-feet-converter` |
 | Date Calculator | `/date-calculator` |
 | GST Calculator | `/gst-calculator` |
+| Angle Converter | `/angle-converter` |
 | Frequency Converter | `/frequency-converter` |
 | Energy Converter | `/energy-converter` |
 | Pressure Converter | `/pressure-converter` |

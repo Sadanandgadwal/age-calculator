@@ -53,6 +53,11 @@ describe('evaluateConversion', () => {
     expect(run('1234567890123', 'unit', 'unit').result.outputText).toBe('12,34,56,78,90,000');
   });
 
+  it('can allow negative values when asked', () => {
+    expect(evaluateConversion('-2', 'big', 'unit', UNITS, { allowNegative: true }).result.summary).toBe('-2 B = -2,000 U');
+    expect(run('-2').error).toBe('Please enter a value of 0 or more.');
+  });
+
   it('returns nothing for an empty value', () => {
     expect(run('')).toEqual({});
     expect(run('  ')).toEqual({});

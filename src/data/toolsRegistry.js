@@ -1,4 +1,4 @@
-import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Zap } from 'lucide-react';
+import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -435,6 +435,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/frequency/Page.jsx'),
     loadContent: () => import('../tools/frequency/content.js'),
+  },
+  {
+    id: 'angle-converter',
+    name: 'Angle Converter',
+    route: '/angle-converter',
+    categories: ['converters'],
+    icon: DraftingCompass,
+    description: 'Convert between degrees, radians and gradians, including negative angles.',
+    keywords: ['angle', 'degree', 'deg', 'radian', 'rad', 'gradian', 'grad', 'gon', 'pi', 'trigonometry', 'geometry'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Angle Converter – Degrees, Radians and Gradians',
+      description:
+        'Convert angles between degrees, radians and gradians, including negative angles and angles over a full turn. Instant, accurate results with the formula shown.',
+      featureList: ['Degrees, radians and gradians', 'Negative angles', 'Angles over a full turn', 'Conversion formula and rate'],
+    },
+    load: () => import('../tools/angle/Page.jsx'),
+    loadContent: () => import('../tools/angle/content.js'),
   },
 ];
 

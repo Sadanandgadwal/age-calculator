@@ -1006,6 +1006,18 @@ try {
       ['1500', 'hz', 'khz', '1,500 Hz = 1.5 kHz'],
     ],
   });
+  await checkConverter(browser, siteUrl, {
+    title: 'Angle Converter',
+    path: '/angle-converter',
+    screenshot: 'angle',
+    clearLabel: 'Reset',
+    cases: [
+      ['45', 'deg', 'grad', '45 deg = 50 grad'],
+      ['-90', 'deg', 'grad', '-90 deg = -100 grad'],
+      ['2', 'rad', 'deg', '2 rad ≈ 114.591559 deg'],
+      ['200', 'grad', 'deg', '200 grad = 180 deg'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {
