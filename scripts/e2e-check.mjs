@@ -926,6 +926,21 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'linecounter',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Line Counter',
+        path: '/line-counter',
+        screenshot: 'line-counter',
+        steps: async (page, label) => {
+          await setText(page, '#line-text', 'one\n\ntwo\nthree\nfour');
+          const cards = await resultCards(page);
+          check(`${label}: counts all lines`, cards.some((card) => card.includes('5') && card.includes('Total Lines')));
+          check(`${label}: counts blank lines`, cards.some((card) => card.includes('1') && card.includes('Blank Lines')));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

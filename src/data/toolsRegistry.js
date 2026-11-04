@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -682,6 +682,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/character-counter/Page.jsx'),
     loadContent: () => import('../tools/character-counter/content.js'),
+  },
+  {
+    id: 'line-counter',
+    name: 'Line Counter',
+    route: '/line-counter',
+    categories: ['text-tools'],
+    icon: ListOrdered,
+    description: 'Count total, non-empty and blank lines in any text.',
+    keywords: ['line count', 'count lines', 'number of lines', 'blank lines', 'rows', 'lines of code'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Line Counter – Count Lines in Text Online',
+      description:
+        'Count the total, non-empty and blank lines in your text, and find the longest line. Paste a list, log or code and get the answer instantly.',
+      featureList: ['Total line count', 'Non-empty and blank lines', 'Longest line length', 'Average line length', 'Works with lists, logs and code'],
+    },
+    load: () => import('../tools/line-counter/Page.jsx'),
+    loadContent: () => import('../tools/line-counter/content.js'),
   },
 ];
 

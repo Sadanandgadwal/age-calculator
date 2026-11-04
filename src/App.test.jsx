@@ -54,6 +54,7 @@ describe('routes', () => {
     ['/unix-timestamp-converter', 'Unix Timestamp Converter'],
     ['/word-counter', 'Word Counter'],
     ['/character-counter', 'Character Counter'],
+    ['/line-counter', 'Line Counter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

@@ -54,6 +54,7 @@ const CASES = [
   { route: '/unix-timestamp-converter', steps: [['#unix-timestamp', '1700000000'], calc()], expected: ['1700000000', 'UTC', 'Local', '14 Nov 2023'] },
   { route: '/word-counter', steps: [['#word-text', 'One two three. Four five!']], expected: ['Words', 'Sentences', 'Reading Time', 'One two three'] },
   { route: '/character-counter', steps: [['#char-text', 'Hello there'], ['#char-limit', '160']], expected: ['Character limit', '149 left of 160', 'Letters', 'Hello there'] },
+  { route: '/line-counter', steps: [['#line-text', 'one\n\ntwo']], expected: ['Total lines', 'Blank lines', 'Longest Line'] },
 ];
 
 const failures = [];
