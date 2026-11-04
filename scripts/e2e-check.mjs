@@ -972,6 +972,22 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'textreverser',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Text Reverser',
+        path: '/text-reverser',
+        screenshot: 'text-reverser',
+        steps: async (page, label) => {
+          await setText(page, '#reverse-text', 'one 😀 two');
+          check(`${label}: reverses characters`, (await outputText(page)) === 'owt 😀 eno');
+          await clickButton(page, 'Words');
+          await settle();
+          check(`${label}: reverses words`, (await outputText(page)) === 'two 😀 one');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

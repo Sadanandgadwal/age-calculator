@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -739,6 +739,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/case-converter/Page.jsx'),
     loadContent: () => import('../tools/case-converter/content.js'),
+  },
+  {
+    id: 'text-reverser',
+    name: 'Text Reverser',
+    route: '/text-reverser',
+    categories: ['text-tools'],
+    icon: Undo2,
+    description: 'Reverse text by characters, words or lines, with emoji kept whole.',
+    keywords: ['reverse text', 'backwards text', 'flip text', 'reverse words', 'reverse lines', 'mirror text'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Text Reverser – Reverse Text, Words or Lines Online',
+      description:
+        'Reverse your text by characters, words or lines. Emoji and accented letters stay whole, and the result updates as you type.',
+      featureList: ['Reverse characters', 'Reverse word order', 'Reverse line order', 'Emoji and accents kept whole', 'Copy, share and print the result'],
+    },
+    load: () => import('../tools/text-reverser/Page.jsx'),
+    loadContent: () => import('../tools/text-reverser/content.js'),
   },
 ];
 
