@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router';
+import AdSlot from '../components/ads/AdSlot.jsx';
 import Breadcrumb from '../components/common/Breadcrumb.jsx';
 import ToolGrid from '../components/common/ToolGrid.jsx';
 import ToolResults from '../components/common/ToolResults.jsx';
@@ -65,6 +66,8 @@ export default function ToolDirectoryPage({ category }) {
             </Link>
           </div>
         )}
+
+        {!isSearching && tools.length > 0 && <AdSlot placement="footer" className="mt-12" />}
       </div>
     </main>
   );

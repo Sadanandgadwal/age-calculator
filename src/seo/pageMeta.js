@@ -24,6 +24,30 @@ function breadcrumbSchema(breadcrumbs) {
   };
 }
 
+function collectionSchema(name, description, path, tools) {
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': 'CollectionPage',
+    name,
+    description,
+    url: absoluteUrl(path),
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: tools.map((tool, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: tool.name,
+        url: absoluteUrl(tool.route),
+      })),
+    },
+  };
+}
+
+function directoryMeta({ path, name, title, description, tools }) {
+  const meta = simplePageMeta({ path, name, title, description, indexable: tools.length > 0 });
+  return { ...meta, schemas: [...meta.schemas, collectionSchema(name, description, path, tools)] };
+}
+
 function toolMeta(tool) {
   const primaryCategory = getCategory(tool.categories[0]);
   const breadcrumbs = [
@@ -96,11 +120,12 @@ const homeMeta = () => ({
 
 const STATIC_PAGES = {
   '/all-tools': () =>
-    simplePageMeta({
+    directoryMeta({
       path: '/all-tools',
       name: 'All Tools',
       title: 'All Free Online Tools | ToolNest',
       description: 'Browse every free ToolNest calculator and converter. Search by name or filter by category.',
+      tools: TOOLS,
     }),
   '/about': () =>
     simplePageMeta({
@@ -121,13 +146,12 @@ const STATIC_PAGES = {
 };
 
 function categoryMeta(category) {
-  return simplePageMeta({
+  return directoryMeta({
     path: category.route,
     name: category.name,
     title: category.seo.title,
     description: category.seo.description,
-    // An empty category has nothing useful to show in search results.
-    indexable: getToolsInCategory(TOOLS, category.id).length > 0,
+    tools: getToolsInCategory(TOOLS, category.id),
   });
 }
 

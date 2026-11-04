@@ -245,6 +245,19 @@ async function checkRoutes(browser, siteUrl) {
 
     check(`${path}: raw HTML is correct`, raw.ok && /<h1[^>]*>/.test(html) && canonical.endsWith(path) && Boolean(description));
     check(`${path}: only indexable pages are in the sitemap`, sitemapPaths.includes(path) === !isNoindex);
+    const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
+    const types = schemas.map((schema) => schema['@type']);
+    const breadcrumb = schemas.find((schema) => schema['@type'] === 'BreadcrumbList');
+    if (path !== '/') {
+      check(`${path}: breadcrumb data ends at this page`, breadcrumb?.itemListElement.at(-1).item.endsWith(path));
+    }
+    check(`${path}: has Open Graph and Twitter tags`, ['og:title', 'og:description', 'og:url', 'og:image', 'twitter:title', 'twitter:image'].every((tag) => html.includes(`"${tag}"`)));
+    if (types.includes('WebApplication')) {
+      const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
+      const text = html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+      const missing = (faq?.mainEntity ?? []).filter(({ name, acceptedAnswer }) => !text.includes(name) || !text.includes(acceptedAnswer.text));
+      check(`${path}: FAQ data matches the visible page`, Boolean(faq) && missing.length === 0, missing.map(({ name }) => name).join(', '));
+    }
     titles.set(title, path);
     descriptions.set(description, path);
 
@@ -276,6 +289,8 @@ async function checkRoutes(browser, siteUrl) {
     }
   }
 
+  const privacy = await (await fetch(new URL('/privacy.html', siteUrl))).text();
+  check('privacy page has a canonical URL', /<link rel="canonical" href="[^"]*\/privacy\.html"/.test(privacy));
   check('every page has a unique title', titles.size === routes.length);
   check('every page has a unique description', descriptions.size === routes.length);
 }

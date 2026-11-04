@@ -46,6 +46,34 @@ describe('getPageMeta', () => {
     }
   });
 
+  it('keeps titles and descriptions a suitable length for search results', () => {
+    for (const path of [...getAllPaths(), '/no-such-page']) {
+      const { title, description } = getPageMeta(path);
+      expect(title.length, `${path} title`).toBeLessThanOrEqual(70);
+      expect(description.length, `${path} description`).toBeGreaterThanOrEqual(50);
+      expect(description.length, `${path} description`).toBeLessThanOrEqual(165);
+    }
+  });
+
+  it.each([
+    ['/age-calculator', 'Age Calculator – Calculate Your Exact Age Online'],
+    ['/marks-percentage-calculator', 'Marks & Percentage Calculator – Calculate Exam Results'],
+    ['/percentage-calculator', 'Free Percentage Calculator – Calculate Percentages Online'],
+    ['/kg-to-gram-converter', 'KG to Gram Converter – Free Weight Conversion Tool'],
+    ['/cm-to-feet-converter', 'CM to Feet Converter – Free Length Conversion Tool'],
+    ['/date-calculator', 'Date Calculator – Calculate Days Between Dates'],
+    ['/gst-calculator', 'GST Calculator India – Calculate CGST, SGST and IGST'],
+  ])('%s uses its required title', (path, title) => {
+    expect(getPageMeta(path).title).toBe(title);
+  });
+
+  it('lists a directory page\'s tools in its structured data', () => {
+    const collection = getPageMeta('/finance').schemas.find((schema) => schema['@type'] === 'CollectionPage');
+    const names = collection.mainEntity.itemListElement.map(({ name }) => name);
+    expect(names).toEqual(TOOLS.filter((tool) => tool.categories.includes('finance')).map(({ name }) => name));
+    expect(getPageMeta('/all-tools').schemas[1].mainEntity.itemListElement).toHaveLength(TOOLS.length);
+  });
+
   it('includes the required routes', () => {
     expect(getAllPaths()).toEqual(
       expect.arrayContaining(['/', '/all-tools', '/calculators', '/converters', '/date-time', '/finance', '/about', '/contact', '/age-calculator']),

@@ -60,6 +60,12 @@ for (const path of getAllPaths()) {
 
 await buildPage(NOT_FOUND_PATH, '404.html');
 
+const privacyFile = resolve(DIST, 'privacy.html');
+writeFileSync(
+  privacyFile,
+  readFileSync(privacyFile, 'utf8').replace('</head>', () => `<link rel="canonical" href="${absoluteUrl('/privacy.html')}" /></head>`),
+);
+
 writeFileSync(
   resolve(DIST, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries.join('\n')}\n</urlset>\n`,

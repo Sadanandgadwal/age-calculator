@@ -90,6 +90,8 @@ Before you turn ads on:
 - Read `public/privacy.html` and add your contact details. Have it reviewed for the regions you serve.
 - If you have visitors in the EEA, UK or Switzerland, set up a Google-certified consent management platform. You can use the Privacy & messaging tools in AdSense.
 
+Ads appear on tool pages, the homepage and tool listings. The About, Contact, Privacy and 404 pages have no ads, as they have little content. All pages share one script and the same slot IDs.
+
 Settings are read in `src/config/ads.js`, and the ad unit is rendered by `src/components/ads/AdSlot.jsx`. Each slot reserves its height to prevent layout shift and is labelled "Advertisement". Slots are spaced away from the calculator buttons to avoid accidental clicks.
 
 ## Deploying to Vercel

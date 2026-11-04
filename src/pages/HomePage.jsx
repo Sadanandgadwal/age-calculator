@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import AdSlot from '../components/ads/AdSlot.jsx';
 import ToolGrid from '../components/common/ToolGrid.jsx';
 import ToolResults from '../components/common/ToolResults.jsx';
 import ToolSearch from '../components/common/ToolSearch.jsx';
@@ -70,6 +71,7 @@ export default function HomePage() {
       ) : (
         <div className="flex flex-col gap-12">
           <ToolSection id="popular-heading" title="Popular tools" tools={getFeaturedTools(TOOLS)} />
+          <AdSlot placement="inContent" />
           <ToolSection id="recent-heading" title="Recently added" tools={getRecentTools(TOOLS)} />
           <CategoryLinks />
         </div>
