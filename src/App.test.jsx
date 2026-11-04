@@ -50,6 +50,7 @@ describe('routes', () => {
     ['/pomodoro-timer', 'Pomodoro Timer'],
     ['/leap-year-checker', 'Leap Year Checker'],
     ['/week-number-calculator', 'Week Number Calculator'],
+    ['/work-hours-calculator', 'Work Hours Calculator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

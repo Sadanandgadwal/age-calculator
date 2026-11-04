@@ -819,6 +819,21 @@ const DATE_TIME_CHECKS = [
         ],
       }),
   },
+  {
+    name: 'workhours',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Work Hours Calculator',
+        path: '/work-hours-calculator',
+        screenshot: 'work-hours',
+        requiredError: 'Please choose a clock-in time.',
+        flows: [
+          { inputs: { '#work-in': '09:15', '#work-out': '19:45', '#work-break': '45' }, answer: '9 h 45 min\nNet Working Hours' },
+          { inputs: { '#work-in': '21:30', '#work-out': '05:30', '#work-break': '' }, answer: 'treated as the next day' },
+          { inputs: { '#work-in': '09:00', '#work-out': '19:00', '#work-break': '', '#work-standard': '7' }, answer: '3 h 0 min\nOvertime' },
+        ],
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -850,7 +865,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '12 tools found'));
+  check('home search finds tools by category', await hasText(page, '13 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');

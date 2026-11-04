@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -606,6 +606,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/week-number/Page.jsx'),
     loadContent: () => import('../tools/week-number/content.js'),
+  },
+  {
+    id: 'work-hours-calculator',
+    name: 'Work Hours Calculator',
+    route: '/work-hours-calculator',
+    categories: ['date-time'],
+    icon: ClockArrowUp,
+    description: 'Work out net working hours and overtime from your clock-in, clock-out and break times.',
+    keywords: ['work hours', 'working hours', 'timesheet', 'overtime', 'clock in', 'clock out', 'shift', 'break', 'hours worked', 'payroll'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Work Hours Calculator – Net Hours and Overtime',
+      description:
+        'Calculate net working hours from clock-in, clock-out and break times, including overnight shifts. Work out overtime using your own daily hours, free to use.',
+      featureList: ['Clock-in and clock-out times', 'Break deduction', 'Overnight shifts', 'Overtime with configurable daily hours'],
+    },
+    load: () => import('../tools/work-hours/Page.jsx'),
+    loadContent: () => import('../tools/work-hours/content.js'),
   },
 ];
 
