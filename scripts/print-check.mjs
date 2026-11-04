@@ -60,6 +60,7 @@ const CASES = [
   { route: '/text-reverser', steps: [['#reverse-text', 'Hello there']], expected: ['Reversed by', 'Reversed text', 'ereht olleH'] },
   { route: '/remove-duplicate-lines', steps: [['#dedupe-text', 'pear\nplum\npear']], expected: ['Lines kept', 'Lines removed', 'Cleaned list', 'plum'] },
   { route: '/remove-extra-spaces', steps: [['#spaces-text', 'one    two']], expected: ['Characters removed', 'Cleaned text', 'one two'] },
+  { route: '/find-replace-text', steps: [['#replace-text', 'one two one'], ['#replace-find', 'one'], ['#replace-with', 'three'], ['click', 'Replace all']], expected: ['Find', 'Replace with', 'Replacements made', 'three two three'] },
 ];
 
 const failures = [];

@@ -1015,6 +1015,29 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'findreplace',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Find & Replace Text',
+        path: '/find-replace-text',
+        screenshot: 'find-replace-text',
+        steps: async (page, label) => {
+          await setText(page, '#replace-text', `${'a'.repeat(40)}b`);
+          await setText(page, '#replace-find', '(a+)+$');
+          await page.evaluate(() => [...document.querySelectorAll('label')].find((item) => item.textContent.includes('regular expression')).click());
+          await clickButton(page, 'Replace all');
+          await pause(2500);
+          check(`${label}: stops a runaway pattern`, await hasText(page, 'This pattern took too long'));
+          await setText(page, '#replace-text', 'one two');
+          await setText(page, '#replace-find', '(\\w+) (\\w+)');
+          await setText(page, '#replace-with', '$2 $1');
+          await clickButton(page, 'Replace all');
+          await pause(800);
+          check(`${label}: replaces with a pattern in the worker`, (await outputText(page)) === 'two one');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

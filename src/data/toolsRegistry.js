@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, ListX, Percent, ReceiptIndianRupee, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, ListX, Percent, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -796,6 +796,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/remove-extra-spaces/Page.jsx'),
     loadContent: () => import('../tools/remove-extra-spaces/content.js'),
+  },
+  {
+    id: 'find-replace-text',
+    name: 'Find & Replace Text',
+    route: '/find-replace-text',
+    categories: ['text-tools'],
+    icon: Replace,
+    description: 'Find and replace words in any text, with regex and whole-word options.',
+    keywords: ['find and replace', 'replace text', 'search and replace', 'regex replace', 'replace words', 'substitute text'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Find and Replace Text Online – With Regex Support',
+      description:
+        'Find and replace words across your text. Match case, match whole words or use regular expressions, and see how many replacements were made.',
+      featureList: ['Replace every match at once', 'Match case option', 'Whole word option', 'Regular expression support', 'Count of replacements'],
+    },
+    load: () => import('../tools/find-replace-text/Page.jsx'),
+    loadContent: () => import('../tools/find-replace-text/content.js'),
   },
 ];
 

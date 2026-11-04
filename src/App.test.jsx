@@ -60,6 +60,7 @@ describe('routes', () => {
     ['/text-reverser', 'Text Reverser'],
     ['/remove-duplicate-lines', 'Remove Duplicate Lines'],
     ['/remove-extra-spaces', 'Remove Extra Spaces'],
+    ['/find-replace-text', 'Find & Replace Text'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
