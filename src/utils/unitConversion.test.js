@@ -88,6 +88,15 @@ describe('text builders', () => {
     ]);
   });
 
+  it('builds examples for a chosen amount', () => {
+    expect(buildExamples(UNITS, [['unit', 'big', 100]])).toEqual([{ title: 'Units to Bigs', text: '100 U = 0.1 B' }]);
+  });
+
+  it('adds extra details to copied text', () => {
+    const { result } = evaluateConversion('2', 'big', 'unit', UNITS);
+    expect(buildConversionText(result, [{ label: 'Extra', value: 'Detail' }])).toContain('Extra: Detail');
+  });
+
   it('builds copied text', () => {
     const text = buildConversionText(evaluateConversion('2', 'big', 'unit', UNITS).result);
     expect(text).toBe('2 B = 2,000 U\nFormula: Units = Bigs × 1,000\n1 B = 1,000 U');

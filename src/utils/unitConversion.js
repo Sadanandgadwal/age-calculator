@@ -59,17 +59,17 @@ export function evaluateConversion(text, fromId, toId, units) {
 
 export function buildExamples(units, pairs) {
   const find = (id) => units.find((unit) => unit.id === id);
-  return pairs.map(([fromId, toId]) => {
+  return pairs.map(([fromId, toId, amount = 1]) => {
     const from = find(fromId);
     const to = find(toId);
-    const output = convertUnits(1, from, to);
+    const output = convertUnits(amount, from, to);
     const outputText = formatQuantity(output, exampleFormatter);
     return {
       title: `${from.name} to ${to.name}`,
-      text: `1 ${from.symbol} ${relation(output, outputText)} ${outputText} ${to.symbol}`,
+      text: `${formatQuantity(amount, exampleFormatter)} ${from.symbol} ${relation(output, outputText)} ${outputText} ${to.symbol}`,
     };
   });
 }
 
-export const buildConversionText = ({ summary, formula, unitRate }) =>
-  [summary, `Formula: ${formula}`, unitRate].join('\n');
+export const buildConversionText = ({ summary, formula, unitRate }, extras = []) =>
+  [summary, `Formula: ${formula}`, unitRate, ...extras.map(({ label, value }) => `${label}: ${value}`)].join('\n');

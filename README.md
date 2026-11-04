@@ -12,6 +12,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | Marks & Percentage Calculator | `/marks-percentage-calculator` |
 | Percentage Calculator | `/percentage-calculator` |
 | KG to Gram Converter | `/kg-to-gram-converter` |
+| CM to Feet Converter | `/cm-to-feet-converter` |
 
 ## Adding a tool
 

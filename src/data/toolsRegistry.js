@@ -1,4 +1,4 @@
-import { Cake, GraduationCap, Percent, Scale } from 'lucide-react';
+import { Cake, GraduationCap, Percent, Ruler, Scale } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -113,6 +113,31 @@ export const TOOLS = [
     },
     load: () => import('../tools/weight/Page.jsx'),
     loadContent: () => import('../tools/weight/content.js'),
+  },
+  {
+    id: 'cm-to-feet-converter',
+    name: 'CM to Feet Converter',
+    route: '/cm-to-feet-converter',
+    categories: ['converters'],
+    icon: Ruler,
+    description: 'Convert instantly between centimeters, meters, kilometers, millimeters, feet, inches, yards and miles.',
+    keywords: ['cm', 'feet', 'ft', 'foot', 'length', 'height', 'distance', 'inch', 'meter', 'metre', 'km', 'mm', 'yard', 'mile'],
+    featured: true,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'CM to Feet Converter – Free Length Conversion Tool',
+      description:
+        'Convert cm to feet and inches, and between meters, kilometers, millimeters, yards and miles. Instant, accurate length conversions with the formula shown.',
+      featureList: [
+        'Centimeters, meters, kilometers, millimeters, feet, inches, yards and miles',
+        'Combined feet and inches result',
+        'Instant conversion as you type',
+        'One-click unit swap',
+        'Conversion formula and rate',
+      ],
+    },
+    load: () => import('../tools/length/Page.jsx'),
+    loadContent: () => import('../tools/length/content.js'),
   },
 ];
 

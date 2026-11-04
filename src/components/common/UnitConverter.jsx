@@ -80,7 +80,7 @@ export default function UnitConverter({ units, defaultFrom, defaultTo, getExtraD
                 ...extraDetails,
               ]}
             />
-            <CopyButton getText={() => buildConversionText(result)} />
+            <CopyButton getText={() => buildConversionText(result, extraDetails)} />
           </>
         )}
       </ResultPanel>

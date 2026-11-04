@@ -659,6 +659,18 @@ try {
       ['1', 't', 'mg', '1 t = 1,00,00,00,000 mg'],
     ],
   });
+  await checkConverter(browser, siteUrl, {
+    title: 'Length Converter',
+    path: '/cm-to-feet-converter',
+    screenshot: 'length',
+    cases: [
+      ['170', 'cm', 'ft', '5 ft 6.93 in'],
+      ['1', 'ft', 'cm', '1 ft = 30.48 cm'],
+      ['1', 'in', 'cm', '1 in = 2.54 cm'],
+      ['1000', 'm', 'km', '1,000 m = 1 km'],
+      ['1', 'mi', 'km', '1 mi = 1.609344 km'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {
