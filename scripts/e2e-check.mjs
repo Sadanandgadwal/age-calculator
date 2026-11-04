@@ -910,6 +910,22 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'charcounter',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Character Counter',
+        path: '/character-counter',
+        screenshot: 'character-counter',
+        steps: async (page, label) => {
+          await setText(page, '#char-text', 'Hello 😀 there');
+          await setText(page, '#char-limit', '5');
+          const cards = await resultCards(page);
+          check(`${label}: counts an emoji once`, cards.some((card) => card.includes('13') && card.includes('Characters')));
+          check(`${label}: shows the limit`, await hasText(page, '8 over the limit of 5'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

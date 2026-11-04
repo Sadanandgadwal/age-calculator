@@ -53,6 +53,7 @@ const CASES = [
   { route: '/work-hours-calculator', steps: [['#work-in', '09:00'], ['#work-out', '18:30'], ['#work-break', '30'], calc()], expected: ['Clock-in', 'Clock-out', 'Break', 'Net working hours', 'Overtime', '9 h 0 min'] },
   { route: '/unix-timestamp-converter', steps: [['#unix-timestamp', '1700000000'], calc()], expected: ['1700000000', 'UTC', 'Local', '14 Nov 2023'] },
   { route: '/word-counter', steps: [['#word-text', 'One two three. Four five!']], expected: ['Words', 'Sentences', 'Reading Time', 'One two three'] },
+  { route: '/character-counter', steps: [['#char-text', 'Hello there'], ['#char-limit', '160']], expected: ['Character limit', '149 left of 160', 'Letters', 'Hello there'] },
 ];
 
 const failures = [];

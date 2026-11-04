@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -663,6 +663,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/word-counter/Page.jsx'),
     loadContent: () => import('../tools/word-counter/content.js'),
+  },
+  {
+    id: 'character-counter',
+    name: 'Character Counter',
+    route: '/character-counter',
+    categories: ['text-tools'],
+    icon: CaseSensitive,
+    description: 'Count characters with and without spaces, and check against a limit.',
+    keywords: ['character count', 'letter count', 'count characters', 'character limit', 'tweet length', 'sms length'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Character Counter – Count Characters and Check Limits',
+      description:
+        'Count characters with and without spaces, see letters, digits and symbols, and check your text against a character limit as you type.',
+      featureList: ['Live character count', 'Count with and without spaces', 'Letters, digits and symbols', 'Optional character limit', 'Emoji counted as one character'],
+    },
+    load: () => import('../tools/character-counter/Page.jsx'),
+    loadContent: () => import('../tools/character-counter/content.js'),
   },
 ];
 

@@ -53,6 +53,7 @@ describe('routes', () => {
     ['/work-hours-calculator', 'Work Hours Calculator'],
     ['/unix-timestamp-converter', 'Unix Timestamp Converter'],
     ['/word-counter', 'Word Counter'],
+    ['/character-counter', 'Character Counter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
