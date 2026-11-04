@@ -42,3 +42,20 @@ export const buildResultText = (sessionLabel, remaining, completed, minutes) =>
     `Sessions until long break: ${focusUntilLongBreak(completed)}`,
     `Session lengths: focus ${minutes.focus ?? '-'}, short break ${minutes.short ?? '-'}, long break ${minutes.long ?? '-'} minutes`,
   ].join('\n');
+
+export const buildReport = (sessionLabel, remaining, completed, { focus, short, long }) => ({
+  inputs: [
+    { label: 'Focus session', value: `${focus ?? '—'} minutes` },
+    { label: 'Short break', value: `${short ?? '—'} minutes` },
+    { label: 'Long break', value: `${long ?? '—'} minutes` },
+  ],
+  results: [
+    { label: 'Focus sessions completed', value: completed },
+    { label: 'Sessions until long break', value: focusUntilLongBreak(completed) },
+  ],
+  details: [
+    { label: 'Current session', value: sessionLabel },
+    { label: 'Time left', value: remaining },
+    { label: 'Total focus time completed', value: `${completed * (focus ?? 0)} minutes` },
+  ],
+});

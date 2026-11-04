@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BriefcaseBusiness, Clock, TimerReset } from 'lucide-react';
 import * as content from './content.js';
-import { buildResultText, evaluate, formatDecimalHours, formatHours } from './logic.js';
+import { buildReport, buildResultText, evaluate, formatDecimalHours, formatHours } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -55,7 +55,7 @@ export default function WorkHoursPage() {
                   { label: 'Below Daily Hours', value: formatHours(result.shortfall) },
                 ]}
               />
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(result)} />
             </>
           )
         }

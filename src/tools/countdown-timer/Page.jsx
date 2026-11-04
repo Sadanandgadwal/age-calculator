@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CalendarDays, Clock, Hourglass, PartyPopper, Timer } from 'lucide-react';
 import * as content from './content.js';
-import { buildResultText, describeEvent, evaluateTarget, splitCountdown } from './logic.js';
+import { buildReport, buildResultText, describeEvent, evaluateTarget, splitCountdown } from './logic.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -13,7 +13,7 @@ import ToolLayout from '../../components/layout/ToolLayout.jsx';
 import { useElapsedTimer } from '../../hooks/useElapsedTimer.js';
 import { MAX_DATE, MIN_DATE } from '../../utils/date.js';
 
-const IDLE = { status: 'idle', durationMs: null, targetLabel: '', eventName: '' };
+const IDLE = { status: 'idle', durationMs: null, targetLabel: '', targetTime: '', eventName: '' };
 
 export default function CountdownTimerPage() {
   const [name, setName] = useState('');
@@ -34,7 +34,7 @@ export default function CountdownTimerPage() {
       timer.start();
       return;
     }
-    const { errors: nextErrors, targetMs, targetLabel } = evaluateTarget({ date, time });
+    const { errors: nextErrors, targetMs, targetLabel, targetTime } = evaluateTarget({ date, time });
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
@@ -44,7 +44,7 @@ export default function CountdownTimerPage() {
       setRun({ status: 'passed', durationMs: null, targetLabel, eventName: name });
       return;
     }
-    setRun({ status: 'active', durationMs, targetLabel, eventName: name });
+    setRun({ status: 'active', durationMs, targetLabel, targetTime, eventName: name });
     timer.start();
   };
 
@@ -91,7 +91,7 @@ export default function CountdownTimerPage() {
                     <ResultCard label="Minutes" value={parts.minutes} icon={Timer} tone="lavender" />
                     <ResultCard label="Seconds" value={parts.seconds} icon={Hourglass} />
                   </div>
-                  <ResultActions getText={() => buildResultText(run.eventName, run.targetLabel, parts)} />
+                  <ResultActions getText={() => buildResultText(run.eventName, run.targetLabel, parts)} getReport={() => buildReport(run, parts)} />
                 </>
               )}
             </>

@@ -5,7 +5,7 @@ import ResultActions from './ResultActions.jsx';
 import ResultCard from './ResultCard.jsx';
 import ResultDetails from './ResultDetails.jsx';
 import ResultPanel from './ResultPanel.jsx';
-import { buildConversionText, evaluateConversion } from '../../utils/unitConversion.js';
+import { buildConversionReport, buildConversionText, evaluateConversion } from '../../utils/unitConversion.js';
 
 const actionButton =
   'inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-line bg-white px-5 font-bold text-primary transition-colors outline-none hover:border-mint hover:bg-secondary focus-visible:ring-3 focus-visible:ring-mint focus-visible:ring-offset-2';
@@ -88,7 +88,7 @@ export default function UnitConverter({ units, defaultFrom, defaultTo, getExtraD
                 ...extraDetails,
               ]}
             />
-            <ResultActions getText={() => buildConversionText(result, extraDetails)} />
+            <ResultActions getText={() => buildConversionText(result, extraDetails)} getReport={() => buildConversionReport(result, extraDetails)} />
           </>
         )}
       </ResultPanel>

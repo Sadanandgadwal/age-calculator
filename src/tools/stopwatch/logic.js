@@ -18,3 +18,17 @@ export const buildResultText = (elapsedMs, laps) =>
     `Elapsed time: ${formatStopwatch(elapsedMs)}`,
     ...[...laps].reverse().map(({ number, lapMs, totalMs }) => `Lap ${number}: ${formatStopwatch(lapMs)} (total ${formatStopwatch(totalMs)})`),
   ].join('\n');
+
+export const buildReport = (elapsedMs, laps) => ({
+  results: [
+    { label: 'Elapsed time', value: formatStopwatch(elapsedMs) },
+    { label: 'Laps recorded', value: laps.length },
+  ],
+  table: laps.length > 0
+    ? {
+        caption: 'Lap records',
+        columns: ['Lap', 'Lap time', 'Total time'],
+        rows: [...laps].reverse().map(({ number, lapMs, totalMs }) => [number, formatStopwatch(lapMs), formatStopwatch(totalMs)]),
+      }
+    : null,
+});

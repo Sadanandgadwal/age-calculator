@@ -1,5 +1,5 @@
-import { parseClock } from '../time/logic.js';
-import { parseDate } from '../../utils/date.js';
+import { formatClock, parseClock } from '../time/logic.js';
+import { formatDate, parseDate } from '../../utils/date.js';
 
 const MAX_MS = 8.64e15;
 const INTEGER = /^-?\d+$/;
@@ -82,3 +82,30 @@ export const currentTimestamp = (nowMs, unit) => String(unit === 'seconds' ? Mat
 
 export const buildResultText = ({ seconds, ms, utc, local, iso }) =>
   [`Unix timestamp (seconds): ${seconds}`, `Unix timestamp (milliseconds): ${ms}`, `UTC: ${utc}`, `Local: ${local}`, `ISO 8601: ${iso}`].join('\n');
+
+export function buildReport(result, { isToDate, timestamp, unit, date, time, zoneMode }) {
+  const inputs = isToDate
+    ? [
+        { label: 'Unix timestamp', value: String(timestamp).trim() },
+        { label: 'Unit', value: UNITS.find(({ id }) => id === unit).name },
+      ]
+    : [
+        { label: 'Date', value: formatDate(parseDate(date)) },
+        { label: 'Time', value: formatClock(time ? parseClock(time) : 0) },
+        { label: 'Time zone', value: ZONE_MODES.find(({ id }) => id === zoneMode).name },
+      ];
+  const stamps = [
+    { label: 'Unix seconds', value: result.seconds },
+    { label: 'Unix milliseconds', value: result.ms },
+  ];
+  const readable = [
+    { label: 'UTC', value: result.utc },
+    { label: `Local (${localZoneName()})`, value: result.local },
+  ];
+  return {
+    inputs,
+    results: isToDate ? readable : stamps,
+    details: [...(isToDate ? stamps : readable), { label: 'ISO 8601', value: result.iso }],
+    notes: result.hint ? [result.hint] : null,
+  };
+}

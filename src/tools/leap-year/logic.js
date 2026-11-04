@@ -46,3 +46,23 @@ export function evaluate(text) {
 
 export const buildResultText = (result) =>
   [result.explanation, `Next leap year: ${result.next}`, `Days in ${result.year}: ${result.daysInYear}`].join('\n');
+
+const yesNo = (value) => (value ? 'Yes' : 'No');
+
+export const buildReport = (result) => ({
+  inputs: [{ label: 'Year', value: result.year }],
+  results: [
+    { label: 'Leap year', value: yesNo(result.isLeap) },
+    { label: 'Next leap year', value: result.next },
+    { label: 'Previous leap year', value: result.previous ?? 'None' },
+  ],
+  details: [
+    { label: 'Divides by 4', value: yesNo(result.divisibleBy4) },
+    { label: 'Divides by 100', value: yesNo(result.divisibleBy100) },
+    { label: 'Divides by 400', value: yesNo(result.divisibleBy400) },
+    { label: 'Days in the year', value: result.daysInYear },
+    { label: 'Days in February', value: result.daysInFebruary },
+  ],
+  formula: 'A year is a leap year if it divides by 4, except years that divide by 100 but not by 400.',
+  notes: [result.explanation],
+});

@@ -136,3 +136,20 @@ export const buildResultText = ({ source, target, difference, dayChange }) =>
     `Difference: ${difference}`,
     `Day: ${dayChange}`,
   ].join('\n');
+
+export const buildReport = ({ source, target, difference, dayChange, note }) => ({
+  inputs: [
+    { label: 'Date and time', value: `${source.time}, ${source.dateText}` },
+    { label: 'From time zone', value: `${source.label} (${source.offset})` },
+    { label: 'To time zone', value: `${target.label} (${target.offset})` },
+  ],
+  results: [
+    { label: `Converted time (${target.name})`, value: target.time },
+    { label: 'Converted date', value: target.dateText },
+  ],
+  details: [
+    { label: 'Time difference', value: difference },
+    { label: 'Day change', value: dayChange },
+  ],
+  notes: note ? [note] : null,
+});

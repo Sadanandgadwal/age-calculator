@@ -214,3 +214,61 @@ export function buildTargetText(result, target) {
     `Best possible percentage: ${formatDecimal(result.maxPossiblePercent)}%`,
   ].join('\n');
 }
+
+const percentFormula = 'Percentage = total obtained marks ÷ total maximum marks × 100.';
+
+export const buildSubjectsReport = (result, grade) => ({
+  subtitle: 'Subject-wise marks',
+  results: [
+    { label: 'Percentage', value: `${formatDecimal(result.percent)}%` },
+    { label: 'Grade', value: grade ?? '—' },
+    { label: 'Subjects', value: result.rows.length },
+  ],
+  details: [
+    { label: 'Total obtained marks', value: formatDecimal(result.obtained) },
+    { label: 'Total maximum marks', value: formatDecimal(result.max) },
+    { label: 'Average marks', value: formatDecimal(result.average) },
+    { label: 'Highest scoring', value: result.highest },
+    { label: 'Lowest scoring', value: result.lowest },
+  ],
+  table: {
+    caption: 'Marks by subject',
+    columns: ['Subject', 'Marks', '%'],
+    rows: result.rows.map(({ name, obtained, max, percent }) => [name, marks(obtained, max), formatDecimal(percent)]),
+  },
+  formula: percentFormula,
+});
+
+export const buildOverallReport = (result, grade) => ({
+  subtitle: 'Overall marks',
+  inputs: [
+    { label: 'Total obtained marks', value: formatDecimal(result.obtained) },
+    { label: 'Total maximum marks', value: formatDecimal(result.max) },
+  ],
+  results: [
+    { label: 'Percentage', value: `${formatDecimal(result.percent)}%` },
+    { label: 'Grade', value: grade ?? '—' },
+    { label: 'Marks lost', value: formatDecimal(result.remaining) },
+  ],
+  formula: percentFormula,
+});
+
+export const buildTargetReport = (result, values, status) => ({
+  subtitle: 'Target marks',
+  inputs: [
+    { label: 'Target percentage', value: `${formatDecimal(parseDecimal(values.target))}%` },
+    { label: 'Marks obtained so far', value: formatDecimal(parseDecimal(values.obtained)) },
+    { label: 'Maximum marks so far', value: formatDecimal(parseDecimal(values.maxSoFar)) },
+    { label: 'Maximum marks remaining', value: formatDecimal(result.remaining) },
+  ],
+  results: [
+    { label: 'Marks needed', value: formatDecimal(result.needed) },
+    { label: 'Of remaining', value: `${formatDecimal(result.neededPercent)}%` },
+    { label: 'Best possible', value: `${formatDecimal(result.maxPossiblePercent)}%` },
+  ],
+  details: [
+    { label: 'Total maximum marks', value: formatDecimal(result.totalMax) },
+    { label: 'Total marks for target', value: formatDecimal(result.requiredTotal) },
+  ],
+  notes: [status],
+});

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Award, Percent, Plus, Sigma, Trash2 } from 'lucide-react';
-import { buildSubjectsText, calculateSubjects, getGrade, validateSubjects } from './logic.js';
+import { buildSubjectsReport, buildSubjectsText, calculateSubjects, getGrade, validateSubjects } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
 import FormActions from '../../components/common/FormActions.jsx';
@@ -144,7 +144,7 @@ export default function SubjectMode({ gradeRows, isScaleValid }) {
                 </tbody>
               </table>
             </div>
-            <ResultActions getText={() => buildSubjectsText(result, grade)} />
+            <ResultActions getText={() => buildSubjectsText(result, grade)} getReport={() => buildSubjectsReport(result, grade)} />
           </>
         )}
       </ResultPanel>

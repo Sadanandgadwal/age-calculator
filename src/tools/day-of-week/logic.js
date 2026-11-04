@@ -41,3 +41,18 @@ export const buildResultText = (result) =>
     `Leap year: ${result.isLeapYear ? 'Yes' : 'No'}`,
     result.relative,
   ].join('\n');
+
+export const buildReport = (result) => ({
+  inputs: [{ label: 'Date', value: formatDate(result.date) }],
+  results: [
+    { label: result.isWeekend ? 'Weekend' : 'Weekday', value: result.weekday },
+    { label: 'Day of the year', value: result.dayOfYear },
+    { label: 'ISO week', value: result.week },
+  ],
+  details: [
+    { label: 'From today', value: result.relative },
+    { label: 'Days in the year', value: result.daysInYear },
+    { label: 'Days in the month', value: result.daysInMonth },
+    { label: 'Leap year', value: result.isLeapYear ? 'Yes' : 'No' },
+  ],
+});

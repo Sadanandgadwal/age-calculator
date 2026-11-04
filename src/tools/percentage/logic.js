@@ -197,3 +197,14 @@ export function evaluate(modeId, textA, textB) {
 
 export const buildResultText = (mode, result) =>
   [result.sentence, `Formula: ${mode.formula}`, ...result.steps].join('\n');
+
+export const buildReport = (mode, a, b, result) => ({
+  subtitle: mode.title,
+  inputs: [
+    { label: mode.labelA, value: `${String(a).trim()}${mode.suffixA ?? ''}` },
+    { label: mode.labelB, value: `${String(b).trim()}${mode.suffixB ?? ''}` },
+  ],
+  results: [{ label: result.sentence, value: result.display }],
+  formula: mode.formula,
+  steps: result.steps,
+});

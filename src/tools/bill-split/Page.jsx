@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ReceiptText, UserRound, Users } from 'lucide-react';
 import * as content from './content.js';
-import { buildResultText, describeShares, evaluate } from './logic.js';
+import { buildReport, buildResultText, describeShares, evaluate } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -55,7 +55,7 @@ export default function BillSplitPage() {
                   { label: 'Total to Pay', value: formatInr(result.total) },
                 ]}
               />
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(result)} />
             </>
           )
         }

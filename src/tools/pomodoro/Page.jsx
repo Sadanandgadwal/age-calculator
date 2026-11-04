@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Coffee, Flame, ListChecks, Trash2 } from 'lucide-react';
 import * as content from './content.js';
-import { DEFAULT_MINUTES, SESSIONS, buildResultText, completionMessage, focusUntilLongBreak, formatRemaining, getSession, nextSession, validateMinutes } from './logic.js';
+import { DEFAULT_MINUTES, SESSIONS, buildReport, buildResultText, completionMessage, focusUntilLongBreak, formatRemaining, getSession, nextSession, validateMinutes } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
@@ -80,7 +80,7 @@ export default function PomodoroPage() {
             <ResultCard label="Focus Sessions Completed" value={completed} icon={Flame} />
             <ResultCard label="Sessions Until Long Break" value={focusUntilLongBreak(completed)} icon={Coffee} tone="yellow" />
           </div>
-          <ResultActions getText={() => buildResultText(session.label, formatRemaining(remainingMs), completed, values)} />
+          <ResultActions getText={() => buildResultText(session.label, formatRemaining(remainingMs), completed, values)} getReport={() => buildReport(session.label, formatRemaining(remainingMs), completed, values)} />
           <button type="button" disabled={completed === 0} onClick={() => setCompleted(0)} className={`${secondaryTimerButton} w-full print:hidden`}>
             <Trash2 aria-hidden="true" className="size-5" />
             Clear completed sessions

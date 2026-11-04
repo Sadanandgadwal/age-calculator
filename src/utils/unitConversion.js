@@ -76,3 +76,14 @@ export function buildExamples(units, pairs) {
 
 export const buildConversionText = ({ summary, formula, unitRate }, extras = []) =>
   [summary, `Formula: ${formula}`, ...(unitRate ? [unitRate] : []), ...extras.map(({ label, value }) => `${label}: ${value}`)].join('\n');
+
+export const buildConversionReport = ({ value, from, to, outputText, summary, formula, unitRate }, extras = []) => ({
+  inputs: [
+    { label: 'Value', value: `${formatQuantity(value)} ${from.symbol}` },
+    { label: 'From', value: from.name },
+    { label: 'To', value: to.name },
+  ],
+  results: [{ label: to.name, value: outputText.endsWith(to.symbol) ? outputText : `${outputText} ${to.symbol}` }],
+  details: [{ label: 'Result', value: summary }, ...(unitRate ? [{ label: 'Conversion rate', value: unitRate }] : []), ...extras],
+  formula,
+});

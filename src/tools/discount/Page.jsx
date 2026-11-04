@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Percent, PiggyBank, Tag } from 'lucide-react';
 import * as content from './content.js';
-import { MODES, buildResultText, evaluate, formatPercent, getMode } from './logic.js';
+import { MODES, buildReport, buildResultText, evaluate, formatPercent, getMode } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -61,7 +61,7 @@ export default function DiscountCalculatorPage() {
                   { label: 'Formula', value: result.formula },
                 ]}
               />
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(mode, a, b, result)} />
             </>
           )
         }

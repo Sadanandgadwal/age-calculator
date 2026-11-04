@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BriefcaseBusiness, CalendarCheck, CalendarDays, CalendarX, Plus, Sunset, X } from 'lucide-react';
 import * as content from './content.js';
-import { DEFAULT_WEEKEND, addHoliday, buildResultText, describeWeekend, evaluate } from './logic.js';
+import { DEFAULT_WEEKEND, addHoliday, buildReport, buildResultText, describeWeekend, evaluate } from './logic.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -73,7 +73,7 @@ export default function BusinessDaysPage() {
                   { label: 'Weekend', value: describeWeekend(weekend) },
                 ]}
               />
-              <ResultActions getText={() => buildResultText(result, weekend)} />
+              <ResultActions getText={() => buildResultText(result, weekend)} getReport={() => buildReport(result, weekend, holidays)} />
             </>
           )
         }

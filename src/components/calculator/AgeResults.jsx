@@ -17,7 +17,8 @@ import {
 import Confetti from './Confetti.jsx';
 import { useResultActions } from '../../hooks/useResultActions.js';
 import { formatDate, getTodayIso, toIsoDate } from '../../utils/date.js';
-import { formatCountdown, pluralize } from '../../utils/formatResult.js';
+import { buildAgeReport, formatCountdown, pluralize } from '../../utils/formatResult.js';
+import PrintReportHost from '../common/PrintReport.jsx';
 
 const AGE_CARDS = [
   { key: 'years', singular: 'Year', plural: 'Years', icon: CalendarDays, tone: 'bg-secondary', iconTone: 'text-primary' },
@@ -163,6 +164,8 @@ function ResultDetails({ result, isStale }) {
         Your age is {pluralize(result.years, 'year')}, {pluralize(result.months, 'month')} and{' '}
         {pluralize(result.days, 'day')}.
       </p>
+
+      <PrintReportHost title="Age Calculator" getReport={() => buildAgeReport(result)} />
 
       <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3 print:hidden">
         <ActionButton icon={Copy} onClick={copy}>Copy</ActionButton>

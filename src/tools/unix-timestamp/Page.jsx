@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CalendarDays, Clock, Globe, Hash, Timer } from 'lucide-react';
 import * as content from './content.js';
-import { MODES, UNITS, ZONE_MODES, buildResultText, currentDateTime, currentTimestamp, fromTimestamp, localZoneName, toTimestamp } from './logic.js';
+import { MODES, UNITS, ZONE_MODES, buildReport, buildResultText, currentDateTime, currentTimestamp, fromTimestamp, localZoneName, toTimestamp } from './logic.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
@@ -93,7 +93,7 @@ export default function UnixTimestampPage() {
                   { label: 'ISO 8601', value: result.iso },
                 ]}
               />
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(result, { isToDate, timestamp, unit, date, time, zoneMode })} />
             </>
           )
         }

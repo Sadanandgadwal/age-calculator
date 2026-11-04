@@ -1,6 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import AdSlot from '../ads/AdSlot.jsx';
 import Breadcrumb from '../common/Breadcrumb.jsx';
+import { ToolNameContext } from '../common/toolContext.js';
 import RelatedTools from '../common/RelatedTools.jsx';
 import Header from './Header.jsx';
 import { getToolById } from '../../data/toolsRegistry.js';
@@ -61,7 +62,9 @@ export default function ToolLayout({ toolId, content, children }) {
       />
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AdSlot placement="header" className="mb-8" />
-        <div className="print-results">{children}</div>
+        <ToolNameContext.Provider value={name}>
+          <div className="print-results">{children}</div>
+        </ToolNameContext.Provider>
         <AdSlot placement="inContent" className="mt-12" />
         <div className="mt-12 flex flex-col gap-12 print:hidden">
           <InfoCards id="how-it-works-heading" title="How it works" items={content.howItWorks} />

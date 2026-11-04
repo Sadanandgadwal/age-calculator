@@ -30,3 +30,20 @@ export const buildResultText = (result) =>
     `Week start: ${formatDate(result.start)}`,
     `Week end: ${formatDate(result.end)}`,
   ].join('\n');
+
+export const buildReport = (result) => ({
+  inputs: [{ label: 'Date', value: `${result.weekday}, ${formatDate(result.date)}` }],
+  results: [
+    { label: 'ISO week number', value: result.week },
+    { label: 'Week year', value: result.weekYear },
+    { label: 'Weekday', value: result.weekday },
+  ],
+  details: [
+    { label: 'Week start (Monday)', value: formatDate(result.start) },
+    { label: 'Week end (Sunday)', value: formatDate(result.end) },
+    { label: 'Week code', value: result.label },
+    { label: `Weeks in ${result.weekYear}`, value: result.weeksInYear },
+  ],
+  formula: 'ISO weeks start on Monday. Week 1 is the week containing the first Thursday of the year.',
+  notes: result.crossesYear ? [`This date is in ${result.date.year}, but its ISO week belongs to ${result.weekYear}.`] : null,
+});

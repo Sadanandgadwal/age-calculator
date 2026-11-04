@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, ArrowRight, CalendarCheck, CalendarHeart, CalendarX } from 'lucide-react';
 import * as content from './content.js';
-import { buildResultText, evaluate } from './logic.js';
+import { buildReport, buildResultText, evaluate } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -47,7 +47,7 @@ export default function LeapYearCheckerPage() {
                   { label: 'Days in February', value: result.daysInFebruary },
                 ]}
               />
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(result)} />
             </>
           )
         }

@@ -105,3 +105,18 @@ export const buildResultText = ({ original, sale, saved, percent }) =>
     `You save: ${formatInr(saved)}`,
     `Final price: ${formatInr(sale)}`,
   ].join('\n');
+
+export const buildReport = (mode, a, b, { original, sale, saved, percent, formula }) => ({
+  subtitle: mode.title,
+  inputs: [
+    { label: mode.labelA, value: String(a).trim() },
+    { label: mode.labelB, value: `${String(b).trim()}${mode.suffixB ?? ''}` },
+  ],
+  results: [
+    { label: 'Final price', value: formatInr(sale) },
+    { label: 'You save', value: formatInr(saved) },
+    { label: 'Discount', value: formatPercent(percent) },
+  ],
+  details: [{ label: 'Original price', value: formatInr(original) }],
+  formula,
+});

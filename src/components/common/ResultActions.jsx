@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Copy, Printer, Share2 } from 'lucide-react';
+import PrintReportHost from './PrintReport.jsx';
 
 const STATUS_TIMEOUT_MS = 3000;
 const button =
@@ -14,7 +15,7 @@ async function copyText(text) {
   }
 }
 
-export default function ResultActions({ getText }) {
+export default function ResultActions({ getText, getReport }) {
   const [status, setStatus] = useState('');
   const timer = useRef(undefined);
 
@@ -50,6 +51,7 @@ export default function ResultActions({ getText }) {
 
   return (
     <div className="mt-5 print:hidden">
+      {getReport && <PrintReportHost getReport={getReport} />}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
         <button type="button" onClick={copy} className={`${button} col-span-2 sm:col-span-1`}>
           <Copy aria-hidden="true" className="size-4" />

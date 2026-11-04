@@ -53,8 +53,8 @@ export function shiftClock(startSeconds, amount) {
   return { seconds: total - days * SECONDS_PER_DAY, days };
 }
 
-function durationResult(totalSeconds, summary, note) {
-  return { kind: 'duration', totalSeconds, summary, note, ...splitDuration(totalSeconds) };
+function durationResult(totalSeconds, summary, note, entries) {
+  return { kind: 'duration', totalSeconds, summary, note, entries, ...splitDuration(totalSeconds) };
 }
 
 function readDuration(prefix, { hours, minutes, seconds }) {
@@ -87,7 +87,7 @@ export function evaluate(modeId, { a, b, start, end }) {
     if (Object.keys(errors).length > 0) return { errors };
     const total = modeId === 'add' ? first.total + second.total : first.total - second.total;
     const symbol = modeId === 'add' ? '+' : '−';
-    return { errors, result: durationResult(total, `${formatDuration(first.total)} ${symbol} ${formatDuration(second.total)}`) };
+    return { errors, result: durationResult(total, `${formatDuration(first.total)} ${symbol} ${formatDuration(second.total)}`, null, [{ label: mode.labelA, value: formatDuration(first.total) }, { label: mode.labelB, value: formatDuration(second.total) }]) };
   }
 
   if (modeId === 'between') {
@@ -99,7 +99,7 @@ export function evaluate(modeId, { a, b, start, end }) {
     const total = to.seconds - from.seconds + (isOvernight ? SECONDS_PER_DAY : 0);
     return {
       errors,
-      result: durationResult(total, `${formatClock(from.seconds)} to ${formatClock(to.seconds)}`, isOvernight ? 'The end time is earlier than the start time, so it is treated as the next day.' : null),
+      result: durationResult(total, `${formatClock(from.seconds)} to ${formatClock(to.seconds)}`, isOvernight ? 'The end time is earlier than the start time, so it is treated as the next day.' : null, [{ label: 'Start time', value: formatClock(from.seconds) }, { label: 'End time', value: formatClock(to.seconds) }]),
     };
   }
 
@@ -116,6 +116,7 @@ export function evaluate(modeId, { a, b, start, end }) {
       time: formatClock(shifted.seconds),
       dayChange: describeDayChange(shifted.days),
       summary: `${formatClock(from.seconds)} ${mode.sign > 0 ? '+' : '−'} ${formatDuration(duration.total)}`,
+      entries: [{ label: 'Start time', value: formatClock(from.seconds) }, { label: mode.labelA, value: formatDuration(duration.total) }],
     },
   };
 }
@@ -133,4 +134,24 @@ export function buildResultText(result) {
     `Result: ${formatDuration(result.totalSeconds)}`,
     ...getDurationTotals(result).map(({ label, value }) => `${label}: ${value}`),
   ].join('\n');
+}
+
+export function buildReport(mode, result) {
+  const shared = { subtitle: mode.title, inputs: result.entries };
+  if (result.kind === 'clock') {
+    return {
+      ...shared,
+      results: [
+        { label: 'Result time', value: result.time },
+        { label: 'Day', value: result.dayChange },
+      ],
+      details: [{ label: 'Calculation', value: result.summary }],
+    };
+  }
+  return {
+    ...shared,
+    results: [{ label: 'Duration', value: formatDuration(result.totalSeconds) }],
+    details: [{ label: 'Calculation', value: result.summary }, ...getDurationTotals(result)],
+    notes: result.note ? [result.note] : null,
+  };
 }

@@ -87,3 +87,27 @@ export const buildResultText = (result) =>
   ]
     .filter(Boolean)
     .join('\n');
+
+export function buildReport(result) {
+  const note = describeShares(result);
+  return {
+    inputs: [
+      { label: 'Bill amount', value: formatInr(result.bill) },
+      { label: 'Number of people', value: result.people },
+      { label: 'Tax rate', value: `${result.taxRate}%` },
+      { label: 'Tip rate', value: `${result.tipRate}%` },
+      { label: 'Round each share up', value: result.roundUp ? 'Yes' : 'No' },
+    ],
+    results: [
+      { label: 'Each person pays', value: formatInr(result.share) },
+      { label: 'Total bill', value: formatInr(result.total) },
+      { label: 'People', value: result.people },
+    ],
+    details: [
+      { label: 'Tax', value: formatInr(result.tax) },
+      { label: 'Tip', value: formatInr(result.tip) },
+    ],
+    formula: 'Each share = (bill + tax + tip) ÷ number of people.',
+    notes: note ? [note] : null,
+  };
+}

@@ -1,5 +1,6 @@
 import { WEEKDAY_NAMES, weekdayOfDayNumber } from '../../utils/calendar.js';
 import { formatDate, parseDate, toDayNumber } from '../../utils/date.js';
+import { formatNumber } from '../../utils/formatResult.js';
 
 const MAX_DAYS = 36525;
 
@@ -69,3 +70,20 @@ export const buildResultText = (result, weekend) =>
     `Total calendar days: ${result.totalDays}`,
     `Weekend: ${describeWeekend(weekend)}`,
   ].join('\n');
+
+export const buildReport = (result, weekend, holidays) => ({
+  inputs: [
+    { label: 'Start date', value: formatDate(result.start) },
+    { label: 'End date', value: formatDate(result.end) },
+    { label: 'End date counted', value: result.includeEnd ? 'Yes' : 'No' },
+    { label: 'Weekend', value: describeWeekend(weekend) },
+    { label: 'Holidays', value: holidays.length > 0 ? holidays.map((holiday) => formatDate(parseDate(holiday))).join(', ') : 'None' },
+  ],
+  results: [
+    { label: 'Working days', value: formatNumber(result.working) },
+    { label: 'Weekend days', value: formatNumber(result.weekends) },
+    { label: 'Holidays excluded', value: formatNumber(result.holidaysExcluded) },
+  ],
+  details: [{ label: 'Total calendar days', value: formatNumber(result.totalDays) }],
+  formula: 'Working days = total calendar days − weekend days − holidays on working days.',
+});

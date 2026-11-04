@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CalendarDays, CalendarRange, Hash } from 'lucide-react';
 import * as content from './content.js';
-import { buildResultText, evaluate } from './logic.js';
+import { buildReport, buildResultText, evaluate } from './logic.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -49,7 +49,7 @@ export default function WeekNumberPage() {
                   { label: `Weeks in ${result.weekYear}`, value: result.weeksInYear },
                 ]}
               />
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(result)} />
             </>
           )
         }

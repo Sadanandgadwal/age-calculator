@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Flag, ListOrdered, Trash2 } from 'lucide-react';
 import * as content from './content.js';
-import { addLap, buildResultText, formatStopwatch } from './logic.js';
+import { addLap, buildReport, buildResultText, formatStopwatch } from './logic.js';
 import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultPanel from '../../components/common/ResultPanel.jsx';
 import { secondaryTimerButton } from '../../components/common/timerButtonClasses.js';
@@ -56,7 +56,7 @@ export default function StopwatchPage() {
               Lap
             </button>
           </TimerControls>
-          {timer.hasStarted && <ResultActions getText={() => buildResultText(timer.read(), laps)} />}
+          {timer.hasStarted && <ResultActions getText={() => buildResultText(timer.read(), laps)} getReport={() => buildReport(timer.read(), laps)} />}
         </section>
 
         <ResultPanel title="Lap Times" icon={ListOrdered} emptyText="Select Lap while the stopwatch is running to record lap times.">

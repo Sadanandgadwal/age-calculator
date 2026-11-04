@@ -80,3 +80,23 @@ export const buildResultText = (result) =>
   getBreakdown(result)
     .map(({ label, value }) => `${label}: ${value}`)
     .join('\n');
+
+export function buildReport(result) {
+  const isAdding = result.direction === 'add';
+  const breakdown = getBreakdown(result).slice(3, 6).filter(({ value }) => value !== 'Not applicable');
+  return {
+    inputs: [
+      { label: isAdding ? 'Amount before GST' : 'Amount including GST', value: formatInr(result.original) },
+      { label: 'GST rate', value: formatRate(result.rate) },
+      { label: 'Calculation', value: isAdding ? 'Add GST' : 'Remove GST' },
+      { label: 'Transaction', value: result.transaction === 'intra' ? 'Within a state' : 'Between states' },
+    ],
+    results: [
+      { label: 'Taxable amount', value: formatInr(result.taxable) },
+      { label: 'Total GST', value: formatInr(result.gst) },
+      { label: 'Final amount', value: formatInr(result.final) },
+    ],
+    details: breakdown,
+    formula: isAdding ? 'GST = amount × rate ÷ 100. Final amount = amount + GST.' : 'Taxable amount = amount × 100 ÷ (100 + rate). GST = amount − taxable amount.',
+  };
+}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Coins, Landmark, Percent } from 'lucide-react';
 import * as content from './content.js';
-import { buildResultText, evaluate } from './logic.js';
+import { buildReport, buildResultText, evaluate } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -85,7 +85,7 @@ export default function EmiCalculatorPage() {
                 ]}
               />
               <Schedule years={result.years} />
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(result)} />
             </>
           )
         }

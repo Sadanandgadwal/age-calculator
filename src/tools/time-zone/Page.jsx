@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowUpDown, CalendarDays, Clock, Globe } from 'lucide-react';
 import * as content from './content.js';
-import { buildResultText, evaluate } from './logic.js';
+import { buildReport, buildResultText, evaluate } from './logic.js';
 import { ZONE_GROUPS } from './zones.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
@@ -87,7 +87,7 @@ export default function TimeZoneConverterPage() {
                   { label: 'Time Difference', value: result.difference },
                 ]}
               />
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(result)} />
             </>
           )
         }

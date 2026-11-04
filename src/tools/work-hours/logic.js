@@ -65,3 +65,23 @@ export const buildResultText = (result) =>
     `Net working hours: ${formatHours(result.net)} (${formatDecimalHours(result.decimalHours)} hours)`,
     `Overtime: ${formatHours(result.overtime)}`,
   ].join('\n');
+
+export const buildReport = (result) => ({
+  inputs: [
+    { label: 'Clock-in', value: formatClock(result.startSeconds) },
+    { label: 'Clock-out', value: formatClock(result.endSeconds) },
+    { label: 'Break', value: formatHours(result.breakSeconds) },
+    { label: 'Daily working hours', value: formatHours(result.standard) },
+  ],
+  results: [
+    { label: 'Net working hours', value: formatHours(result.net) },
+    { label: 'Overtime', value: formatHours(result.overtime) },
+    { label: 'Total shift', value: formatHours(result.shift) },
+  ],
+  details: [
+    { label: 'Decimal hours', value: formatDecimalHours(result.decimalHours) },
+    { label: 'Below daily hours', value: formatHours(result.shortfall) },
+  ],
+  formula: 'Net hours = shift length − break. Overtime = net hours above the daily working hours.',
+  notes: result.isOvernight ? ['Clock-out is earlier than clock-in, so it is treated as the next day.'] : null,
+});

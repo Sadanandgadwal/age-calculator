@@ -75,3 +75,22 @@ export const buildResultText = ({ principal, rate, months, emi, totalInterest, t
     `Total interest: ${formatInr(totalInterest)}`,
     `Total payment: ${formatInr(totalPayment)}`,
   ].join('\n');
+
+export const buildReport = ({ principal, rate, months, emi, totalInterest, totalPayment, years }) => ({
+  inputs: [
+    { label: 'Loan amount', value: formatInr(principal) },
+    { label: 'Interest rate', value: `${rate}% a year` },
+    { label: 'Tenure', value: `${months} months` },
+  ],
+  results: [
+    { label: 'Monthly EMI', value: formatInr(emi) },
+    { label: 'Total interest', value: formatInr(totalInterest) },
+    { label: 'Total payment', value: formatInr(totalPayment) },
+  ],
+  table: {
+    caption: 'Yearly schedule',
+    columns: ['Year', 'Principal', 'Interest', 'Balance'],
+    rows: years.map(({ year, principal: paid, interest, balance }) => [year, formatInr(paid), formatInr(interest), formatInr(balance)]),
+  },
+  formula: 'EMI = P × r × (1 + r)ⁿ ÷ ((1 + r)ⁿ − 1), where r is the monthly rate and n the number of months.',
+});

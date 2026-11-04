@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './print.css';
 
 /* Self-host only the Latin subset, which keeps the font payload small. */
 @font-face {

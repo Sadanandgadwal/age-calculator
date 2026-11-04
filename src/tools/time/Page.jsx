@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CalendarDays, Clock, Hourglass, Timer } from 'lucide-react';
 import * as content from './content.js';
-import { MODES, buildResultText, evaluate, formatDuration, getDurationTotals, getMode } from './logic.js';
+import { MODES, buildReport, buildResultText, evaluate, formatDuration, getDurationTotals, getMode } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -116,7 +116,7 @@ export default function TimeCalculatorPage() {
           result && (
             <>
               {result.kind === 'clock' ? <ClockResults result={result} /> : <DurationResults result={result} />}
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(mode, result)} />
             </>
           )
         }

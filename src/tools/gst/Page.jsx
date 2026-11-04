@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Info, Landmark, Percent, ReceiptIndianRupee, Wallet } from 'lucide-react';
 import * as content from './content.js';
-import { CURRENT_RATES, CUSTOM_RATE, DEFAULT_RATE, OLDER_RATES, buildResultText, evaluate, formatInr, formatRate, getBreakdown } from './logic.js';
+import { CURRENT_RATES, CUSTOM_RATE, DEFAULT_RATE, OLDER_RATES, buildReport, buildResultText, evaluate, formatInr, formatRate, getBreakdown } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
 import FormActions from '../../components/common/FormActions.jsx';
@@ -111,7 +111,7 @@ export default function GstCalculatorPage() {
                 <ResultCard label="Final Amount" value={formatInr(result.final)} icon={Landmark} tone="lavender" />
               </div>
               <ResultDetails items={getBreakdown(result)} />
-              <ResultActions getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} getReport={() => buildReport(result)} />
             </>
           )}
         </ResultPanel>

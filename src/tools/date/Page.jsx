@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { CalendarCheck, CalendarDays, CalendarRange, CalendarSearch, Clock, Sun, Sunset } from 'lucide-react';
 import * as content from './content.js';
-import { MODES, buildResultText, evaluate, formatDuration, formatWeeks, getMode, shiftSummary } from './logic.js';
+import { MODES, buildReport, buildResultText, evaluate, formatDuration, formatWeeks, getMode, shiftSummary } from './logic.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -180,7 +180,7 @@ export default function DateCalculatorPage() {
           {result && (
             <>
               {result.kind === 'range' ? <RangeResults mode={mode} result={result} /> : <ShiftResults result={result} />}
-              <ResultActions getText={() => buildResultText(mode, result)} />
+              <ResultActions getText={() => buildResultText(mode, result)} getReport={() => buildReport(mode, result)} />
             </>
           )}
         </ResultPanel>

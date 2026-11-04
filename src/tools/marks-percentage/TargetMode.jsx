@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Flag, Percent, Target } from 'lucide-react';
-import { buildTargetText, calculateTarget, validateTarget } from './logic.js';
+import { buildTargetReport, buildTargetText, calculateTarget, validateTarget } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
 import FormActions from '../../components/common/FormActions.jsx';
@@ -73,7 +73,7 @@ export default function TargetMode() {
                 { label: 'Marks Remaining', value: formatDecimal(result.remaining) },
               ]}
             />
-            <ResultActions getText={() => buildTargetText(result, values.target)} />
+            <ResultActions getText={() => buildTargetText(result, values.target)} getReport={() => buildTargetReport(result, values, statusMessage(result))} />
           </>
         )}
       </ResultPanel>

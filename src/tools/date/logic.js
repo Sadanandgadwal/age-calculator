@@ -156,3 +156,46 @@ export function buildResultText(mode, result) {
     `Duration: ${formatDuration(result)}`,
   ].join('\n');
 }
+
+export function buildReport(mode, result) {
+  const shared = { subtitle: mode.title };
+  if (result.kind === 'shift') {
+    return {
+      ...shared,
+      inputs: [
+        { label: 'Start date', value: describeDate(result.start) },
+        { label: mode.amountLabel, value: result.amount },
+      ],
+      results: [
+        { label: 'Result date', value: formatDate(result.end) },
+        { label: 'Day of the week', value: getWeekday(result.end) },
+      ],
+      details: [
+        { label: 'Calculation', value: shiftSummary(result) },
+        { label: 'Total days', value: pluralize(result.totalDays, 'day') },
+        { label: 'Total weeks', value: formatWeeks(result) },
+        { label: 'Years, months and days', value: formatDuration(result) },
+      ],
+      notes: result.clamped ? [`That month has no day ${result.start.day}, so the result uses the last day of the month.`] : null,
+    };
+  }
+  return {
+    ...shared,
+    inputs: [
+      { label: 'Start date', value: describeDate(result.start) },
+      { label: 'End date', value: describeDate(result.end) },
+      { label: 'End date counted', value: result.includeEnd ? 'Yes' : 'No' },
+    ],
+    results: [
+      { label: 'Total days', value: result.totalDays.toLocaleString('en-GB') },
+      { label: mode.business ? 'Business days' : 'Weekdays', value: result.weekdays.toLocaleString('en-GB') },
+      { label: 'Weekend days', value: result.weekends.toLocaleString('en-GB') },
+    ],
+    details: [
+      { label: 'Total weeks', value: formatWeeks(result) },
+      { label: 'Total months', value: pluralize(result.totalMonths, 'month') },
+      { label: 'Years, months and days', value: formatDuration(result) },
+    ],
+    notes: mode.business ? ['Business days are Monday to Friday. Public holidays are not removed.'] : null,
+  };
+}

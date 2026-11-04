@@ -88,5 +88,6 @@ describe('every tool', () => {
       .map(([, source]) => source)
       .join('\n');
     expect(/<ResultActions\b|<UnitConverter\b/.test(code)).toBe(true);
+    expect(code.match(/<ResultActions\b[^\n]*/g)?.every((line) => line.includes('getReport=')) ?? true).toBe(true);
   });
 });
