@@ -10,6 +10,7 @@ const TOOL_PATHS = [
   '/cm-to-feet-converter',
   '/date-calculator',
   '/gst-calculator',
+  '/remove-extra-spaces',
   '/remove-duplicate-lines',
   '/text-reverser',
   '/case-converter',

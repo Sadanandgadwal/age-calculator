@@ -59,6 +59,7 @@ describe('routes', () => {
     ['/case-converter', 'Case Converter'],
     ['/text-reverser', 'Text Reverser'],
     ['/remove-duplicate-lines', 'Remove Duplicate Lines'],
+    ['/remove-extra-spaces', 'Remove Extra Spaces'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

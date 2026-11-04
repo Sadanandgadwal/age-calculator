@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, ListX, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, ListX, Percent, ReceiptIndianRupee, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -777,6 +777,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/remove-duplicate-lines/Page.jsx'),
     loadContent: () => import('../tools/remove-duplicate-lines/content.js'),
+  },
+  {
+    id: 'remove-extra-spaces',
+    name: 'Remove Extra Spaces',
+    route: '/remove-extra-spaces',
+    categories: ['text-tools'],
+    icon: Space,
+    description: 'Clean up repeated spaces, tabs and blank lines in your text.',
+    keywords: ['remove spaces', 'extra spaces', 'double spaces', 'trim text', 'whitespace', 'clean text', 'remove tabs'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Remove Extra Spaces – Clean Up Text Spacing Online',
+      description:
+        'Remove double spaces, tabs and extra blank lines from your text, and trim every line. Ideal for text pasted from PDFs, emails and web pages.',
+      featureList: ['Removes double spaces and tabs', 'Trims the start and end of lines', 'Reduces or removes blank lines', 'Count of characters removed', 'Keeps your line breaks'],
+    },
+    load: () => import('../tools/remove-extra-spaces/Page.jsx'),
+    loadContent: () => import('../tools/remove-extra-spaces/content.js'),
   },
 ];
 

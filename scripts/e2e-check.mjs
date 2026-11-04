@@ -1002,6 +1002,19 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'extraspaces',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Remove Extra Spaces',
+        path: '/remove-extra-spaces',
+        screenshot: 'remove-extra-spaces',
+        steps: async (page, label) => {
+          await setText(page, '#spaces-text', '  one   two \n\n\nthree');
+          check(`${label}: cleans the spacing`, (await outputText(page)) === 'one two\n\nthree');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

@@ -59,6 +59,7 @@ const CASES = [
   { route: '/case-converter', steps: [['#case-text', 'hello big world'], ['click', 'camelCase']], expected: ['Converted to', 'camelCase', 'helloBigWorld'] },
   { route: '/text-reverser', steps: [['#reverse-text', 'Hello there']], expected: ['Reversed by', 'Reversed text', 'ereht olleH'] },
   { route: '/remove-duplicate-lines', steps: [['#dedupe-text', 'pear\nplum\npear']], expected: ['Lines kept', 'Lines removed', 'Cleaned list', 'plum'] },
+  { route: '/remove-extra-spaces', steps: [['#spaces-text', 'one    two']], expected: ['Characters removed', 'Cleaned text', 'one two'] },
 ];
 
 const failures = [];
