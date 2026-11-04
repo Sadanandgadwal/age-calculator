@@ -15,7 +15,7 @@ async function copyText(text) {
   }
 }
 
-export default function ResultActions({ getText, getReport }) {
+export default function ResultActions({ getText, getReport, copyOnly = false }) {
   const [status, setStatus] = useState('');
   const timer = useRef(undefined);
 
@@ -53,18 +53,22 @@ export default function ResultActions({ getText, getReport }) {
     <div className="mt-5 print:hidden">
       {getReport && <PrintReportHost getReport={getReport} />}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
-        <button type="button" onClick={copy} className={`${button} col-span-2 sm:col-span-1`}>
+        <button type="button" onClick={copy} className={`${button} col-span-2 ${copyOnly ? 'sm:col-span-3' : 'sm:col-span-1'}`}>
           <Copy aria-hidden="true" className="size-4" />
           Copy results
         </button>
-        <button type="button" onClick={share} className={button}>
-          <Share2 aria-hidden="true" className="size-4" />
-          Share
-        </button>
-        <button type="button" onClick={() => window.print()} className={button}>
-          <Printer aria-hidden="true" className="size-4" />
-          Print
-        </button>
+        {!copyOnly && (
+          <>
+            <button type="button" onClick={share} className={button}>
+              <Share2 aria-hidden="true" className="size-4" />
+              Share
+            </button>
+            <button type="button" onClick={() => window.print()} className={button}>
+              <Printer aria-hidden="true" className="size-4" />
+              Print
+            </button>
+          </>
+        )}
       </div>
       <p role="status" className="mt-2 min-h-5 text-center text-sm font-medium text-primary">
         {status}

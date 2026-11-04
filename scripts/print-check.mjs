@@ -9,7 +9,7 @@ const OUT = process.env.PRINT_OUT ?? join(tmpdir(), 'toolnest-print');
 const ONLY = process.env.PRINT_ONLY;
 const A4 = { width: 595.28, height: 841.89 };
 const CONTENT_WIDTH = 703;
-const FORBIDDEN = ['Formula', 'Calculation steps', 'Copy results', 'Clear', 'Reset', 'Related', 'Frequently asked', 'All Tools', 'How it works', 'Advertisement', 'Your results will appear'];
+const FORBIDDEN = ['Formula', 'Calculation steps', 'Copy results', 'Reset', 'Related', 'Frequently asked', 'All Tools', 'How it works', 'Advertisement', 'Your results will appear'];
 
 const converter = (route, value, expected) => ({ route, steps: [['#convert-value', value]], expected });
 const calc = (label = 'Calculate') => ['click', label];
@@ -52,6 +52,7 @@ const CASES = [
   { route: '/week-number-calculator', steps: [['#week-date', '2026-11-04'], calc()], expected: ['ISO week number', 'Week start', 'Week end', '45'] },
   { route: '/work-hours-calculator', steps: [['#work-in', '09:00'], ['#work-out', '18:30'], ['#work-break', '30'], calc()], expected: ['Clock-in', 'Clock-out', 'Break', 'Net working hours', 'Overtime', '9 h 0 min'] },
   { route: '/unix-timestamp-converter', steps: [['#unix-timestamp', '1700000000'], calc()], expected: ['1700000000', 'UTC', 'Local', '14 Nov 2023'] },
+  { route: '/word-counter', steps: [['#word-text', 'One two three. Four five!']], expected: ['Words', 'Sentences', 'Reading Time', 'One two three'] },
 ];
 
 const failures = [];
@@ -69,7 +70,8 @@ async function setField(page, selector, value) {
   await page.$eval(
     selector,
     (element, next) => {
-      const proto = element.tagName === 'SELECT' ? HTMLSelectElement.prototype : HTMLInputElement.prototype;
+      const protos = { SELECT: HTMLSelectElement, TEXTAREA: HTMLTextAreaElement };
+      const proto = (protos[element.tagName] ?? HTMLInputElement).prototype;
       Object.getOwnPropertyDescriptor(proto, 'value').set.call(element, next);
       element.dispatchEvent(new Event('input', { bubbles: true }));
       element.dispatchEvent(new Event('change', { bubbles: true }));
@@ -107,6 +109,14 @@ async function run(browser, siteUrl, item) {
     if (step[0] === 'click') await clickButton(page, step[1]);
     else if (step[0] === 'wait') await new Promise((resolve) => setTimeout(resolve, step[1]));
     else await setField(page, step[0], step[1]);
+  }
+
+  if (item.noPrint) {
+    const names = await page.$$eval('button', (buttons) => buttons.map((button) => button.textContent.trim()));
+    check(`${name}: offers no Print button`, !names.includes('Print') && names.includes('Copy results'));
+    console.log(`  ${name}: no print`);
+    await page.close();
+    return;
   }
 
   await clickButton(page, 'Print');

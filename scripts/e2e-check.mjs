@@ -586,9 +586,10 @@ async function checkGst(browser, siteUrl) {
   }
 }
 
-async function checkResultActions(page, label) {
+async function checkResultActions(page, label, copyOnly = false) {
   const names = await page.$$eval('button', (buttons) => buttons.filter((button) => button.offsetParent).map((button) => button.textContent.trim()));
-  check(`${label}: offers copy, share and print`, ['Copy results', 'Share', 'Print'].every((name) => names.includes(name)));
+  check(`${label}: offers copy, share and print`, copyOnly ? names.includes('Copy results') && !names.includes('Share') && !names.includes('Print') : ['Copy results', 'Share', 'Print'].every((name) => names.includes(name)));
+  if (copyOnly) return;
 
   await page.emulateMediaType('print');
   const view = await page.evaluate(() => {
@@ -648,7 +649,7 @@ async function checkFlows(browser, siteUrl, { title, path, screenshot, requiredE
   }
 }
 
-async function checkLiveTool(browser, siteUrl, { title, path, screenshot, steps }) {
+async function checkLiveTool(browser, siteUrl, { title, path, screenshot, steps, copyOnly }) {
   console.log(`\n${title}`);
   for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
     const label = `${viewport.width}px`;
@@ -661,7 +662,7 @@ async function checkLiveTool(browser, siteUrl, { title, path, screenshot, steps 
     await runAxe(page, `${label} initial`);
     await steps(page, label);
     await runAxe(page, `${label} after use`);
-    await checkResultActions(page, label);
+    await checkResultActions(page, label, copyOnly);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     check(`${label}: no horizontal scroll`, !overflow);
     await page.screenshot({ path: `${OUTPUT_DIR}/${screenshot}-${viewport.width}.png`, fullPage: true });
@@ -671,6 +672,21 @@ async function checkLiveTool(browser, siteUrl, { title, path, screenshot, steps 
 }
 
 const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function setText(page, selector, value) {
+  await page.$eval(
+    selector,
+    (element, next) => {
+      const proto = element.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+      Object.getOwnPropertyDescriptor(proto, 'value').set.call(element, next);
+      element.dispatchEvent(new Event('input', { bubbles: true }));
+    },
+    value,
+  );
+  await pause(50);
+}
+
+const resultCards = (page) => page.$$eval('[data-testid="result-card"]', (cards) => cards.map((card) => card.textContent));
 const cardValue = (page, name) =>
   page.evaluate((label) => [...document.querySelectorAll('[data-testid="result-card"]')].find((card) => card.textContent.includes(label))?.textContent, name);
 
@@ -879,6 +895,21 @@ const DATE_TIME_CHECKS = [
         ],
       }),
   },
+{
+    name: 'wordcounter',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Word Counter',
+        path: '/word-counter',
+        screenshot: 'word-counter',
+        steps: async (page, label) => {
+          await setText(page, '#word-text', 'One two three. Four five!');
+          const cards = await resultCards(page);
+          check(`${label}: counts words`, cards.some((card) => card.includes('5') && card.includes('Words')));
+          check(`${label}: counts sentences`, cards.some((card) => card.includes('2') && card.includes('Sentences')));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -929,7 +960,7 @@ async function checkPlatform(browser, siteUrl) {
   check('browser back button works', (await heading()) === 'Date & Time');
 
   const sitemap = await (await fetch(new URL('/sitemap.xml', siteUrl))).text();
-  for (const [path, name] of [['/text-tools', 'Text & Writing'], ['/pdf-tools', 'PDF Tools'], ['/image-tools', 'Image Tools'], ['/developer-tools', 'Developer Tools'], ['/everyday-tools', 'Everyday Tools']]) {
+  for (const [path, name] of [['/pdf-tools', 'PDF Tools'], ['/image-tools', 'Image Tools'], ['/developer-tools', 'Developer Tools'], ['/everyday-tools', 'Everyday Tools']]) {
     const response = await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
     check(`${path} opens its page`, response.status() === 200 && (await heading()) === name);
     check(`${path} is noindex while empty`, (await page.$eval('meta[name="robots"]', (tag) => tag.content)).includes('noindex'));

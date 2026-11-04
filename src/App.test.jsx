@@ -52,6 +52,7 @@ describe('routes', () => {
     ['/week-number-calculator', 'Week Number Calculator'],
     ['/work-hours-calculator', 'Work Hours Calculator'],
     ['/unix-timestamp-converter', 'Unix Timestamp Converter'],
+    ['/word-counter', 'Word Counter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
@@ -88,7 +89,6 @@ describe('routes', () => {
 
 describe('new categories', () => {
   const NEW_CATEGORIES = [
-    ['/text-tools', 'Text & Writing'],
     ['/pdf-tools', 'PDF Tools'],
     ['/image-tools', 'Image Tools'],
     ['/developer-tools', 'Developer Tools'],
@@ -106,7 +106,7 @@ describe('new categories', () => {
     renderAt('/all-tools');
     await pageHeading('All Tools');
     const filters = within(screen.getByRole('navigation', { name: 'Filter by category' })).getAllByRole('link');
-    expect(filters.map((link) => link.textContent)).toEqual(['All Tools', 'Calculators', 'Converters', 'Date & Time', 'Finance']);
+    expect(filters.map((link) => link.textContent)).toEqual(['All Tools', 'Calculators', 'Converters', 'Date & Time', 'Finance', 'Text & Writing']);
   });
 });
 
@@ -122,6 +122,7 @@ describe('navigation', () => {
       'Converters',
       'Date & Time',
       'Finance',
+      'Text & Writing',
       'About',
       'Contact',
     ]);

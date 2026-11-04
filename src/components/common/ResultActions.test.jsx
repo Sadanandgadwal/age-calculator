@@ -12,6 +12,13 @@ function setup() {
 const press = (user, name) => user.click(screen.getByRole('button', { name }));
 
 describe('ResultActions', () => {
+  it('can offer Copy alone', () => {
+    render(<ResultActions getText={() => 'Secret'} copyOnly />);
+    expect(screen.getByRole('button', { name: /Copy results/ })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Share/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /Print/ })).toBeNull();
+  });
+
   afterEach(() => {
     delete navigator.share;
   });
@@ -88,6 +95,6 @@ describe('every tool', () => {
       .map(([, source]) => source)
       .join('\n');
     expect(/<ResultActions\b|<UnitConverter\b/.test(code)).toBe(true);
-    expect(code.match(/<ResultActions\b[^\n]*/g)?.every((line) => line.includes('getReport=')) ?? true).toBe(true);
+    expect(code.match(/<ResultActions\b[^\n]*/g)?.every((line) => line.includes('getReport=') || line.includes('copyOnly')) ?? true).toBe(true);
   });
 });

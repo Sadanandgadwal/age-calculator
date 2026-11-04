@@ -37,7 +37,7 @@ function Lines({ title, lines }) {
 }
 
 function ReportDocument({ title, report, printedAt, url }) {
-  const { subtitle, inputs, results, details, /* formula, steps, */ table, notes } = report;
+  const { subtitle, inputs, results, details, /* formula, steps, */ table, notes, text, visual } = report;
 
   return (
     <article className="print-report" data-dense={table?.rows.length > DENSE_ROWS || undefined}>
@@ -66,7 +66,16 @@ function ReportDocument({ title, report, printedAt, url }) {
         </div>
       </section>
 
+      {visual && <section className="pr-section pr-visual">{visual}</section>}
+
       <Rows title="Details" items={details} />
+
+      {text && (
+        <section className="pr-section">
+          <h2>{text.title}</h2>
+          <p className="pr-text">{text.value}</p>
+        </section>
+      )}
 
       {table && (
         <section className="pr-section">

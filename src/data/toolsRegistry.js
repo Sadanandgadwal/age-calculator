@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -644,6 +644,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/unix-timestamp/Page.jsx'),
     loadContent: () => import('../tools/unix-timestamp/content.js'),
+  },
+  {
+    id: 'word-counter',
+    name: 'Word Counter',
+    route: '/word-counter',
+    categories: ['text-tools'],
+    icon: WholeWord,
+    description: 'Count words, characters, sentences and paragraphs as you type.',
+    keywords: ['word count', 'count words', 'words', 'essay length', 'characters', 'sentences', 'paragraphs'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Word Counter – Count Words and Characters Online',
+      description:
+        'Count words, characters, sentences and paragraphs as you type, with reading and speaking time. Your text stays in your browser.',
+      featureList: ['Live word count', 'Characters with and without spaces', 'Sentence and paragraph counts', 'Reading and speaking time', 'Copy, share and print the counts'],
+    },
+    load: () => import('../tools/word-counter/Page.jsx'),
+    loadContent: () => import('../tools/word-counter/content.js'),
   },
 ];
 
