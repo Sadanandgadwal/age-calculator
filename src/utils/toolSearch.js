@@ -29,9 +29,14 @@ export const getToolsInCategory = (tools, categoryId) =>
   tools.filter((tool) => tool.categories.includes(categoryId));
 
 export function getRelatedTools(tools, tool, limit = 3) {
-  const others = tools.filter(({ id }) => id !== tool.id);
-  const sharesCategory = ({ categories }) => categories.some((id) => tool.categories.includes(id));
-  return [...others.filter(sharesCategory), ...others.filter((other) => !sharesCategory(other))].slice(0, limit);
+  const rank = ({ categories }) => {
+    if (categories[0] === tool.categories[0]) return 0;
+    return categories.some((id) => tool.categories.includes(id)) ? 1 : 2;
+  };
+  return tools
+    .filter(({ id }) => id !== tool.id)
+    .sort((a, b) => rank(a) - rank(b))
+    .slice(0, limit);
 }
 
 export const getFeaturedTools = (tools) => tools.filter((tool) => tool.featured);

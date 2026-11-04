@@ -78,6 +78,16 @@ describe('tool listings', () => {
     expect(ids(getRelatedTools(TOOLS, age, 1))).toEqual(['Date Calculator']);
   });
 
+  it('lists tools with the same main category first', () => {
+    const main = tool('Main', { categories: ['converters', 'date-time'] });
+    const others = [
+      tool('Shares second', { categories: ['date-time'] }),
+      tool('Unrelated', { categories: ['finance'] }),
+      tool('Same main', { categories: ['converters'] }),
+    ];
+    expect(ids(getRelatedTools([main, ...others], main))).toEqual(['Same main', 'Shares second', 'Unrelated']);
+  });
+
   it('lists featured tools', () => {
     expect(ids(getFeaturedTools(TOOLS))).toEqual(['Age Calculator']);
   });
