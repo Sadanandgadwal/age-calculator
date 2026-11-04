@@ -13,6 +13,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | Percentage Calculator | `/percentage-calculator` |
 | KG to Gram Converter | `/kg-to-gram-converter` |
 | CM to Feet Converter | `/cm-to-feet-converter` |
+| Date Calculator | `/date-calculator` |
 
 ## Adding a tool
 

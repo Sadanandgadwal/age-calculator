@@ -1,4 +1,4 @@
-import { Cake, GraduationCap, Percent, Ruler, Scale } from 'lucide-react';
+import { Cake, CalendarRange, GraduationCap, Percent, Ruler, Scale } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -138,6 +138,31 @@ export const TOOLS = [
     },
     load: () => import('../tools/length/Page.jsx'),
     loadContent: () => import('../tools/length/content.js'),
+  },
+  {
+    id: 'date-calculator',
+    name: 'Date Calculator',
+    route: '/date-calculator',
+    categories: ['calculators', 'date-time'],
+    icon: CalendarRange,
+    description: 'Count the days between dates, add or subtract time, and find business days and weekends.',
+    keywords: ['date', 'days between', 'duration', 'add days', 'subtract days', 'business days', 'working days', 'weekdays', 'weekends', 'calendar'],
+    featured: true,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Date Calculator – Calculate Days Between Dates',
+      description:
+        'Calculate the days between two dates, add or subtract days, months and years, and count business days and weekends. Handles leap years and month ends.',
+      featureList: [
+        'Days between two dates',
+        'Add or subtract days, months and years',
+        'Business days, weekdays and weekends',
+        'Inclusive or exclusive day counting',
+        'Leap year and month-end handling',
+      ],
+    },
+    load: () => import('../tools/date/Page.jsx'),
+    loadContent: () => import('../tools/date/content.js'),
   },
 ];
 

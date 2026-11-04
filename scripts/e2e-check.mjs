@@ -440,6 +440,71 @@ async function checkConverter(browser, siteUrl, { title, path, screenshot, cases
   }
 }
 
+async function checkDate(browser, siteUrl) {
+  console.log('\nDate Calculator');
+  const ranges = [
+    ['Days between', '2026-01-01', '2026-03-01', '8 weeks, 3 days'],
+    ['Business days', '2026-11-02', '2026-11-08', 'Monday, 2 Nov 2026'],
+    ['Weekdays & weekends', '2024-02-28', '2024-03-01', 'Wednesday, 28 Feb 2024'],
+  ];
+  const shifts = [
+    ['Add days', '2026-12-31', '1', '1 Jan 2027'],
+    ['Subtract days', '2024-03-01', '1', '29 Feb 2024'],
+    ['Add months', '2026-01-31', '1', '28 Feb 2026'],
+    ['Subtract months', '2026-01-15', '1', '15 Dec 2025'],
+    ['Add years', '2024-02-29', '1', '28 Feb 2025'],
+    ['Subtract years', '2026-11-03', '26', '3 Nov 2000'],
+    ['Date after N days', '2026-11-03', '30', '3 Dec 2026'],
+  ];
+
+  for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
+    const label = `${viewport.width}px`;
+    const page = await browser.newPage();
+    const problems = [];
+    page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+    page.on('pageerror', (error) => problems.push(error.message));
+    await page.setViewport(viewport);
+    await page.goto(new URL('/date-calculator', siteUrl).href, { waitUntil: 'networkidle0' });
+
+    await clickButton(page, 'Calculate');
+    await settle();
+    check(`${label}: requires an end date`, await hasText(page, 'Please choose an end date.'));
+    await runAxe(page, `${label} errors`);
+
+    await setDate(page, '#date-end', '2020-01-01');
+    await settle();
+    check(`${label}: rejects a reversed range`, await hasText(page, 'The end date can\'t be earlier than the start date.'));
+
+    for (const [mode, start, end, answer] of ranges) {
+      await clickButton(page, mode);
+      await settle();
+      await setDate(page, '#date-start', start);
+      await setDate(page, '#date-end', end);
+      await clickButton(page, 'Calculate');
+      await settle();
+      check(`${label} ${mode}: shows results`, await hasText(page, answer));
+    }
+    await runAxe(page, `${label} range results`);
+    await page.screenshot({ path: `${OUTPUT_DIR}/date-${viewport.width}.png`, fullPage: true });
+
+    for (const [mode, start, amount, answer] of shifts) {
+      await clickButton(page, mode);
+      await settle();
+      await setDate(page, '#date-start', start);
+      await setDate(page, '#date-amount', amount);
+      await clickButton(page, 'Calculate');
+      await settle();
+      check(`${label} ${mode}: shows the result`, await hasText(page, answer));
+    }
+    await runAxe(page, `${label} arithmetic results`);
+
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+    check(`${label}: no horizontal scroll`, !overflow);
+    check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
+    await page.close();
+  }
+}
+
 async function checkPlatform(browser, siteUrl) {
   console.log('\nPlatform');
   const page = await browser.newPage();
@@ -469,7 +534,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds a tool by category', await hasText(page, '1 tool found'));
+  check('home search finds tools by category', await hasText(page, '2 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');
@@ -671,6 +736,7 @@ try {
       ['1', 'mi', 'km', '1 mi = 1.609344 km'],
     ],
   });
+  await checkDate(browser, siteUrl);
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {
