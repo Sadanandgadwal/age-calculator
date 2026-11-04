@@ -389,6 +389,57 @@ async function checkPercentage(browser, siteUrl) {
   }
 }
 
+async function checkConverter(browser, siteUrl, { title, path, screenshot, cases }) {
+  console.log(`\n${title}`);
+  for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
+    const label = `${viewport.width}px`;
+    const page = await browser.newPage();
+    const problems = [];
+    page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+    page.on('pageerror', (error) => problems.push(error.message));
+    await page.setViewport(viewport);
+    await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
+    await runAxe(page, `${label} empty`);
+
+    await setDate(page, '#convert-value', 'abc');
+    await settle();
+    check(`${label}: shows an error for invalid input`, await hasText(page, 'Please enter a valid number.'));
+    await runAxe(page, `${label} error`);
+
+    for (const [value, from, to, answer] of cases) {
+      await setDate(page, '#convert-value', value);
+      await page.select('#convert-from', from);
+      await page.select('#convert-to', to);
+      await settle();
+      check(`${label}: ${value} ${from} to ${to}`, await hasText(page, answer));
+    }
+
+    await page.evaluate(() => document.querySelector('[aria-label="Swap units"]').click());
+    await settle();
+    const [fromValue, toValue] = await page.evaluate(() => [document.querySelector('#convert-from').value, document.querySelector('#convert-to').value]);
+    const last = cases.at(-1);
+    check(`${label}: swap exchanges the units`, fromValue === last[2] && toValue === last[1]);
+
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+    check(`${label}: no horizontal scroll`, !overflow);
+    await runAxe(page, `${label} result`);
+    await page.screenshot({ path: `${OUTPUT_DIR}/${screenshot}-${viewport.width}.png`, fullPage: true });
+
+    await setDate(page, '#convert-value', '1000000000000');
+    await page.select('#convert-from', cases[0][1]);
+    await page.select('#convert-to', cases[0][2]);
+    await settle();
+    const longOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+    check(`${label}: long results do not overflow`, !longOverflow);
+
+    await clickButton(page, 'Clear');
+    await settle();
+    check(`${label}: clear empties the value`, (await page.$eval('#convert-value', (input) => input.value)) === '');
+    check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
+    await page.close();
+  }
+}
+
 async function checkPlatform(browser, siteUrl) {
   console.log('\nPlatform');
   const page = await browser.newPage();
@@ -596,6 +647,18 @@ try {
   await checkCopy(browser, baseUrl);
   await checkMarks(browser, siteUrl);
   await checkPercentage(browser, siteUrl);
+  await checkConverter(browser, siteUrl, {
+    title: 'Weight Converter',
+    path: '/kg-to-gram-converter',
+    screenshot: 'weight',
+    cases: [
+      ['2.5', 'kg', 'g', '2.5 kg = 2,500 g'],
+      ['1000', 'g', 'kg', '1,000 g = 1 kg'],
+      ['1', 'kg', 'lb', '1 kg ≈ 2.204622622 lb'],
+      ['1', 'lb', 'oz', '1 lb = 16 oz'],
+      ['1', 't', 'mg', '1 t = 1,00,00,00,000 mg'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {

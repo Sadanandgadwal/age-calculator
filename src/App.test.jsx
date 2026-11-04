@@ -32,6 +32,7 @@ describe('routes', () => {
     ['/age-calculator', 'Age Calculator'],
     ['/marks-percentage-calculator', 'Marks & Percentage Calculator'],
     ['/percentage-calculator', 'Percentage Calculator'],
+    ['/kg-to-gram-converter', 'KG to Gram Converter'],
   ])('%s shows its page', async (path, heading) => {
     renderAt(path);
     expect(await pageHeading(heading)).toBeInTheDocument();

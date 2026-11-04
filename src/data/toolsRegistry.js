@@ -1,4 +1,4 @@
-import { Cake, GraduationCap, Percent } from 'lucide-react';
+import { Cake, GraduationCap, Percent, Scale } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -89,6 +89,30 @@ export const TOOLS = [
     },
     load: () => import('../tools/percentage/Page.jsx'),
     loadContent: () => import('../tools/percentage/content.js'),
+  },
+  {
+    id: 'kg-to-gram-converter',
+    name: 'KG to Gram Converter',
+    route: '/kg-to-gram-converter',
+    categories: ['converters'],
+    icon: Scale,
+    description: 'Convert instantly between kilograms, grams, milligrams, tonnes, pounds and ounces.',
+    keywords: ['kg', 'gram', 'weight', 'mass', 'kilogram', 'milligram', 'tonne', 'pound', 'lb', 'ounce', 'oz'],
+    featured: true,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'KG to Gram Converter – Free Weight Conversion Tool',
+      description:
+        'Convert kg to grams and between milligrams, tonnes, pounds and ounces. Instant, accurate weight conversions with the formula shown, free in your browser.',
+      featureList: [
+        'Kilograms, grams, milligrams, tonnes, pounds and ounces',
+        'Instant conversion as you type',
+        'One-click unit swap',
+        'Conversion formula and rate',
+      ],
+    },
+    load: () => import('../tools/weight/Page.jsx'),
+    loadContent: () => import('../tools/weight/content.js'),
   },
 ];
 
