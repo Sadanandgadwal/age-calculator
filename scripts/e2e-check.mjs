@@ -648,7 +648,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '3 tools found'));
+  check('home search finds tools by category', await hasText(page, '4 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');
@@ -956,6 +956,18 @@ try {
       ['10', 'ms', 'kmh', '10 m/s = 36 km/h'],
       ['5', 'kn', 'kmh', '5 kn = 9.26 km/h'],
       ['2', 'mph', 'kmh', '2 mph = 3.218688 km/h'],
+    ],
+  });
+  await checkConverter(browser, siteUrl, {
+    title: 'Time Unit Converter',
+    path: '/time-unit-converter',
+    screenshot: 'time-unit',
+    clearLabel: 'Reset',
+    cases: [
+      ['90', 'min', 'h', '90 min = 1.5 h'],
+      ['3', 'week', 'day', '3 wk = 21 d'],
+      ['2', 'year', 'day', '2 yr = 730.5 d'],
+      ['7200', 's', 'min', '7,200 s = 120 min'],
     ],
   });
   await checkRoutes(browser, siteUrl);

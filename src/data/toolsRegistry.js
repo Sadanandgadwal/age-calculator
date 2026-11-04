@@ -1,4 +1,4 @@
-import { Beaker, Cake, CalendarRange, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
+import { Beaker, Cake, CalendarRange, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -359,6 +359,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/speed/Page.jsx'),
     loadContent: () => import('../tools/speed/content.js'),
+  },
+  {
+    id: 'time-unit-converter',
+    name: 'Time Unit Converter',
+    route: '/time-unit-converter',
+    categories: ['converters', 'date-time'],
+    icon: Timer,
+    description: 'Convert between seconds, minutes, hours, days, weeks and years.',
+    keywords: ['time unit', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years', 'duration', 'convert time', 'sec', 'min', 'hr'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Time Unit Converter – Seconds, Hours, Days and Years',
+      description:
+        'Convert between seconds, minutes, hours, days, weeks and years. Instant, accurate results, with a clear explanation of how the length of a year is defined.',
+      featureList: ['Seconds, minutes, hours, days, weeks and years', 'Instant conversion as you type', 'Clear year convention', 'Conversion formula and rate'],
+    },
+    load: () => import('../tools/time-unit/Page.jsx'),
+    loadContent: () => import('../tools/time-unit/content.js'),
   },
 ];
 
