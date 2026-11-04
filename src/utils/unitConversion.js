@@ -2,10 +2,11 @@ import { parseDecimal } from './number.js';
 
 const quantityFormatter = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 10 });
 const exampleFormatter = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 6 });
+const preciseFormatter = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 14 });
 const LARGE = 1e15;
 const SMALL = 1e-6;
 
-const clean = (value) => Number(value.toPrecision(12));
+const clean = (value, digits = 12) => Number(value.toPrecision(digits));
 
 export function formatQuantity(value, formatter = quantityFormatter) {
   const magnitude = Math.abs(value);
@@ -15,7 +16,7 @@ export function formatQuantity(value, formatter = quantityFormatter) {
   return formatter.format(value);
 }
 
-export const convertUnits = (value, from, to) => clean((value * from.factor) / to.factor);
+export const convertUnits = (value, from, to, digits) => clean((value * from.factor) / to.factor, digits);
 
 function isExact(value, text) {
   const plain = Number(text.replace(/,/g, ''));
@@ -24,7 +25,7 @@ function isExact(value, text) {
 
 export const relation = (value, text) => (isExact(value, text) ? '=' : '≈');
 
-export function evaluateConversion(text, fromId, toId, units) {
+export function evaluateConversion(text, fromId, toId, units, { precise = false } = {}) {
   if (!String(text ?? '').trim()) return {};
 
   const value = parseDecimal(text);
@@ -33,14 +34,16 @@ export function evaluateConversion(text, fromId, toId, units) {
 
   const from = units.find(({ id }) => id === fromId);
   const to = units.find(({ id }) => id === toId);
-  const output = convertUnits(value, from, to);
+  const digits = precise ? 15 : 12;
+  const formatter = precise ? preciseFormatter : quantityFormatter;
+  const output = convertUnits(value, from, to, digits);
 
   if (!Number.isFinite(output)) return { error: 'This value is too large to convert.' };
   if (output === 0 && value !== 0) return { error: 'This value is too small to convert.' };
 
-  const factor = clean(from.factor / to.factor);
-  const factorText = formatQuantity(factor);
-  const outputText = formatQuantity(output);
+  const factor = clean(from.factor / to.factor, digits);
+  const factorText = formatQuantity(factor, formatter);
+  const outputText = formatQuantity(output, formatter);
 
   return {
     result: {
@@ -50,7 +53,7 @@ export function evaluateConversion(text, fromId, toId, units) {
       to,
       outputText,
       factor,
-      summary: `${formatQuantity(value)} ${from.symbol} ${relation(output, outputText)} ${outputText} ${to.symbol}`,
+      summary: `${formatQuantity(value, formatter)} ${from.symbol} ${relation(output, outputText)} ${outputText} ${to.symbol}`,
       formula: `${to.name} = ${from.name} × ${factorText}`,
       unitRate: `1 ${from.symbol} ${relation(factor, factorText)} ${factorText} ${to.symbol}`,
     },

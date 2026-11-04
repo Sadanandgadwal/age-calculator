@@ -1,4 +1,4 @@
-import { Beaker, Cake, CalendarRange, Clock, GraduationCap, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
+import { Beaker, Cake, CalendarRange, Clock, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -321,6 +321,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/volume/Page.jsx'),
     loadContent: () => import('../tools/volume/content.js'),
+  },
+  {
+    id: 'data-storage-converter',
+    name: 'Data Storage Converter',
+    route: '/data-storage-converter',
+    categories: ['converters'],
+    icon: HardDrive,
+    description: 'Convert bytes, KB, MB, GB, TB and PB, with decimal and binary units kept distinct.',
+    keywords: ['data', 'storage', 'file size', 'byte', 'kb', 'mb', 'gb', 'tb', 'pb', 'kib', 'mib', 'gib', 'tib', 'binary', 'memory', 'disk'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Data Storage Converter – Bytes, KB, MB, GB, TB and PB',
+      description:
+        'Convert bytes, KB, MB, GB, TB and PB, plus binary KiB, MiB, GiB, TiB and PiB. See exactly how 1000-based and 1024-based units differ with this free converter.',
+      featureList: ['Bytes, KB, MB, GB, TB and PB', 'Binary KiB, MiB, GiB, TiB and PiB', 'Conversions between decimal and binary units', 'Exact large byte counts'],
+    },
+    load: () => import('../tools/data-storage/Page.jsx'),
+    loadContent: () => import('../tools/data-storage/content.js'),
   },
 ];
 

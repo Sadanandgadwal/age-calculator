@@ -35,6 +35,7 @@ describe('routes', () => {
     ['/temperature-converter', 'Temperature Converter'],
     ['/area-converter', 'Area Converter'],
     ['/volume-converter', 'Volume Converter'],
+    ['/data-storage-converter', 'Data Storage Converter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

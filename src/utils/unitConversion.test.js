@@ -46,6 +46,13 @@ describe('relation', () => {
 describe('evaluateConversion', () => {
   const run = (text, from = 'big', to = 'unit') => evaluateConversion(text, from, to, UNITS);
 
+  it('can show more digits when asked', () => {
+    const { result } = evaluateConversion('1234567890123', 'unit', 'unit', UNITS, { precise: true });
+    expect(result.outputText).toBe('12,34,56,78,90,123');
+    expect(result.summary).toBe('12,34,56,78,90,123 U = 12,34,56,78,90,123 U');
+    expect(run('1234567890123', 'unit', 'unit').result.outputText).toBe('12,34,56,78,90,000');
+  });
+
   it('returns nothing for an empty value', () => {
     expect(run('')).toEqual({});
     expect(run('  ')).toEqual({});

@@ -934,6 +934,18 @@ try {
       ['8', 'cup', 'ml', '8 US cup = 1,892.705892 mL'],
     ],
   });
+  await checkConverter(browser, siteUrl, {
+    title: 'Data Storage Converter',
+    path: '/data-storage-converter',
+    screenshot: 'data-storage',
+    clearLabel: 'Reset',
+    cases: [
+      ['2', 'gib', 'mib', '2 GiB = 2,048 MiB'],
+      ['2', 'gb', 'mb', '2 GB = 2,000 MB'],
+      ['3', 'tib', 'b', '3 TiB = 32,98,53,48,83,328 B'],
+      ['1000', 'mib', 'gib', '1,000 MiB = 0.9765625 GiB'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {
