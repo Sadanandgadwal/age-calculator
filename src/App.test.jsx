@@ -51,6 +51,7 @@ describe('routes', () => {
     ['/leap-year-checker', 'Leap Year Checker'],
     ['/week-number-calculator', 'Week Number Calculator'],
     ['/work-hours-calculator', 'Work Hours Calculator'],
+    ['/unix-timestamp-converter', 'Unix Timestamp Converter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

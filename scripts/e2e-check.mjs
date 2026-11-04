@@ -834,6 +834,22 @@ const DATE_TIME_CHECKS = [
         ],
       }),
   },
+  {
+    name: 'unix',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Unix Timestamp Converter',
+        path: '/unix-timestamp-converter',
+        screenshot: 'unix-timestamp',
+        requiredError: 'Please enter a timestamp.',
+        flows: [
+          { inputs: { '#unix-timestamp': '1800000000' }, answer: 'Fri, 15 Jan 2027 08:00:00 GMT' },
+          { mode: 'Milliseconds', inputs: { '#unix-timestamp': '1800000000500' }, answer: '2027-01-15T08:00:00.500Z' },
+          { mode: 'Date to timestamp', inputs: { '#unix-date': '2027-01-15', '#unix-time': '08:00:00' }, answer: 'Unix Milliseconds' },
+          { mode: 'UTC', answer: '1800000000' },
+        ],
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -865,7 +881,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '13 tools found'));
+  check('home search finds tools by category', await hasText(page, '14 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');

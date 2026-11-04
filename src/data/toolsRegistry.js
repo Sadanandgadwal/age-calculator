@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -625,6 +625,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/work-hours/Page.jsx'),
     loadContent: () => import('../tools/work-hours/content.js'),
+  },
+  {
+    id: 'unix-timestamp-converter',
+    name: 'Unix Timestamp Converter',
+    route: '/unix-timestamp-converter',
+    categories: ['date-time'],
+    icon: Binary,
+    description: 'Convert Unix timestamps to readable dates and back, in seconds or milliseconds.',
+    keywords: ['unix', 'timestamp', 'epoch', 'unix time', 'posix', 'milliseconds', 'utc', 'iso 8601', 'developer'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Unix Timestamp Converter – Epoch Time to Date and Back',
+      description:
+        'Convert Unix timestamps to readable dates and dates to timestamps, in seconds or milliseconds. See UTC, local and ISO 8601 times, and copy the results.',
+      featureList: ['Timestamp to date and date to timestamp', 'Seconds and milliseconds', 'UTC and local time', 'Input validation and copy'],
+    },
+    load: () => import('../tools/unix-timestamp/Page.jsx'),
+    loadContent: () => import('../tools/unix-timestamp/content.js'),
   },
 ];
 
