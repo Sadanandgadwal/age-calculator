@@ -1054,6 +1054,19 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'slug',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Slug Generator',
+        path: '/slug-generator',
+        screenshot: 'slug-generator',
+        steps: async (page, label) => {
+          await setText(page, '#slug-text', 'Café & Bistro: Open Now!');
+          check(`${label}: creates the slug`, (await outputText(page)) === 'cafe-and-bistro-open-now');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

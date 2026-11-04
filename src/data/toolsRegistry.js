@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, ListX, Percent, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -834,6 +834,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/text-sorter/Page.jsx'),
     loadContent: () => import('../tools/text-sorter/content.js'),
+  },
+  {
+    id: 'slug-generator',
+    name: 'Slug Generator',
+    route: '/slug-generator',
+    categories: ['text-tools'],
+    icon: Link2,
+    description: 'Turn any title into a clean, URL-friendly slug.',
+    keywords: ['slug', 'url slug', 'seo url', 'permalink', 'url friendly', 'slugify', 'title to url'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Slug Generator – Create Clean URL Slugs Online',
+      description:
+        'Turn any title into a clean, URL-friendly slug. Accented letters are simplified, symbols are removed, and you can choose the separator.',
+      featureList: ['Clean URL slugs from any title', 'Hyphen or underscore separator', 'Accented letters simplified', 'Symbols removed', 'Keeps Hindi and other scripts'],
+    },
+    load: () => import('../tools/slug-generator/Page.jsx'),
+    loadContent: () => import('../tools/slug-generator/content.js'),
   },
 ];
 

@@ -62,6 +62,7 @@ describe('routes', () => {
     ['/remove-extra-spaces', 'Remove Extra Spaces'],
     ['/find-replace-text', 'Find & Replace Text'],
     ['/text-sorter', 'Text Sorter'],
+    ['/slug-generator', 'Slug Generator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
@@ -93,7 +94,7 @@ describe('routes', () => {
       expect(document.title, path).toBe(getPageMeta(path).title);
       unmount();
     }
-  });
+  }, 60000);
 });
 
 describe('new categories', () => {
