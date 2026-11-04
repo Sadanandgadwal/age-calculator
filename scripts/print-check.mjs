@@ -58,6 +58,7 @@ const CASES = [
   { route: '/reading-time-calculator', steps: [['#read-text', 'word word word word word']], expected: ['Reading speed', 'Reading time', 'Speaking time'] },
   { route: '/case-converter', steps: [['#case-text', 'hello big world'], ['click', 'camelCase']], expected: ['Converted to', 'camelCase', 'helloBigWorld'] },
   { route: '/text-reverser', steps: [['#reverse-text', 'Hello there']], expected: ['Reversed by', 'Reversed text', 'ereht olleH'] },
+  { route: '/remove-duplicate-lines', steps: [['#dedupe-text', 'pear\nplum\npear']], expected: ['Lines kept', 'Lines removed', 'Cleaned list', 'plum'] },
 ];
 
 const failures = [];

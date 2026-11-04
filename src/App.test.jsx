@@ -58,6 +58,7 @@ describe('routes', () => {
     ['/reading-time-calculator', 'Reading Time Calculator'],
     ['/case-converter', 'Case Converter'],
     ['/text-reverser', 'Text Reverser'],
+    ['/remove-duplicate-lines', 'Remove Duplicate Lines'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

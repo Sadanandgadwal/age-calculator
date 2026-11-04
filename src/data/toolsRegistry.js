@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, ListX, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -758,6 +758,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/text-reverser/Page.jsx'),
     loadContent: () => import('../tools/text-reverser/content.js'),
+  },
+  {
+    id: 'remove-duplicate-lines',
+    name: 'Remove Duplicate Lines',
+    route: '/remove-duplicate-lines',
+    categories: ['text-tools'],
+    icon: ListX,
+    description: 'Remove repeated lines from a list and keep the original order.',
+    keywords: ['remove duplicates', 'duplicate lines', 'unique lines', 'dedupe', 'deduplicate list', 'distinct lines'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Remove Duplicate Lines – Clean Up Lists Online',
+      description:
+        'Remove repeated lines from any list and keep the original order. Optionally ignore capital letters and extra spaces, and see how many were removed.',
+      featureList: ['Keeps the first of each line', 'Keeps the original order', 'Option to ignore capital letters', 'Option to ignore extra spaces', 'Count of lines removed'],
+    },
+    load: () => import('../tools/remove-duplicate-lines/Page.jsx'),
+    loadContent: () => import('../tools/remove-duplicate-lines/content.js'),
   },
 ];
 

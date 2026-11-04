@@ -988,6 +988,20 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'dedupe',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Remove Duplicate Lines',
+        path: '/remove-duplicate-lines',
+        screenshot: 'remove-duplicate-lines',
+        steps: async (page, label) => {
+          await setText(page, '#dedupe-text', 'pear\nplum\npear\nfig');
+          check(`${label}: removes repeats in order`, (await outputText(page)) === 'pear\nplum\nfig');
+          check(`${label}: counts the removed line`, (await resultCards(page)).some((card) => card.includes('1') && card.includes('Lines Removed')));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
