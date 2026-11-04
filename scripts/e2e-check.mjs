@@ -1124,6 +1124,20 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'qrcode',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'QR Code Generator',
+        path: '/qr-code-generator',
+        screenshot: 'qr-code',
+        steps: async (page, label) => {
+          await setText(page, '#qr-text', 'https://example.com');
+          check(`${label}: draws the code`, (await page.$('svg[role="img"][aria-label="QR code for https://example.com"]')) !== null);
+          check(`${label}: offers downloads`, await hasText(page, 'Download PNG'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

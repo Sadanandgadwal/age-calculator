@@ -66,6 +66,7 @@ const CASES = [
   { route: '/lorem-ipsum-generator', steps: [], expected: ['Paragraphs', 'Words', 'Placeholder text', 'Lorem ipsum dolor'] },
   { route: '/random-number-generator', steps: [['#random-min', '7'], ['#random-max', '7'], ['click', 'Generate']], expected: ['Lowest number', 'Highest number', 'Random number', '7'] },
   { route: '/password-generator', noPrint: true, steps: [['click', 'Generate']], expected: [] },
+  { route: '/qr-code-generator', steps: [['#qr-text', 'https://example.com']], expected: ['Text or link', 'https://example.com', 'Error correction', 'Modules per side'] },
 ];
 
 const failures = [];

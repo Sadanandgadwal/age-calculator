@@ -66,6 +66,7 @@ describe('routes', () => {
     ['/lorem-ipsum-generator', 'Lorem Ipsum Generator'],
     ['/random-number-generator', 'Random Number Generator'],
     ['/password-generator', 'Password Generator'],
+    ['/qr-code-generator', 'QR Code Generator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

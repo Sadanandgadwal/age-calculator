@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -910,6 +910,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/password-generator/Page.jsx'),
     loadContent: () => import('../tools/password-generator/content.js'),
+  },
+  {
+    id: 'qr-code-generator',
+    name: 'QR Code Generator',
+    route: '/qr-code-generator',
+    categories: ['text-tools'],
+    icon: QrCode,
+    description: 'Create a QR code from any text or link, and download it as PNG or SVG.',
+    keywords: ['qr code', 'qr generator', 'create qr', 'qr code maker', 'link to qr', 'url qr code'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'QR Code Generator – Free PNG and SVG QR Codes',
+      description:
+        'Create a QR code from any text or link and download it as a PNG or SVG. Made in your browser, with no sign-up, and no expiry on your codes.',
+      featureList: ['QR codes from text or links', 'PNG and SVG download', 'Choice of error correction', 'Made in your browser', 'Codes never expire'],
+    },
+    load: () => import('../tools/qr-code-generator/Page.jsx'),
+    loadContent: () => import('../tools/qr-code-generator/content.js'),
   },
 ];
 
