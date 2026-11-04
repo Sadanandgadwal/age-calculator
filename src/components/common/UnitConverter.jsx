@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeftRight, ArrowUpDown, X } from 'lucide-react';
+import { ArrowLeftRight, ArrowUpDown, RotateCcw, X } from 'lucide-react';
 import CalculatorInput from './CalculatorInput.jsx';
 import CopyButton from './CopyButton.jsx';
 import ResultCard from './ResultCard.jsx';
@@ -32,15 +32,23 @@ function UnitSelect({ id, label, value, units, onChange }) {
   );
 }
 
-export default function UnitConverter({ units, defaultFrom, defaultTo, getExtraDetails }) {
+export default function UnitConverter({ units, defaultFrom, defaultTo, getExtraDetails, evaluate = evaluateConversion, resetsUnits = false }) {
   const [text, setText] = useState('');
   const [fromId, setFromId] = useState(defaultFrom);
   const [toId, setToId] = useState(defaultTo);
-  const { error, result } = evaluateConversion(text, fromId, toId, units);
+  const { error, result } = evaluate(text, fromId, toId, units);
 
   const swap = () => {
     setFromId(toId);
     setToId(fromId);
+  };
+
+  const reset = () => {
+    setText('');
+    if (resetsUnits) {
+      setFromId(defaultFrom);
+      setToId(defaultTo);
+    }
   };
 
   const extraDetails = result && getExtraDetails ? getExtraDetails(result) : [];
@@ -56,9 +64,9 @@ export default function UnitConverter({ units, defaultFrom, defaultTo, getExtraD
             Swap
           </button>
           <UnitSelect id="convert-to" label="To" value={toId} units={units} onChange={setToId} />
-          <button type="button" onClick={() => setText('')} className={actionButton}>
-            <X aria-hidden="true" className="size-5" />
-            Clear
+          <button type="button" onClick={reset} className={actionButton}>
+            {resetsUnits ? <RotateCcw aria-hidden="true" className="size-5" /> : <X aria-hidden="true" className="size-5" />}
+            {resetsUnits ? 'Reset' : 'Clear'}
           </button>
         </form>
       </section>
@@ -76,7 +84,7 @@ export default function UnitConverter({ units, defaultFrom, defaultTo, getExtraD
               items={[
                 { label: 'Result', value: result.summary },
                 { label: 'Formula', value: result.formula },
-                { label: 'Conversion Rate', value: result.unitRate },
+                ...(result.unitRate ? [{ label: 'Conversion Rate', value: result.unitRate }] : []),
                 ...extraDetails,
               ]}
             />

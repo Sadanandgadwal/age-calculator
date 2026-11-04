@@ -86,6 +86,25 @@ describe('UnitConverter', () => {
     expect(screen.getByText('Results copied to clipboard.')).toBeInTheDocument();
   });
 
+  it('can reset the units as well as the value', async () => {
+    const user = setup({ resetsUnits: true });
+    type('5');
+    await user.selectOptions(screen.getByLabelText('To'), 'lb');
+    await user.click(screen.getByRole('button', { name: 'Reset' }));
+
+    expect(value()).toHaveValue('');
+    expect(screen.getByLabelText('To')).toHaveValue('g');
+    expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument();
+  });
+
+  it('can use custom conversion logic, with no conversion rate', () => {
+    const evaluate = (text) => (text ? { result: { summary: 'Custom', formula: 'Custom formula', outputText: '42', to: { name: 'Answer' } } } : {});
+    setup({ evaluate });
+    type('1');
+    expect(screen.getByText('Custom formula')).toBeInTheDocument();
+    expect(screen.queryByText('Conversion Rate')).not.toBeInTheDocument();
+  });
+
   it('shows extra details when provided', () => {
     setup({ getExtraDetails: ({ output }) => [{ label: 'Extra', value: `${output} extra` }] });
     type('1');

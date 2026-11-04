@@ -404,7 +404,7 @@ async function checkPercentage(browser, siteUrl) {
   }
 }
 
-async function checkConverter(browser, siteUrl, { title, path, screenshot, cases }) {
+async function checkConverter(browser, siteUrl, { title, path, screenshot, cases, clearLabel = 'Clear' }) {
   console.log(`\n${title}`);
   for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
     const label = `${viewport.width}px`;
@@ -447,9 +447,9 @@ async function checkConverter(browser, siteUrl, { title, path, screenshot, cases
     const longOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     check(`${label}: long results do not overflow`, !longOverflow);
 
-    await clickButton(page, 'Clear');
+    await clickButton(page, clearLabel);
     await settle();
-    check(`${label}: clear empties the value`, (await page.$eval('#convert-value', (input) => input.value)) === '');
+    check(`${label}: ${clearLabel} empties the value`, (await page.$eval('#convert-value', (input) => input.value)) === '');
     check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
     await page.close();
   }
@@ -896,6 +896,18 @@ try {
       { inputs: { '#bill-amount': '1000', '#bill-people': '5', '#bill-tax': '5', '#bill-tip': '10' }, answer: '₹230.00' },
       { inputs: { '#bill-amount': '100', '#bill-people': '3', '#bill-tax': '', '#bill-tip': '' }, answer: 'divide evenly: 1 person pays ₹33.34' },
       { inputs: { '#bill-amount': '9999999999999', '#bill-people': '7' }, answer: 'Each Person Pays' },
+    ],
+  });
+  await checkConverter(browser, siteUrl, {
+    title: 'Temperature Converter',
+    path: '/temperature-converter',
+    screenshot: 'temperature',
+    clearLabel: 'Reset',
+    cases: [
+      ['100', 'c', 'f', '100 °C = 212 °F'],
+      ['-40', 'f', 'c', '-40 °F = -40 °C'],
+      ['25', 'c', 'k', '25 °C = 298.15 K'],
+      ['0', 'k', 'f', '0 K = -459.67 °F'],
     ],
   });
   await checkRoutes(browser, siteUrl);

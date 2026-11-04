@@ -72,4 +72,4 @@ export function buildExamples(units, pairs) {
 }
 
 export const buildConversionText = ({ summary, formula, unitRate }, extras = []) =>
-  [summary, `Formula: ${formula}`, unitRate, ...extras.map(({ label, value }) => `${label}: ${value}`)].join('\n');
+  [summary, `Formula: ${formula}`, ...(unitRate ? [unitRate] : []), ...extras.map(({ label, value }) => `${label}: ${value}`)].join('\n');

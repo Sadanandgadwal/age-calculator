@@ -1,4 +1,4 @@
-import { Cake, CalendarRange, Clock, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Users } from 'lucide-react';
+import { Cake, CalendarRange, Clock, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -264,6 +264,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/bill-split/Page.jsx'),
     loadContent: () => import('../tools/bill-split/content.js'),
+  },
+  {
+    id: 'temperature-converter',
+    name: 'Temperature Converter',
+    route: '/temperature-converter',
+    categories: ['converters'],
+    icon: Thermometer,
+    description: 'Convert between Celsius, Fahrenheit and Kelvin, with the exact formula shown.',
+    keywords: ['temperature', 'celsius', 'fahrenheit', 'kelvin', 'c to f', 'f to c', 'weather', 'degrees', 'thermometer'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Temperature Converter – Celsius, Fahrenheit and Kelvin',
+      description:
+        'Convert temperatures between Celsius, Fahrenheit and Kelvin instantly, with the exact formula shown. Accepts negative values down to absolute zero. Free to use.',
+      featureList: ['Celsius, Fahrenheit and Kelvin', 'Instant conversion as you type', 'Negative temperatures down to absolute zero', 'Exact conversion formulas'],
+    },
+    load: () => import('../tools/temperature/Page.jsx'),
+    loadContent: () => import('../tools/temperature/content.js'),
   },
 ];
 
