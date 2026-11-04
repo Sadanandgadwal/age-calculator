@@ -1,4 +1,4 @@
-import { Beaker, Cake, CalendarRange, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users } from 'lucide-react';
+import { Beaker, Cake, CalendarRange, CircleGauge, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -378,6 +378,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/time-unit/Page.jsx'),
     loadContent: () => import('../tools/time-unit/content.js'),
+  },
+  {
+    id: 'pressure-converter',
+    name: 'Pressure Converter',
+    route: '/pressure-converter',
+    categories: ['converters'],
+    icon: CircleGauge,
+    description: 'Convert between PSI, bar, pascal, kilopascal and standard atmosphere.',
+    keywords: ['pressure', 'psi', 'bar', 'pascal', 'pa', 'kilopascal', 'kpa', 'atmosphere', 'atm', 'tyre', 'tire'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Pressure Converter – PSI, Bar, Pascal, kPa and Atm',
+      description:
+        'Convert pressure between PSI, bar, pascal, kilopascal and standard atmosphere. Instant, accurate results using standard definitions, free in your browser.',
+      featureList: ['PSI, bar, pascal, kilopascal and atmosphere', 'Instant conversion as you type', 'Standard conversion factors', 'Conversion formula and rate'],
+    },
+    load: () => import('../tools/pressure/Page.jsx'),
+    loadContent: () => import('../tools/pressure/content.js'),
   },
 ];
 

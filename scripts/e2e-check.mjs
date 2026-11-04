@@ -970,6 +970,18 @@ try {
       ['7200', 's', 'min', '7,200 s = 120 min'],
     ],
   });
+  await checkConverter(browser, siteUrl, {
+    title: 'Pressure Converter',
+    path: '/pressure-converter',
+    screenshot: 'pressure',
+    clearLabel: 'Reset',
+    cases: [
+      ['2', 'bar', 'kpa', '2 bar = 200 kPa'],
+      ['3', 'atm', 'pa', '3 atm = 3,03,975 Pa'],
+      ['2', 'kpa', 'pa', '2 kPa = 2,000 Pa'],
+      ['100', 'psi', 'kpa', '100 psi ≈ 689.4757293 kPa'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {
