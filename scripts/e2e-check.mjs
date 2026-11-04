@@ -946,6 +946,18 @@ try {
       ['1000', 'mib', 'gib', '1,000 MiB = 0.9765625 GiB'],
     ],
   });
+  await checkConverter(browser, siteUrl, {
+    title: 'Speed Converter',
+    path: '/speed-converter',
+    screenshot: 'speed',
+    clearLabel: 'Reset',
+    cases: [
+      ['100', 'kmh', 'mph', '100 km/h ≈ 62.13711922 mph'],
+      ['10', 'ms', 'kmh', '10 m/s = 36 km/h'],
+      ['5', 'kn', 'kmh', '5 kn = 9.26 km/h'],
+      ['2', 'mph', 'kmh', '2 mph = 3.218688 km/h'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {

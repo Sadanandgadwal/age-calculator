@@ -1,4 +1,4 @@
-import { Beaker, Cake, CalendarRange, Clock, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
+import { Beaker, Cake, CalendarRange, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -340,6 +340,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/data-storage/Page.jsx'),
     loadContent: () => import('../tools/data-storage/content.js'),
+  },
+  {
+    id: 'speed-converter',
+    name: 'Speed Converter',
+    route: '/speed-converter',
+    categories: ['converters'],
+    icon: Gauge,
+    description: 'Convert between kilometres per hour, miles per hour, metres per second and knots.',
+    keywords: ['speed', 'velocity', 'km/h', 'kmph', 'mph', 'm/s', 'knot', 'knots', 'kilometres per hour', 'miles per hour'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Speed Converter – km/h, mph, m/s and Knots',
+      description:
+        'Convert speed between kilometres per hour, miles per hour, metres per second and knots. Instant, accurate results using exact definitions, free to use.',
+      featureList: ['km/h, mph, m/s and knots', 'Instant conversion as you type', 'Exact conversion constants', 'Conversion formula and rate'],
+    },
+    load: () => import('../tools/speed/Page.jsx'),
+    loadContent: () => import('../tools/speed/content.js'),
   },
 ];
 
