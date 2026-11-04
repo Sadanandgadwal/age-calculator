@@ -1,4 +1,4 @@
-import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Zap } from 'lucide-react';
+import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -454,6 +454,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/angle/Page.jsx'),
     loadContent: () => import('../tools/angle/content.js'),
+  },
+  {
+    id: 'countdown-timer',
+    name: 'Countdown Timer',
+    route: '/countdown-timer',
+    categories: ['date-time'],
+    icon: Hourglass,
+    description: 'Count down to any date and time, with a live view of the days, hours, minutes and seconds left.',
+    keywords: ['countdown', 'timer', 'event', 'deadline', 'days until', 'how long until', 'new year', 'exam'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Countdown Timer – Count Down to Any Date and Time',
+      description:
+        'Create a live countdown to any date and time. Name your event, see the days, hours, minutes and seconds remaining, and pause or reset whenever you like.',
+      featureList: ['Live countdown to any date and time', 'Custom event name', 'Pause, resume and reset', 'Clear message when the event is reached'],
+    },
+    load: () => import('../tools/countdown-timer/Page.jsx'),
+    loadContent: () => import('../tools/countdown-timer/content.js'),
   },
 ];
 

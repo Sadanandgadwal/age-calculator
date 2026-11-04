@@ -42,6 +42,7 @@ describe('routes', () => {
     ['/energy-converter', 'Energy Converter'],
     ['/frequency-converter', 'Frequency Converter'],
     ['/angle-converter', 'Angle Converter'],
+    ['/countdown-timer', 'Countdown Timer'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

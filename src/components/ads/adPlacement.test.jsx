@@ -10,6 +10,7 @@ const TOOL_PATHS = [
   '/cm-to-feet-converter',
   '/date-calculator',
   '/gst-calculator',
+  '/countdown-timer',
   '/angle-converter',
   '/frequency-converter',
   '/energy-converter',

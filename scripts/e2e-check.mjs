@@ -619,6 +619,67 @@ async function checkFlows(browser, siteUrl, { title, path, screenshot, requiredE
   }
 }
 
+async function checkLiveTool(browser, siteUrl, { title, path, screenshot, steps }) {
+  console.log(`\n${title}`);
+  for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
+    const label = `${viewport.width}px`;
+    const page = await browser.newPage();
+    const problems = [];
+    page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+    page.on('pageerror', (error) => problems.push(error.message));
+    await page.setViewport(viewport);
+    await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
+    await runAxe(page, `${label} initial`);
+    await steps(page, label);
+    await runAxe(page, `${label} after use`);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+    check(`${label}: no horizontal scroll`, !overflow);
+    await page.screenshot({ path: `${OUTPUT_DIR}/${screenshot}-${viewport.width}.png`, fullPage: true });
+    check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
+    await page.close();
+  }
+}
+
+const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const cardValue = (page, name) =>
+  page.evaluate((label) => [...document.querySelectorAll('[data-testid="result-card"]')].find((card) => card.textContent.includes(label))?.textContent, name);
+
+const DATE_TIME_CHECKS = [
+  {
+    name: 'countdown',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Countdown Timer',
+        path: '/countdown-timer',
+        screenshot: 'countdown',
+        steps: async (page, label) => {
+          await clickButton(page, 'Start');
+          await settle();
+          check(`${label}: requires a date`, await hasText(page, 'Please choose a target date.'));
+          await setDate(page, '#countdown-date', '2020-01-01');
+          await clickButton(page, 'Start');
+          await settle();
+          check(`${label}: explains a past date`, await hasText(page, 'has already passed'));
+          await setDate(page, '#countdown-date', '2099-01-01');
+          await setDate(page, '#countdown-name', 'Launch');
+          await clickButton(page, 'Start');
+          await settle();
+          check(`${label}: starts with the event name`, await hasText(page, 'Time until Launch'));
+          const first = await cardValue(page, 'Seconds');
+          await pause(1300);
+          check(`${label}: counts down live`, first !== (await cardValue(page, 'Seconds')));
+          await clickButton(page, 'Pause');
+          await settle();
+          const paused = await cardValue(page, 'Seconds');
+          await pause(1300);
+          check(`${label}: pause holds the time`, paused === (await cardValue(page, 'Seconds')));
+          await clickButton(page, 'Resume');
+          await settle();
+        },
+      }),
+  },
+];
+
 async function checkPlatform(browser, siteUrl) {
   console.log('\nPlatform');
   const page = await browser.newPage();
@@ -648,7 +709,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '4 tools found'));
+  check('home search finds tools by category', await hasText(page, '5 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');
@@ -817,6 +878,14 @@ const browser = await puppeteer.launch({
 });
 
 try {
+  const only = process.env.E2E_ONLY;
+  if (only) {
+    for (const item of DATE_TIME_CHECKS.filter(({ name }) => name === only)) await item.run(browser, siteUrl);
+    await browser.close();
+    await server?.close();
+    console.log(failures === 0 ? '\nAll browser checks passed.' : `\n${failures} browser check(s) failed.`);
+    process.exit(failures === 0 ? 0 : 1);
+  }
   for (const viewport of VIEWPORTS) {
     await checkViewport(browser, baseUrl, viewport);
   }
@@ -1018,6 +1087,7 @@ try {
       ['200', 'grad', 'deg', '200 grad = 180 deg'],
     ],
   });
+  for (const item of DATE_TIME_CHECKS) await item.run(browser, siteUrl);
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {
