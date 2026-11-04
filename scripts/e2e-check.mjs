@@ -1082,6 +1082,29 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'randomnumber',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Random Number Generator',
+        path: '/random-number-generator',
+        screenshot: 'random-number',
+        steps: async (page, label) => {
+          await setText(page, '#random-min', '1');
+          await setText(page, '#random-max', '5');
+          await setText(page, '#random-count', '6');
+          await page.evaluate(() => [...document.querySelectorAll('label')].find((item) => item.textContent.includes('No repeats')).click());
+          await clickButton(page, 'Generate');
+          await settle();
+          check(`${label}: refuses more unique numbers than the range has`, await hasText(page, 'This range only has 5 different numbers.'));
+          await setText(page, '#random-count', '5');
+          await clickButton(page, 'Generate');
+          await settle();
+          const numbers = (await outputText(page)).split(', ').map(Number).sort();
+          check(`${label}: picks each number once`, numbers.join() === '1,2,3,4,5');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

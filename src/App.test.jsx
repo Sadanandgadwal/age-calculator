@@ -64,6 +64,7 @@ describe('routes', () => {
     ['/text-sorter', 'Text Sorter'],
     ['/slug-generator', 'Slug Generator'],
     ['/lorem-ipsum-generator', 'Lorem Ipsum Generator'],
+    ['/random-number-generator', 'Random Number Generator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

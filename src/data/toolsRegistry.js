@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -872,6 +872,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/lorem-ipsum-generator/Page.jsx'),
     loadContent: () => import('../tools/lorem-ipsum-generator/content.js'),
+  },
+  {
+    id: 'random-number-generator',
+    name: 'Random Number Generator',
+    route: '/random-number-generator',
+    categories: ['text-tools'],
+    icon: Dices,
+    description: 'Pick random numbers in any range, with or without repeats.',
+    keywords: ['random number', 'number generator', 'rng', 'pick a number', 'random picker', 'lottery numbers', 'raffle'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Random Number Generator – Pick Numbers in Any Range',
+      description:
+        'Pick one or many random numbers in any range, with or without repeats. Uses secure browser randomness, so every number is equally likely.',
+      featureList: ['Any whole number range', 'Up to 1,000 numbers at once', 'Option for no repeats', 'Option to sort the results', 'Uses secure browser randomness'],
+    },
+    load: () => import('../tools/random-number-generator/Page.jsx'),
+    loadContent: () => import('../tools/random-number-generator/content.js'),
   },
 ];
 

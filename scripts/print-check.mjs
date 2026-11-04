@@ -64,6 +64,7 @@ const CASES = [
   { route: '/text-sorter', steps: [['#sort-text', 'pear\napple\nplum']], expected: ['Order', 'A to Z', 'Sorted lines', 'apple'] },
   { route: '/slug-generator', steps: [['#slug-text', 'Hello Big World']], expected: ['Title', 'Separator', 'hello-big-world'] },
   { route: '/lorem-ipsum-generator', steps: [], expected: ['Paragraphs', 'Words', 'Placeholder text', 'Lorem ipsum dolor'] },
+  { route: '/random-number-generator', steps: [['#random-min', '7'], ['#random-max', '7'], ['click', 'Generate']], expected: ['Lowest number', 'Highest number', 'Random number', '7'] },
 ];
 
 const failures = [];
