@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -720,6 +720,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/reading-time/Page.jsx'),
     loadContent: () => import('../tools/reading-time/content.js'),
+  },
+  {
+    id: 'case-converter',
+    name: 'Case Converter',
+    route: '/case-converter',
+    categories: ['text-tools'],
+    icon: CaseUpper,
+    description: 'Change text to upper, lower, title, sentence, camel, snake or kebab case.',
+    keywords: ['uppercase', 'lowercase', 'title case', 'sentence case', 'camelcase', 'snake case', 'kebab case', 'capitalize'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Case Converter – Upper, Lower, Title and Sentence Case',
+      description:
+        'Convert text to uppercase, lowercase, title case or sentence case, or to camelCase, snake_case and kebab-case for code. Free and instant.',
+      featureList: ['Upper and lower case', 'Title and sentence case', 'camelCase, snake_case and kebab-case', 'Handles accented letters', 'Keeps your line breaks'],
+    },
+    load: () => import('../tools/case-converter/Page.jsx'),
+    loadContent: () => import('../tools/case-converter/content.js'),
   },
 ];
 

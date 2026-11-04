@@ -56,6 +56,7 @@ const CASES = [
   { route: '/character-counter', steps: [['#char-text', 'Hello there'], ['#char-limit', '160']], expected: ['Character limit', '149 left of 160', 'Letters', 'Hello there'] },
   { route: '/line-counter', steps: [['#line-text', 'one\n\ntwo']], expected: ['Total lines', 'Blank lines', 'Longest Line'] },
   { route: '/reading-time-calculator', steps: [['#read-text', 'word word word word word']], expected: ['Reading speed', 'Reading time', 'Speaking time'] },
+  { route: '/case-converter', steps: [['#case-text', 'hello big world'], ['click', 'camelCase']], expected: ['Converted to', 'camelCase', 'helloBigWorld'] },
 ];
 
 const failures = [];

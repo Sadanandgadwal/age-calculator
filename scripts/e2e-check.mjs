@@ -686,6 +686,7 @@ async function setText(page, selector, value) {
   await pause(50);
 }
 
+const outputText = (page) => page.$eval('[role="region"][aria-label="Output"]', (element) => element.textContent);
 const resultCards = (page) => page.$$eval('[data-testid="result-card"]', (cards) => cards.map((card) => card.textContent));
 const cardValue = (page, name) =>
   page.evaluate((label) => [...document.querySelectorAll('[data-testid="result-card"]')].find((card) => card.textContent.includes(label))?.textContent, name);
@@ -952,6 +953,22 @@ const DATE_TIME_CHECKS = [
           await setText(page, '#read-text', 'word '.repeat(476));
           const cards = await resultCards(page);
           check(`${label}: estimates reading time`, cards.some((card) => card.includes('2 min') && card.includes('Reading Time')));
+        },
+      }),
+  },
+{
+    name: 'caseconverter',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Case Converter',
+        path: '/case-converter',
+        screenshot: 'case-converter',
+        steps: async (page, label) => {
+          await setText(page, '#case-text', 'the quick brown fox');
+          check(`${label}: starts in upper case`, (await outputText(page)) === 'THE QUICK BROWN FOX');
+          await clickButton(page, 'snake_case');
+          await settle();
+          check(`${label}: switches case`, (await outputText(page)) === 'the_quick_brown_fox');
         },
       }),
   },
