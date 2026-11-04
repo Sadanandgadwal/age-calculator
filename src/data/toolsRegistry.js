@@ -1,4 +1,4 @@
-import { Beaker, Cake, CalendarRange, CircleGauge, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Zap } from 'lucide-react';
+import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -416,6 +416,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/energy/Page.jsx'),
     loadContent: () => import('../tools/energy/content.js'),
+  },
+  {
+    id: 'frequency-converter',
+    name: 'Frequency Converter',
+    route: '/frequency-converter',
+    categories: ['converters'],
+    icon: AudioWaveform,
+    description: 'Convert between hertz, kilohertz, megahertz and gigahertz.',
+    keywords: ['frequency', 'hertz', 'hz', 'khz', 'mhz', 'ghz', 'kilohertz', 'megahertz', 'gigahertz', 'radio', 'wifi', 'processor'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Frequency Converter – Hz, kHz, MHz and GHz',
+      description:
+        'Convert frequency between hertz, kilohertz, megahertz and gigahertz. Instant, exact results using powers of 1000, with the formula shown, free in your browser.',
+      featureList: ['Hertz, kilohertz, megahertz and gigahertz', 'Instant conversion as you type', 'Exact powers of 1000', 'Conversion formula and rate'],
+    },
+    load: () => import('../tools/frequency/Page.jsx'),
+    loadContent: () => import('../tools/frequency/content.js'),
   },
 ];
 

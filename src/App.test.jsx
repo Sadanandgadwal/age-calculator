@@ -40,6 +40,7 @@ describe('routes', () => {
     ['/time-unit-converter', 'Time Unit Converter'],
     ['/pressure-converter', 'Pressure Converter'],
     ['/energy-converter', 'Energy Converter'],
+    ['/frequency-converter', 'Frequency Converter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

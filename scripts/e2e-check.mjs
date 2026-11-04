@@ -994,6 +994,18 @@ try {
       ['3', 'btu', 'j', '3 BTU ≈ 3,165.167558 J'],
     ],
   });
+  await checkConverter(browser, siteUrl, {
+    title: 'Frequency Converter',
+    path: '/frequency-converter',
+    screenshot: 'frequency',
+    clearLabel: 'Reset',
+    cases: [
+      ['3', 'ghz', 'mhz', '3 GHz = 3,000 MHz'],
+      ['2', 'khz', 'hz', '2 kHz = 2,000 Hz'],
+      ['100', 'mhz', 'ghz', '100 MHz = 0.1 GHz'],
+      ['1500', 'hz', 'khz', '1,500 Hz = 1.5 kHz'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {
