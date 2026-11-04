@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, ListX, Percent, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, ListX, Percent, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -815,6 +815,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/find-replace-text/Page.jsx'),
     loadContent: () => import('../tools/find-replace-text/content.js'),
+  },
+  {
+    id: 'text-sorter',
+    name: 'Text Sorter',
+    route: '/text-sorter',
+    categories: ['text-tools'],
+    icon: ArrowDownAZ,
+    description: 'Sort lines alphabetically, by number or by length, or shuffle them.',
+    keywords: ['sort text', 'sort lines', 'alphabetical order', 'sort list', 'a to z', 'numeric sort', 'shuffle lines'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Text Sorter – Sort Lines Alphabetically Online',
+      description:
+        'Sort any list of lines from A to Z, Z to A, by number or by length, or shuffle them. Numbers within text sort in their natural order.',
+      featureList: ['A to Z and Z to A', 'Sort by number', 'Sort by line length', 'Shuffle lines randomly', 'Option to remove blank lines'],
+    },
+    load: () => import('../tools/text-sorter/Page.jsx'),
+    loadContent: () => import('../tools/text-sorter/content.js'),
   },
 ];
 

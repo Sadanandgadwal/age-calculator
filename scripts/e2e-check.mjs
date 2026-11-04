@@ -1038,6 +1038,22 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'textsorter',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Text Sorter',
+        path: '/text-sorter',
+        screenshot: 'text-sorter',
+        steps: async (page, label) => {
+          await setText(page, '#sort-text', 'Item 10\nItem 2\nItem 1');
+          check(`${label}: sorts naturally`, (await outputText(page)) === 'Item 1\nItem 2\nItem 10');
+          await clickButton(page, 'Shuffle lines');
+          await settle();
+          check(`${label}: shuffle keeps every line`, (await outputText(page)).split('\n').length === 3);
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

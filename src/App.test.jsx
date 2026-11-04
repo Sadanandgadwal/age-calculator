@@ -61,6 +61,7 @@ describe('routes', () => {
     ['/remove-duplicate-lines', 'Remove Duplicate Lines'],
     ['/remove-extra-spaces', 'Remove Extra Spaces'],
     ['/find-replace-text', 'Find & Replace Text'],
+    ['/text-sorter', 'Text Sorter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
