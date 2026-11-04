@@ -1,4 +1,4 @@
-import { AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
+import { AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarRange, CalendarSearch, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -530,6 +530,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/business-days/Page.jsx'),
     loadContent: () => import('../tools/business-days/content.js'),
+  },
+  {
+    id: 'day-of-week-calculator',
+    name: 'Day of the Week Calculator',
+    route: '/day-of-week-calculator',
+    categories: ['date-time'],
+    icon: CalendarSearch,
+    description: 'Find the day of the week for any past or future date, with useful date details.',
+    keywords: ['day of the week', 'weekday', 'what day', 'which day', 'day finder', 'born on', 'calendar', 'monday', 'sunday'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Day of the Week Calculator – What Day Was Any Date?',
+      description:
+        'Find the day of the week for any past or future date. See the day of the year, ISO week, month length and leap year status, with leap years handled correctly.',
+      featureList: ['Weekday for any past or future date', 'Day of the year and ISO week', 'Leap year handling', 'Distance from today'],
+    },
+    load: () => import('../tools/day-of-week/Page.jsx'),
+    loadContent: () => import('../tools/day-of-week/content.js'),
   },
 ];
 

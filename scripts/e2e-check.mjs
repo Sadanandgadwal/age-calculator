@@ -581,7 +581,7 @@ async function checkGst(browser, siteUrl) {
   }
 }
 
-async function checkFlows(browser, siteUrl, { title, path, screenshot, requiredError, flows }) {
+async function checkFlows(browser, siteUrl, { title, path, screenshot, requiredError, flows, clearFirst }) {
   console.log(`\n${title}`);
   for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
     const label = `${viewport.width}px`;
@@ -592,6 +592,7 @@ async function checkFlows(browser, siteUrl, { title, path, screenshot, requiredE
     await page.setViewport(viewport);
     await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
 
+    if (clearFirst) await setDate(page, clearFirst, '');
     await clickButton(page, 'Calculate');
     await settle();
     check(`${label}: shows validation errors`, await hasText(page, requiredError));
@@ -737,6 +738,22 @@ const DATE_TIME_CHECKS = [
         ],
       }),
   },
+  {
+    name: 'dayofweek',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Day of the Week Calculator',
+        path: '/day-of-week-calculator',
+        screenshot: 'day-of-week',
+        requiredError: 'Please choose a date.',
+        clearFirst: '#dow-date',
+        flows: [
+          { inputs: { '#dow-date': '1998-06-15' }, answer: 'Monday\nWeekday' },
+          { inputs: { '#dow-date': '2030-12-25' }, answer: 'Wednesday\nWeekday' },
+          { inputs: { '#dow-date': '2024-02-29' }, answer: 'Days in the Year\n366' },
+        ],
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -768,7 +785,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '8 tools found'));
+  check('home search finds tools by category', await hasText(page, '9 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');
