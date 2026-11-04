@@ -1,4 +1,4 @@
-import { Beaker, Cake, CalendarRange, CircleGauge, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users } from 'lucide-react';
+import { Beaker, Cake, CalendarRange, CircleGauge, Clock, Gauge, GraduationCap, HardDrive, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -397,6 +397,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/pressure/Page.jsx'),
     loadContent: () => import('../tools/pressure/content.js'),
+  },
+  {
+    id: 'energy-converter',
+    name: 'Energy Converter',
+    route: '/energy-converter',
+    categories: ['converters'],
+    icon: Zap,
+    description: 'Convert between joules, calories, kilocalories, kilowatt-hours and BTU.',
+    keywords: ['energy', 'joule', 'calorie', 'cal', 'kilocalorie', 'kcal', 'kilowatt hour', 'kwh', 'btu', 'electricity', 'food'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Energy Converter – Joules, Calories, kWh and BTU',
+      description:
+        'Convert energy between joules, calories, kilocalories, kilowatt-hours and BTU. Instant, accurate results that keep calories and kilocalories clearly separate.',
+      featureList: ['Joules, calories and kilocalories', 'Kilowatt-hours and BTU', 'Instant conversion as you type', 'Conversion formula and rate'],
+    },
+    load: () => import('../tools/energy/Page.jsx'),
+    loadContent: () => import('../tools/energy/content.js'),
   },
 ];
 

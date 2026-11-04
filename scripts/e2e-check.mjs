@@ -982,6 +982,18 @@ try {
       ['100', 'psi', 'kpa', '100 psi ≈ 689.4757293 kPa'],
     ],
   });
+  await checkConverter(browser, siteUrl, {
+    title: 'Energy Converter',
+    path: '/energy-converter',
+    screenshot: 'energy',
+    clearLabel: 'Reset',
+    cases: [
+      ['2', 'kwh', 'j', '2 kWh = 72,00,000 J'],
+      ['2', 'kcal', 'cal', '2 kcal = 2,000 cal'],
+      ['5', 'cal', 'j', '5 cal = 20.92 J'],
+      ['3', 'btu', 'j', '3 BTU ≈ 3,165.167558 J'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {

@@ -39,6 +39,7 @@ describe('routes', () => {
     ['/speed-converter', 'Speed Converter'],
     ['/time-unit-converter', 'Time Unit Converter'],
     ['/pressure-converter', 'Pressure Converter'],
+    ['/energy-converter', 'Energy Converter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
