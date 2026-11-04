@@ -29,8 +29,11 @@ describe('PrintReportHost', () => {
     firePrint('beforeprint');
     expect(report().parentElement).toBe(document.body);
     expect(report().querySelector('h1').textContent).toBe('Some Tool');
-    for (const text of ['ToolNest', 'A mode', 'Value entered', 'Answer', 'Extra', 'A = B', 'Step one', 'Rows', 'A note', 'Generated on']) {
+    for (const text of ['ToolNest', 'A mode', 'Value entered', 'Answer', 'Extra', 'Rows', 'A note', 'Generated on']) {
       expect(report().textContent).toContain(text);
+    }
+    for (const text of ['Formula', 'A = B', 'Calculation steps', 'Step one']) {
+      expect(report().textContent).not.toContain(text);
     }
 
     firePrint('afterprint');

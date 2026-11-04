@@ -37,7 +37,7 @@ function Lines({ title, lines }) {
 }
 
 function ReportDocument({ title, report, printedAt, url }) {
-  const { subtitle, inputs, results, details, formula, steps, table, notes } = report;
+  const { subtitle, inputs, results, details, /* formula, steps, */ table, notes } = report;
 
   return (
     <article className="print-report" data-dense={table?.rows.length > DENSE_ROWS || undefined}>
@@ -92,8 +92,8 @@ function ReportDocument({ title, report, printedAt, url }) {
         </section>
       )}
 
-      <Lines title="Formula" lines={formula ? [formula] : null} />
-      <Lines title="Calculation steps" lines={steps} />
+      {/* <Lines title="Formula" lines={formula ? [formula] : null} />
+      <Lines title="Calculation steps" lines={steps} /> */}
       <Lines title="Notes" lines={notes} />
 
       <footer className="pr-footer">
