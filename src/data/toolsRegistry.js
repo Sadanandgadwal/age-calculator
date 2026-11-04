@@ -1,4 +1,4 @@
-import { Cake, CalendarRange, Clock, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
+import { Cake, CalendarRange, Clock, GraduationCap, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Users } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -283,6 +283,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/temperature/Page.jsx'),
     loadContent: () => import('../tools/temperature/content.js'),
+  },
+  {
+    id: 'area-converter',
+    name: 'Area Converter',
+    route: '/area-converter',
+    categories: ['converters'],
+    icon: LandPlot,
+    description: 'Convert between square feet, square metres, acres, hectares, cents and square yards.',
+    keywords: ['area', 'land', 'square feet', 'sq ft', 'square metre', 'sq m', 'acre', 'hectare', 'cent', 'square yard', 'plot'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Area Converter – Sq Ft, Acres, Hectares and Cents',
+      description:
+        'Convert land and floor area between square feet, square metres, acres, hectares, cents and square yards. Instant, accurate results with the formula shown.',
+      featureList: ['Square feet, square metres and square yards', 'Acres, hectares and cents', 'Instant conversion as you type', 'Conversion formula and rate'],
+    },
+    load: () => import('../tools/area/Page.jsx'),
+    loadContent: () => import('../tools/area/content.js'),
   },
 ];
 

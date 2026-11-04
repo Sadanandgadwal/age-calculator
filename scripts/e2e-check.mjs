@@ -910,6 +910,18 @@ try {
       ['0', 'k', 'f', '0 K = -459.67 °F'],
     ],
   });
+  await checkConverter(browser, siteUrl, {
+    title: 'Area Converter',
+    path: '/area-converter',
+    screenshot: 'area',
+    clearLabel: 'Reset',
+    cases: [
+      ['2', 'acre', 'sqft', '2 ac = 87,120 sq ft'],
+      ['5', 'cent', 'sqft', '5 cent = 2,178 sq ft'],
+      ['3', 'hectare', 'sqm', '3 ha = 30,000 sq m'],
+      ['18', 'sqft', 'sqyd', '18 sq ft = 2 sq yd'],
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {

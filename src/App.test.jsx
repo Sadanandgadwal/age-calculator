@@ -33,6 +33,7 @@ describe('routes', () => {
     ['/discount-calculator', 'Discount Calculator'],
     ['/bill-split-calculator', 'Bill Split Calculator'],
     ['/temperature-converter', 'Temperature Converter'],
+    ['/area-converter', 'Area Converter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
