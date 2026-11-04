@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarRange, CalendarSearch, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -568,6 +568,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/pomodoro/Page.jsx'),
     loadContent: () => import('../tools/pomodoro/content.js'),
+  },
+  {
+    id: 'leap-year-checker',
+    name: 'Leap Year Checker',
+    route: '/leap-year-checker',
+    categories: ['date-time'],
+    icon: CalendarHeart,
+    description: 'Check whether any year is a leap year, with the rule explained and the next leap year shown.',
+    keywords: ['leap year', 'february 29', '29 february', 'is it a leap year', 'century year', '366 days'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Leap Year Checker – Is It a Leap Year?',
+      description:
+        'Check whether any year is a leap year and see why, including the century year rule. Find the next and previous leap years with this free leap year checker.',
+      featureList: ['Leap year check for any year', 'Plain explanation of the rule', 'Next and previous leap years', 'Correct century year handling'],
+    },
+    load: () => import('../tools/leap-year/Page.jsx'),
+    loadContent: () => import('../tools/leap-year/content.js'),
   },
 ];
 

@@ -787,6 +787,22 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+  {
+    name: 'leapyear',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Leap Year Checker',
+        path: '/leap-year-checker',
+        screenshot: 'leap-year',
+        requiredError: 'Please enter a year.',
+        flows: [
+          { inputs: { '#leap-year': '2028' }, answer: '2028 is a leap year because it divides evenly by 4' },
+          { inputs: { '#leap-year': '2100' }, answer: '2100 is not a leap year because it is a century year' },
+          { inputs: { '#leap-year': '2400' }, answer: '2400 is a leap year because it is a century year' },
+          { inputs: { '#leap-year': '2031' }, answer: '2031 is not a leap year because it does not divide evenly by 4' },
+        ],
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -818,7 +834,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '10 tools found'));
+  check('home search finds tools by category', await hasText(page, '11 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');
