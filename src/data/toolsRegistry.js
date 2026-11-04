@@ -1,4 +1,4 @@
-import { Cake, CalendarRange, GraduationCap, Percent, ReceiptIndianRupee, Ruler, Scale } from 'lucide-react';
+import { Cake, CalendarRange, GraduationCap, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -188,6 +188,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/gst/Page.jsx'),
     loadContent: () => import('../tools/gst/content.js'),
+  },
+  {
+    id: 'emi-calculator',
+    name: 'EMI Calculator',
+    route: '/emi-calculator',
+    categories: ['calculators', 'finance'],
+    icon: Landmark,
+    description: 'Work out your monthly loan EMI, total interest and total payment.',
+    keywords: ['emi', 'loan', 'home loan', 'car loan', 'personal loan', 'interest', 'instalment', 'installment', 'monthly payment', 'mortgage'],
+    featured: true,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'EMI Calculator – Calculate Your Monthly Loan EMI',
+      description:
+        'Calculate your monthly loan EMI, total interest and total payment. See a yearly repayment schedule for home, car and personal loans with this free calculator.',
+      featureList: ['Monthly EMI', 'Total interest and total payment', 'Tenure in years or months', 'Yearly repayment schedule'],
+    },
+    load: () => import('../tools/emi/Page.jsx'),
+    loadContent: () => import('../tools/emi/content.js'),
   },
 ];
 

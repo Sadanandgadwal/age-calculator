@@ -581,6 +581,44 @@ async function checkGst(browser, siteUrl) {
   }
 }
 
+async function checkFlows(browser, siteUrl, { title, path, screenshot, requiredError, flows }) {
+  console.log(`\n${title}`);
+  for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
+    const label = `${viewport.width}px`;
+    const page = await browser.newPage();
+    const problems = [];
+    page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+    page.on('pageerror', (error) => problems.push(error.message));
+    await page.setViewport(viewport);
+    await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
+
+    await clickButton(page, 'Calculate');
+    await settle();
+    check(`${label}: shows validation errors`, await hasText(page, requiredError));
+    await runAxe(page, `${label} errors`);
+
+    for (const { mode, inputs = {}, selects = {}, answer } of flows) {
+      if (mode) await clickButton(page, mode);
+      await settle();
+      for (const [selector, value] of Object.entries(selects)) await page.select(selector, value);
+      for (const [selector, value] of Object.entries(inputs)) await setDate(page, selector, value);
+      await clickButton(page, 'Calculate');
+      await settle();
+      check(`${label}: ${mode ?? 'calculates'} shows ${answer}`, await hasText(page, answer));
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+      check(`${label}: ${mode ?? 'calculates'} has no horizontal scroll`, !overflow);
+    }
+    await runAxe(page, `${label} results`);
+    await page.screenshot({ path: `${OUTPUT_DIR}/${screenshot}-${viewport.width}.png`, fullPage: true });
+
+    await clickButton(page, 'Reset');
+    await settle();
+    check(`${label}: reset clears results`, await hasText(page, 'Your results will appear here'));
+    check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
+    await page.close();
+  }
+}
+
 async function checkPlatform(browser, siteUrl) {
   console.log('\nPlatform');
   const page = await browser.newPage();
@@ -814,6 +852,16 @@ try {
   });
   await checkDate(browser, siteUrl);
   await checkGst(browser, siteUrl);
+  await checkFlows(browser, siteUrl, {
+    title: 'EMI Calculator',
+    path: '/emi-calculator',
+    screenshot: 'emi',
+    requiredError: 'Please enter the loan amount.',
+    flows: [
+      { inputs: { '#emi-amount': '1000000', '#emi-rate': '8.5', '#emi-tenure': '20' }, answer: '₹8,678.23' },
+      { inputs: { '#emi-amount': '9999999999999', '#emi-rate': '12', '#emi-tenure': '30' }, answer: 'Yearly schedule' },
+    ],
+  });
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {

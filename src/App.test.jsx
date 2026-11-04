@@ -28,6 +28,7 @@ describe('routes', () => {
     ['/converters', 'Converters'],
     ['/date-time', 'Date & Time'],
     ['/finance', 'Finance'],
+    ['/emi-calculator', 'EMI Calculator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

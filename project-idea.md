@@ -2,15 +2,15 @@ Think of a platform where users can visit one website and access hundreds of sma
 
 Examples:
 - Age Calculator
+- Date Calculator
+- GST Calculator
+- EMI Calculator
+- Time Calculator
 - Marks & Percentage Calculator
 - KG to Gram Converter
 - CM to Feet Converter
 - PDF Tools
 - Image Resizer
-- Date Calculator
-- GST Calculator
-- EMI Calculator
-- Time Calculator
 - Text Case Converter
 - Word Counter
 - SGPA to CGPA

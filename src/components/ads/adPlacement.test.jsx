@@ -10,6 +10,7 @@ const TOOL_PATHS = [
   '/cm-to-feet-converter',
   '/date-calculator',
   '/gst-calculator',
+  '/emi-calculator',
 ];
 const units = () => [...document.querySelectorAll('ins.adsbygoogle')];
 const scripts = () => document.querySelectorAll('script[src*="adsbygoogle"]');
