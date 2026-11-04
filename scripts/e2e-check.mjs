@@ -342,6 +342,53 @@ async function checkMarks(browser, siteUrl) {
   }
 }
 
+async function checkPercentage(browser, siteUrl) {
+  console.log('\nPercentage Calculator');
+  const cases = [
+    ['% of a number', '20', '500', '20% of 500 is 100'],
+    ['X is what %', '50', '200', '50 is 25% of 200'],
+    ['Find the whole', '50', '25', '50 is 25% of 200'],
+    ['Increase', '500', '20', 'Increase 500 by 20% = 600'],
+    ['Decrease', '500', '20', 'Decrease 500 by 20% = 400'],
+    ['Difference', '100', '150', 'The percentage difference between 100 and 150 is 40%'],
+    ['Add %', '500', '20', '500 + 20% = 600'],
+    ['Subtract %', '500', '20', '500 − 20% = 400'],
+    ['Change', '100', '150', 'From 100 to 150 is an increase of 50%'],
+  ];
+
+  for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
+    const label = `${viewport.width}px`;
+    const page = await browser.newPage();
+    const problems = [];
+    page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+    page.on('pageerror', (error) => problems.push(error.message));
+    await page.setViewport(viewport);
+    await page.goto(new URL('/percentage-calculator', siteUrl).href, { waitUntil: 'networkidle0' });
+
+    await clickButton(page, 'Calculate');
+    await settle();
+    check(`${label}: shows validation errors`, await hasText(page, 'Please enter a value.'));
+    await runAxe(page, `${label} errors`);
+
+    for (const [mode, a, b, answer] of cases) {
+      await clickButton(page, mode);
+      await settle();
+      await setDate(page, '#percent-a', a);
+      await setDate(page, '#percent-b', b);
+      await clickButton(page, 'Calculate');
+      await settle();
+      check(`${label} ${mode}: shows the answer`, await hasText(page, answer));
+    }
+
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+    check(`${label}: no horizontal scroll`, !overflow);
+    await runAxe(page, `${label} results`);
+    await page.screenshot({ path: `${OUTPUT_DIR}/percentage-${viewport.width}.png`, fullPage: true });
+    check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
+    await page.close();
+  }
+}
+
 async function checkPlatform(browser, siteUrl) {
   console.log('\nPlatform');
   const page = await browser.newPage();
@@ -548,6 +595,7 @@ try {
   await checkConfetti(browser, baseUrl);
   await checkCopy(browser, baseUrl);
   await checkMarks(browser, siteUrl);
+  await checkPercentage(browser, siteUrl);
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {

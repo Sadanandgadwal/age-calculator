@@ -31,6 +31,7 @@ describe('routes', () => {
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
     ['/marks-percentage-calculator', 'Marks & Percentage Calculator'],
+    ['/percentage-calculator', 'Percentage Calculator'],
   ])('%s shows its page', async (path, heading) => {
     renderAt(path);
     expect(await pageHeading(heading)).toBeInTheDocument();

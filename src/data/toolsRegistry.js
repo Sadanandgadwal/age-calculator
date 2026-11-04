@@ -1,4 +1,4 @@
-import { Cake, GraduationCap } from 'lucide-react';
+import { Cake, GraduationCap, Percent } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -64,6 +64,31 @@ export const TOOLS = [
     },
     load: () => import('../tools/marks-percentage/Page.jsx'),
     loadContent: () => import('../tools/marks-percentage/content.js'),
+  },
+  {
+    id: 'percentage-calculator',
+    name: 'Percentage Calculator',
+    route: '/percentage-calculator',
+    categories: ['calculators'],
+    icon: Percent,
+    description: 'Solve any percentage question, with the formula and steps shown.',
+    keywords: ['percent', 'increase', 'decrease', 'difference', 'change', 'discount', 'ratio', 'of'],
+    featured: true,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Free Percentage Calculator – Calculate Percentages Online',
+      description:
+        'Find percentages, increases, decreases, differences and changes between values. See the formula and every calculation step with this free percentage calculator.',
+      featureList: [
+        'Percentage of a number',
+        'Percentage increase and decrease',
+        'Percentage difference and change',
+        'Add or subtract a percentage',
+        'Formula and calculation steps',
+      ],
+    },
+    load: () => import('../tools/percentage/Page.jsx'),
+    loadContent: () => import('../tools/percentage/content.js'),
   },
 ];
 
