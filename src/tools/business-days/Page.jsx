@@ -4,7 +4,7 @@ import * as content from './content.js';
 import { DEFAULT_WEEKEND, addHoliday, buildResultText, describeWeekend, evaluate } from './logic.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultDetails from '../../components/common/ResultDetails.jsx';
 import ToolLayout from '../../components/layout/ToolLayout.jsx';
@@ -73,7 +73,7 @@ export default function BusinessDaysPage() {
                   { label: 'Weekend', value: describeWeekend(weekend) },
                 ]}
               />
-              <CopyButton getText={() => buildResultText(result, weekend)} />
+              <ResultActions getText={() => buildResultText(result, weekend)} />
             </>
           )
         }

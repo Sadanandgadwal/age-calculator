@@ -335,6 +335,7 @@ async function checkMarks(browser, siteUrl) {
     check(`${label}: calculates the percentage`, await hasText(page, '66.67%'));
     check(`${label}: no horizontal scroll with results`, await noOverflow());
     await runAxe(page, `${label} results`);
+    await checkResultActions(page, label);
     await page.screenshot({ path: `${OUTPUT_DIR}/marks-${viewport.width}.png`, fullPage: true });
 
     await clickButton(page, 'Copy results');
@@ -398,6 +399,7 @@ async function checkPercentage(browser, siteUrl) {
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     check(`${label}: no horizontal scroll`, !overflow);
     await runAxe(page, `${label} results`);
+    await checkResultActions(page, label);
     await page.screenshot({ path: `${OUTPUT_DIR}/percentage-${viewport.width}.png`, fullPage: true });
     check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
     await page.close();
@@ -438,6 +440,7 @@ async function checkConverter(browser, siteUrl, { title, path, screenshot, cases
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     check(`${label}: no horizontal scroll`, !overflow);
     await runAxe(page, `${label} result`);
+    await checkResultActions(page, label);
     await page.screenshot({ path: `${OUTPUT_DIR}/${screenshot}-${viewport.width}.png`, fullPage: true });
 
     await setDate(page, '#convert-value', '1000000000000');
@@ -500,6 +503,7 @@ async function checkDate(browser, siteUrl) {
       check(`${label} ${mode}: shows results`, await hasText(page, answer));
     }
     await runAxe(page, `${label} range results`);
+    await checkResultActions(page, label);
     await page.screenshot({ path: `${OUTPUT_DIR}/date-${viewport.width}.png`, fullPage: true });
 
     for (const [mode, start, amount, answer] of shifts) {
@@ -543,6 +547,7 @@ async function checkGst(browser, siteUrl) {
     await settle();
     check(`${label}: intra-state breakdown`, (await hasText(page, '₹90.00')) && (await hasText(page, '₹1,180.00')));
     await runAxe(page, `${label} results`);
+    await checkResultActions(page, label);
 
     await clickButton(page, 'Inter-state');
     await settle();
@@ -581,6 +586,28 @@ async function checkGst(browser, siteUrl) {
   }
 }
 
+async function checkResultActions(page, label) {
+  const names = await page.$$eval('button', (buttons) => buttons.filter((button) => button.offsetParent).map((button) => button.textContent.trim()));
+  check(`${label}: offers copy, share and print`, ['Copy results', 'Share', 'Print'].every((name) => names.includes(name)));
+
+  await page.emulateMediaType('print');
+  const view = await page.evaluate(() => {
+    const isVisible = (element) => Boolean(element) && getComputedStyle(element).display !== 'none' && element.getBoundingClientRect().height > 0;
+    const panel = document.querySelector('[data-print-keep]');
+    const area = document.querySelector('.print-results');
+    return {
+      panel: isVisible(panel),
+      width: panel.getBoundingClientRect().width / area.getBoundingClientRect().width,
+      form: [...area.querySelectorAll('form, [role="group"]')].some(isVisible),
+      actions: [...area.querySelectorAll('button')].some(isVisible),
+      navigation: isVisible(document.querySelector('nav[aria-label="Main"]')),
+    };
+  });
+  await page.emulateMediaType(null);
+  check(`${label}: print shows only the results`, view.panel && !view.form && !view.actions && !view.navigation, JSON.stringify(view));
+  check(`${label}: print uses the full width`, view.width > 0.95, view.width.toFixed(2));
+}
+
 async function checkFlows(browser, siteUrl, { title, path, screenshot, requiredError, flows, clearFirst }) {
   console.log(`\n${title}`);
   for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
@@ -610,6 +637,7 @@ async function checkFlows(browser, siteUrl, { title, path, screenshot, requiredE
       check(`${label}: ${mode ?? 'calculates'} has no horizontal scroll`, !overflow);
     }
     await runAxe(page, `${label} results`);
+    await checkResultActions(page, label);
     await page.screenshot({ path: `${OUTPUT_DIR}/${screenshot}-${viewport.width}.png`, fullPage: true });
 
     await clickButton(page, 'Reset');
@@ -633,6 +661,7 @@ async function checkLiveTool(browser, siteUrl, { title, path, screenshot, steps 
     await runAxe(page, `${label} initial`);
     await steps(page, label);
     await runAxe(page, `${label} after use`);
+    await checkResultActions(page, label);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     check(`${label}: no horizontal scroll`, !overflow);
     await page.screenshot({ path: `${OUTPUT_DIR}/${screenshot}-${viewport.width}.png`, fullPage: true });

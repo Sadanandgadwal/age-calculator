@@ -4,7 +4,7 @@ import * as content from './content.js';
 import { buildResultText, evaluate } from './logic.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultDetails from '../../components/common/ResultDetails.jsx';
 import ToolLayout from '../../components/layout/ToolLayout.jsx';
@@ -45,7 +45,7 @@ export default function DayOfWeekPage() {
                   { label: 'Leap Year', value: result.isLeapYear ? 'Yes' : 'No' },
                 ]}
               />
-              <CopyButton getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} />
             </>
           )
         }

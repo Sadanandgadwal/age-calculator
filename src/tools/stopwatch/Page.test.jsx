@@ -92,6 +92,15 @@ describe('Online Stopwatch', () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
+  it('offers copy, share and print once started', () => {
+    setup();
+    expect(screen.queryByRole('button', { name: 'Print' })).not.toBeInTheDocument();
+    press('Start');
+    for (const name of ['Copy results', 'Share', 'Print']) {
+      expect(screen.getByRole('button', { name })).toBeInTheDocument();
+    }
+  });
+
   it('has the required sections', () => {
     setup();
     expect(screen.getByRole('heading', { level: 1, name: 'Online Stopwatch' })).toBeInTheDocument();

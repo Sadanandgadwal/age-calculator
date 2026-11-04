@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Flag, ListOrdered, Trash2 } from 'lucide-react';
 import * as content from './content.js';
 import { addLap, buildResultText, formatStopwatch } from './logic.js';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultPanel from '../../components/common/ResultPanel.jsx';
 import { secondaryTimerButton } from '../../components/common/timerButtonClasses.js';
 import TimerControls from '../../components/common/TimerControls.jsx';
@@ -48,7 +48,7 @@ export default function StopwatchPage() {
   return (
     <ToolLayout toolId="stopwatch" content={content}>
       <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-        <section aria-label="Stopwatch" className="flex flex-col gap-5 rounded-3xl bg-card p-6 shadow-card sm:p-8">
+        <section data-print-keep aria-label="Stopwatch" className="flex flex-col gap-5 rounded-3xl bg-card p-6 shadow-card sm:p-8">
           <TimerDisplay value={formatStopwatch(timer.elapsedMs)} label="Elapsed time" />
           <TimerControls isRunning={timer.isRunning} hasStarted={timer.hasStarted} onStart={timer.start} onPause={timer.pause} onReset={reset}>
             <button type="button" disabled={!timer.isRunning} onClick={() => setLaps((current) => addLap(current, timer.read()))} className={secondaryTimerButton}>
@@ -56,14 +56,14 @@ export default function StopwatchPage() {
               Lap
             </button>
           </TimerControls>
+          {timer.hasStarted && <ResultActions getText={() => buildResultText(timer.read(), laps)} />}
         </section>
 
         <ResultPanel title="Lap Times" icon={ListOrdered} emptyText="Select Lap while the stopwatch is running to record lap times.">
           {laps.length > 0 ? (
             <>
               <LapTable laps={laps} />
-              <CopyButton getText={() => buildResultText(laps)} />
-              <button type="button" onClick={() => setLaps([])} className={`${secondaryTimerButton} w-full`}>
+              <button type="button" onClick={() => setLaps([])} className={`${secondaryTimerButton} mt-4 w-full print:hidden`}>
                 <Trash2 aria-hidden="true" className="size-5" />
                 Clear laps
               </button>

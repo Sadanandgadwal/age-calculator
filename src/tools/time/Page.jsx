@@ -4,7 +4,7 @@ import * as content from './content.js';
 import { MODES, buildResultText, evaluate, formatDuration, getDurationTotals, getMode } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultDetails from '../../components/common/ResultDetails.jsx';
 import SegmentedControl from '../../components/common/SegmentedControl.jsx';
@@ -116,7 +116,7 @@ export default function TimeCalculatorPage() {
           result && (
             <>
               {result.kind === 'clock' ? <ClockResults result={result} /> : <DurationResults result={result} />}
-              <CopyButton getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} />
             </>
           )
         }

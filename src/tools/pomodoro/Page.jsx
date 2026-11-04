@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Coffee, Flame, ListChecks, Trash2 } from 'lucide-react';
 import * as content from './content.js';
-import { DEFAULT_MINUTES, SESSIONS, completionMessage, focusUntilLongBreak, formatRemaining, getSession, nextSession, validateMinutes } from './logic.js';
+import { DEFAULT_MINUTES, SESSIONS, buildResultText, completionMessage, focusUntilLongBreak, formatRemaining, getSession, nextSession, validateMinutes } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultPanel from '../../components/common/ResultPanel.jsx';
 import SegmentedControl from '../../components/common/SegmentedControl.jsx';
@@ -65,7 +66,7 @@ export default function PomodoroPage() {
   return (
     <ToolLayout toolId="pomodoro-timer" content={content}>
       <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-        <section aria-label="Pomodoro timer" className="flex flex-col gap-5 rounded-3xl bg-card p-6 shadow-card sm:p-8">
+        <section data-print-keep aria-label="Pomodoro timer" className="flex flex-col gap-5 rounded-3xl bg-card p-6 shadow-card sm:p-8">
           <SegmentedControl label="Current session" options={SESSIONS} value={sessionId} onChange={chooseSession} />
           <TimerDisplay value={isCurrentInvalid ? '--:--' : formatRemaining(remainingMs)} label={session.label} tone={session.tone} />
           <p role="status" className="text-center text-sm font-semibold text-primary empty:hidden">
@@ -79,7 +80,8 @@ export default function PomodoroPage() {
             <ResultCard label="Focus Sessions Completed" value={completed} icon={Flame} />
             <ResultCard label="Sessions Until Long Break" value={focusUntilLongBreak(completed)} icon={Coffee} tone="yellow" />
           </div>
-          <button type="button" disabled={completed === 0} onClick={() => setCompleted(0)} className={`${secondaryTimerButton} mt-4 w-full`}>
+          <ResultActions getText={() => buildResultText(session.label, formatRemaining(remainingMs), completed, values)} />
+          <button type="button" disabled={completed === 0} onClick={() => setCompleted(0)} className={`${secondaryTimerButton} w-full print:hidden`}>
             <Trash2 aria-hidden="true" className="size-5" />
             Clear completed sessions
           </button>

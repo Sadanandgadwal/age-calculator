@@ -5,7 +5,7 @@ import { MODES, UNITS, ZONE_MODES, buildResultText, currentDateTime, currentTime
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultDetails from '../../components/common/ResultDetails.jsx';
 import SegmentedControl from '../../components/common/SegmentedControl.jsx';
@@ -93,7 +93,7 @@ export default function UnixTimestampPage() {
                   { label: 'ISO 8601', value: result.iso },
                 ]}
               />
-              <CopyButton getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} />
             </>
           )
         }

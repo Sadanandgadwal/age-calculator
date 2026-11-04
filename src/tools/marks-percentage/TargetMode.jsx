@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Flag, Percent, Target } from 'lucide-react';
 import { buildTargetText, calculateTarget, validateTarget } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import FormActions from '../../components/common/FormActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultDetails from '../../components/common/ResultDetails.jsx';
@@ -73,7 +73,7 @@ export default function TargetMode() {
                 { label: 'Marks Remaining', value: formatDecimal(result.remaining) },
               ]}
             />
-            <CopyButton getText={() => buildTargetText(result, values.target)} />
+            <ResultActions getText={() => buildTargetText(result, values.target)} />
           </>
         )}
       </ResultPanel>

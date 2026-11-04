@@ -42,7 +42,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 
 ## Adding a tool
 
-1. Add the page under `src/tools/<tool-id>/`.
+1. Add the page under `src/tools/<tool-id>/`. Show results with `ResultActions` (or use `UnitConverter`), so the tool offers Copy results, Share and Print. A test fails if a tool leaves it out.
 2. Add one entry to `src/data/toolsRegistry.js`.
 
 The route, cards, search, category listings, SEO tags and sitemap entry all come from the registry.

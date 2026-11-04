@@ -41,7 +41,8 @@ describe('addLap', () => {
 });
 
 describe('buildResultText', () => {
-  it('lists laps in order', () => {
-    expect(buildResultText(addLap(addLap([], 1000), 3000))).toBe('Lap 1: 00:00:01.00 (total 00:00:01.00)\nLap 2: 00:00:02.00 (total 00:00:03.00)');
+  it('gives the elapsed time, then laps in order', () => {
+    expect(buildResultText(4000, addLap(addLap([], 1000), 3000))).toBe('Elapsed time: 00:00:04.00\nLap 1: 00:00:01.00 (total 00:00:01.00)\nLap 2: 00:00:02.00 (total 00:00:03.00)');
+    expect(buildResultText(1500, [])).toBe('Elapsed time: 00:00:01.50');
   });
 });

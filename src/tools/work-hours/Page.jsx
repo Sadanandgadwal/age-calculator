@@ -4,7 +4,7 @@ import * as content from './content.js';
 import { buildResultText, evaluate, formatDecimalHours, formatHours } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultDetails from '../../components/common/ResultDetails.jsx';
 import TimeField from '../../components/common/TimeField.jsx';
@@ -55,7 +55,7 @@ export default function WorkHoursPage() {
                   { label: 'Below Daily Hours', value: formatHours(result.shortfall) },
                 ]}
               />
-              <CopyButton getText={() => buildResultText(result)} />
+              <ResultActions getText={() => buildResultText(result)} />
             </>
           )
         }

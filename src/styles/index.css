@@ -28,6 +28,16 @@
   --shadow-card: 0 1px 2px rgb(16 42 42 / 0.04), 0 12px 32px -12px rgb(16 42 42 / 0.1);
 }
 
+@media print {
+  .print-results :is(section, form, details, [role='group']):not([data-print-keep]) {
+    display: none;
+  }
+
+  .print-results .grid:has(> [data-print-keep]) {
+    display: block;
+  }
+}
+
 @layer base {
   body {
     background-color: var(--color-page);

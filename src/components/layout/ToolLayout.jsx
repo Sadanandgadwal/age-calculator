@@ -61,7 +61,7 @@ export default function ToolLayout({ toolId, content, children }) {
       />
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <AdSlot placement="header" className="mb-8" />
-        {children}
+        <div className="print-results">{children}</div>
         <AdSlot placement="inContent" className="mt-12" />
         <div className="mt-12 flex flex-col gap-12 print:hidden">
           <InfoCards id="how-it-works-heading" title="How it works" items={content.howItWorks} />

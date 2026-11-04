@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeftRight, ArrowUpDown, RotateCcw, X } from 'lucide-react';
 import CalculatorInput from './CalculatorInput.jsx';
-import CopyButton from './CopyButton.jsx';
+import ResultActions from './ResultActions.jsx';
 import ResultCard from './ResultCard.jsx';
 import ResultDetails from './ResultDetails.jsx';
 import ResultPanel from './ResultPanel.jsx';
@@ -88,7 +88,7 @@ export default function UnitConverter({ units, defaultFrom, defaultTo, getExtraD
                 ...extraDetails,
               ]}
             />
-            <CopyButton getText={() => buildConversionText(result, extraDetails)} />
+            <ResultActions getText={() => buildConversionText(result, extraDetails)} />
           </>
         )}
       </ResultPanel>

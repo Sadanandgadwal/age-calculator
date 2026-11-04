@@ -13,8 +13,8 @@ export function addLap(laps, totalMs) {
   return [{ number: laps.length + 1, lapMs: totalMs - previous, totalMs }, ...laps];
 }
 
-export const buildResultText = (laps) =>
-  [...laps]
-    .reverse()
-    .map(({ number, lapMs, totalMs }) => `Lap ${number}: ${formatStopwatch(lapMs)} (total ${formatStopwatch(totalMs)})`)
-    .join('\n');
+export const buildResultText = (elapsedMs, laps) =>
+  [
+    `Elapsed time: ${formatStopwatch(elapsedMs)}`,
+    ...[...laps].reverse().map(({ number, lapMs, totalMs }) => `Lap ${number}: ${formatStopwatch(lapMs)} (total ${formatStopwatch(totalMs)})`),
+  ].join('\n');

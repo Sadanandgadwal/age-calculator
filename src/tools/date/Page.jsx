@@ -4,7 +4,7 @@ import * as content from './content.js';
 import { MODES, buildResultText, evaluate, formatDuration, formatWeeks, getMode, shiftSummary } from './logic.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import FormActions from '../../components/common/FormActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultDetails from '../../components/common/ResultDetails.jsx';
@@ -180,7 +180,7 @@ export default function DateCalculatorPage() {
           {result && (
             <>
               {result.kind === 'range' ? <RangeResults mode={mode} result={result} /> : <ShiftResults result={result} />}
-              <CopyButton getText={() => buildResultText(mode, result)} />
+              <ResultActions getText={() => buildResultText(mode, result)} />
             </>
           )}
         </ResultPanel>

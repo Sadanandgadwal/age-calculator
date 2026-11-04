@@ -80,7 +80,7 @@ describe('Pomodoro Timer', () => {
     expect(card('Sessions Until Long Break')).toHaveTextContent('3');
     expect(isSelected('Short break')).toBe(true);
     expect(timerText()).toBe('05:00');
-    expect(screen.getByRole('status')).toHaveTextContent('Focus session complete. Next: short break.');
+    expect(screen.getAllByRole('status')[0]).toHaveTextContent('Focus session complete. Next: short break.');
     expect(screen.getByRole('button', { name: 'Start' })).toBeInTheDocument();
 
     advance(MINUTE);
@@ -95,7 +95,7 @@ describe('Pomodoro Timer', () => {
 
     expect(isSelected('Focus')).toBe(true);
     expect(card('Focus Sessions Completed')).toHaveTextContent('1');
-    expect(screen.getByRole('status')).toHaveTextContent('Break over.');
+    expect(screen.getAllByRole('status')[0]).toHaveTextContent('Break over.');
   });
 
   it('moves to a long break after four focus sessions', () => {
@@ -154,6 +154,14 @@ describe('Pomodoro Timer', () => {
     completeFocus();
     press('Clear completed sessions');
     expect(card('Focus Sessions Completed')).toHaveTextContent('0');
+  });
+
+  it('copies progress and offers share and print', async () => {
+    vi.useRealTimers();
+    setup();
+    for (const name of ['Copy results', 'Share', 'Print']) {
+      expect(screen.getByRole('button', { name })).toBeInTheDocument();
+    }
   });
 
   it('has the required sections', () => {

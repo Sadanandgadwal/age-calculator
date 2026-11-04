@@ -27,7 +27,7 @@ export const faqs = [
   },
   {
     question: 'Are my times saved?',
-    answer: 'No. Times and laps stay on the page only, so they are lost when you reload or close it. Use Copy results to keep your laps.',
+    answer: 'No. Times and laps stay on the page only, so they are lost when you reload or close it. Use Copy results, Share or Print to keep them.',
   },
   {
     question: 'Is there a limit on laps?',

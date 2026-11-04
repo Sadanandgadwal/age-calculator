@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Award, Percent, Sigma } from 'lucide-react';
 import { buildOverallText, calculateOverall, getGrade, validateMarks } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import FormActions from '../../components/common/FormActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultPanel from '../../components/common/ResultPanel.jsx';
@@ -54,7 +54,7 @@ export default function OverallMode({ gradeRows, isScaleValid }) {
               <ResultCard label="Grade" value={grade ?? '—'} icon={Award} tone="yellow" />
               <ResultCard label="Marks Lost" value={formatDecimal(result.remaining)} icon={Sigma} tone="lavender" />
             </div>
-            <CopyButton getText={() => buildOverallText(result, grade)} />
+            <ResultActions getText={() => buildOverallText(result, grade)} />
           </>
         )}
       </ResultPanel>

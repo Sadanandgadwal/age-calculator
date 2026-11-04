@@ -34,3 +34,11 @@ export function completionMessage(finished, next) {
   const done = finished === 'focus' ? 'Focus session complete.' : 'Break over.';
   return `${done} Next: ${getSession(next).label.toLowerCase()}. Select Start when you are ready.`;
 }
+
+export const buildResultText = (sessionLabel, remaining, completed, minutes) =>
+  [
+    `Current session: ${sessionLabel} (${remaining} left)`,
+    `Focus sessions completed: ${completed}`,
+    `Sessions until long break: ${focusUntilLongBreak(completed)}`,
+    `Session lengths: focus ${minutes.focus ?? '-'}, short break ${minutes.short ?? '-'}, long break ${minutes.long ?? '-'} minutes`,
+  ].join('\n');

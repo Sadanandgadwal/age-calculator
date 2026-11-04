@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_MINUTES, completionMessage, focusUntilLongBreak, formatRemaining, nextSession, validateMinutes } from './logic.js';
+import { DEFAULT_MINUTES, buildResultText, completionMessage, focusUntilLongBreak, formatRemaining, nextSession, validateMinutes } from './logic.js';
 
 describe('defaults', () => {
   it('use the standard lengths', () => {
@@ -68,5 +68,15 @@ describe('completionMessage', () => {
   it('names the next session', () => {
     expect(completionMessage('focus', 'short')).toBe('Focus session complete. Next: short break. Select Start when you are ready.');
     expect(completionMessage('long', 'focus')).toBe('Break over. Next: focus session. Select Start when you are ready.');
+  });
+});
+
+describe('buildResultText', () => {
+  it('summarises progress', () => {
+    const text = buildResultText('Focus session', '24:00', 5, { focus: 25, short: 5, long: 15 });
+    expect(text).toContain('Current session: Focus session (24:00 left)');
+    expect(text).toContain('Focus sessions completed: 5');
+    expect(text).toContain('Sessions until long break: 3');
+    expect(text).toContain('focus 25, short break 5, long break 15 minutes');
   });
 });

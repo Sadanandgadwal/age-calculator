@@ -3,7 +3,7 @@ import { ClipboardList } from 'lucide-react';
 
 const ResultPanel = forwardRef(function ResultPanel({ title = 'Your Results', icon: Icon = ClipboardList, summary, emptyText, children }, ref) {
   return (
-    <section aria-label={title} className="rounded-3xl bg-card p-4 shadow-card sm:p-6">
+    <section data-print-keep aria-label={title} className="rounded-3xl bg-card p-4 shadow-card sm:p-6">
       <div className="flex items-center gap-4 rounded-2xl bg-secondary p-3 pr-5">
         <span className="grid size-14 shrink-0 place-items-center rounded-full bg-mint/60">
           <Icon aria-hidden="true" className="size-7 text-primary" />

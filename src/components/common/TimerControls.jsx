@@ -3,7 +3,7 @@ import { primaryTimerButton as primary, secondaryTimerButton as secondary } from
 
 export default function TimerControls({ isRunning, hasStarted, onStart, onPause, onReset, startLabel = 'Start', disabled = false, children }) {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 print:hidden">
       {isRunning ? (
         <button type="button" onClick={onPause} className={primary}>
           <Pause aria-hidden="true" className="size-5" />

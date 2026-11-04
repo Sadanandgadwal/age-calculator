@@ -4,7 +4,7 @@ import * as content from './content.js';
 import { buildResultText, describeEvent, evaluateTarget, splitCountdown } from './logic.js';
 import DateField from '../../components/calculator/DateField.jsx';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultPanel from '../../components/common/ResultPanel.jsx';
 import TimeField from '../../components/common/TimeField.jsx';
@@ -91,7 +91,7 @@ export default function CountdownTimerPage() {
                     <ResultCard label="Minutes" value={parts.minutes} icon={Timer} tone="lavender" />
                     <ResultCard label="Seconds" value={parts.seconds} icon={Hourglass} />
                   </div>
-                  <CopyButton getText={() => buildResultText(run.eventName, run.targetLabel, parts)} />
+                  <ResultActions getText={() => buildResultText(run.eventName, run.targetLabel, parts)} />
                 </>
               )}
             </>

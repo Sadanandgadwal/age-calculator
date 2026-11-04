@@ -3,7 +3,7 @@ import { Percent } from 'lucide-react';
 import * as content from './content.js';
 import { MODES, buildResultText, evaluate, getMode } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
-import CopyButton from '../../components/common/CopyButton.jsx';
+import ResultActions from '../../components/common/ResultActions.jsx';
 import FormActions from '../../components/common/FormActions.jsx';
 import ResultCard from '../../components/common/ResultCard.jsx';
 import ResultPanel from '../../components/common/ResultPanel.jsx';
@@ -76,7 +76,7 @@ export default function PercentagePage() {
                   <li key={step} className="break-words">{step}</li>
                 ))}
               </ol>
-              <CopyButton getText={() => buildResultText(mode, result)} />
+              <ResultActions getText={() => buildResultText(mode, result)} />
             </>
           )}
         </ResultPanel>
