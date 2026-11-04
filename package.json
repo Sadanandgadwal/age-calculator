@@ -2,7 +2,7 @@
   "name": "age-calculator",
   "private": true,
   "version": "1.0.0",
-  "description": "Calculate your exact age in years, months and days.",
+  "description": "Free, simple online tools for everyday calculations.",
   "type": "module",
   "engines": {
     "node": ">=22.22.0"

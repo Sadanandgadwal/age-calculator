@@ -170,6 +170,7 @@ src/
   pages/             Pages
   seo/               Page metadata and head tags
   styles/            Tailwind entry and design tokens
+  tools/             One folder per tool: page, logic, content and tests
   test/              Test setup
   utils/             Date, age, validation and formatting logic
 ```
