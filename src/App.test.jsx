@@ -55,6 +55,7 @@ describe('routes', () => {
     ['/word-counter', 'Word Counter'],
     ['/character-counter', 'Character Counter'],
     ['/line-counter', 'Line Counter'],
+    ['/reading-time-calculator', 'Reading Time Calculator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

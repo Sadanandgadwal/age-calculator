@@ -1,4 +1,4 @@
-import { AlarmClock, AudioWaveform, Beaker, Binary, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CircleGauge, Clock, ClockArrowUp, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, ListOrdered, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -701,6 +701,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/line-counter/Page.jsx'),
     loadContent: () => import('../tools/line-counter/content.js'),
+  },
+  {
+    id: 'reading-time-calculator',
+    name: 'Reading Time Calculator',
+    route: '/reading-time-calculator',
+    categories: ['text-tools'],
+    icon: BookOpen,
+    description: 'Estimate how long your text takes to read and to speak aloud.',
+    keywords: ['reading time', 'read time', 'speaking time', 'speech length', 'words per minute', 'wpm', 'blog reading time'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Reading Time Calculator – Estimate Read and Speech Time',
+      description:
+        'Estimate how long your text takes to read and to speak aloud. Adjust the words per minute to match your readers or your speaking pace.',
+      featureList: ['Reading time estimate', 'Speaking time estimate', 'Adjustable words per minute', 'Word count', 'Works for articles and speeches'],
+    },
+    load: () => import('../tools/reading-time/Page.jsx'),
+    loadContent: () => import('../tools/reading-time/content.js'),
   },
 ];
 

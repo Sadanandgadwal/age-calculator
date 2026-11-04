@@ -15,6 +15,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | CM to Feet Converter | `/cm-to-feet-converter` |
 | Date Calculator | `/date-calculator` |
 | GST Calculator | `/gst-calculator` |
+| Reading Time Calculator | `/reading-time-calculator` |
 | Line Counter | `/line-counter` |
 | Character Counter | `/character-counter` |
 | Word Counter | `/word-counter` |

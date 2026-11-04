@@ -941,6 +941,20 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'readingtime',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Reading Time Calculator',
+        path: '/reading-time-calculator',
+        screenshot: 'reading-time',
+        steps: async (page, label) => {
+          await setText(page, '#read-text', 'word '.repeat(476));
+          const cards = await resultCards(page);
+          check(`${label}: estimates reading time`, cards.some((card) => card.includes('2 min') && card.includes('Reading Time')));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
