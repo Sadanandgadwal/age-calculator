@@ -754,6 +754,39 @@ const DATE_TIME_CHECKS = [
         ],
       }),
   },
+  {
+    name: 'pomodoro',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Pomodoro Timer',
+        path: '/pomodoro-timer',
+        screenshot: 'pomodoro',
+        steps: async (page, label) => {
+          const reading = () => page.$eval('[role="timer"]', (element) => element.textContent);
+          check(`${label}: starts at 25 minutes`, (await reading()) === '25:00');
+          await clickButton(page, 'Start');
+          await pause(1300);
+          check(`${label}: counts down`, (await reading()) !== '25:00', await reading());
+          await clickButton(page, 'Pause');
+          await settle();
+          const paused = await reading();
+          await pause(1200);
+          check(`${label}: pause holds the time`, paused === (await reading()));
+          await clickButton(page, 'Short break');
+          await settle();
+          check(`${label}: shows the chosen session`, (await reading()) === '05:00' && (await hasText(page, 'Short break')));
+          await setDate(page, '#pomodoro-short', '10');
+          await settle();
+          check(`${label}: uses a custom length`, (await reading()) === '10:00');
+          await setDate(page, '#pomodoro-short', '0');
+          await settle();
+          check(`${label}: rejects an invalid length`, await hasText(page, 'Please enter 1 to 180 minutes.'));
+          await runAxe(page, `${label} invalid length`);
+          await setDate(page, '#pomodoro-short', '5');
+          await settle();
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -785,7 +818,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '9 tools found'));
+  check('home search finds tools by category', await hasText(page, '10 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');

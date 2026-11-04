@@ -1,4 +1,4 @@
-import { AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarRange, CalendarSearch, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
+import { AlarmClock, AudioWaveform, Beaker, BriefcaseBusiness, Cake, CalendarRange, CalendarSearch, CircleGauge, Clock, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -549,6 +549,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/day-of-week/Page.jsx'),
     loadContent: () => import('../tools/day-of-week/content.js'),
+  },
+  {
+    id: 'pomodoro-timer',
+    name: 'Pomodoro Timer',
+    route: '/pomodoro-timer',
+    categories: ['date-time'],
+    icon: AlarmClock,
+    description: 'Stay focused with timed work sessions and breaks, using lengths you can customise.',
+    keywords: ['pomodoro', 'focus', 'study timer', 'productivity', 'work timer', 'break timer', 'tomato', 'concentration'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Pomodoro Timer – Free Online Focus Timer',
+      description:
+        'A free online Pomodoro timer with 25 minute focus sessions, short breaks and long breaks. Customise the lengths and track your completed focus sessions.',
+      featureList: ['25 minute focus sessions', 'Short and long breaks', 'Customisable session lengths', 'Completed session tracking'],
+    },
+    load: () => import('../tools/pomodoro/Page.jsx'),
+    loadContent: () => import('../tools/pomodoro/content.js'),
   },
 ];
 

@@ -47,6 +47,7 @@ describe('routes', () => {
     ['/time-zone-converter', 'Time Zone Converter'],
     ['/business-days-calculator', 'Business Days Calculator'],
     ['/day-of-week-calculator', 'Day of the Week Calculator'],
+    ['/pomodoro-timer', 'Pomodoro Timer'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
