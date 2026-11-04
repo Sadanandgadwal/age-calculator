@@ -15,6 +15,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | CM to Feet Converter | `/cm-to-feet-converter` |
 | Date Calculator | `/date-calculator` |
 | GST Calculator | `/gst-calculator` |
+| Week Number Calculator | `/week-number-calculator` |
 | Leap Year Checker | `/leap-year-checker` |
 | Pomodoro Timer | `/pomodoro-timer` |
 | Day of the Week Calculator | `/day-of-week-calculator` |

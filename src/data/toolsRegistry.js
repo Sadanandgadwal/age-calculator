@@ -588,6 +588,25 @@ export const TOOLS = [
     load: () => import('../tools/leap-year/Page.jsx'),
     loadContent: () => import('../tools/leap-year/content.js'),
   },
+  {
+    id: 'week-number-calculator',
+    name: 'Week Number Calculator',
+    route: '/week-number-calculator',
+    categories: ['date-time'],
+    icon: CalendarRange,
+    description: 'Find the ISO week number of any date, with the start and end dates of the week.',
+    keywords: ['week number', 'iso week', 'calendar week', 'which week', 'week of the year', 'kw', 'iso 8601'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Week Number Calculator – Find the ISO Week of Any Date',
+      description:
+        'Find the ISO week number of any date, with the start and end dates of the week, year and weekday. Dates around New Year follow the ISO 8601 standard.',
+      featureList: ['ISO 8601 week number', 'Week start and end dates', 'Year and weekday', 'Correct year boundary handling'],
+    },
+    load: () => import('../tools/week-number/Page.jsx'),
+    loadContent: () => import('../tools/week-number/content.js'),
+  },
 ];
 
 export const getToolByRoute = (route) => TOOLS.find((tool) => tool.route === route);

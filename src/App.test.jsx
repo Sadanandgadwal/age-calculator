@@ -49,6 +49,7 @@ describe('routes', () => {
     ['/day-of-week-calculator', 'Day of the Week Calculator'],
     ['/pomodoro-timer', 'Pomodoro Timer'],
     ['/leap-year-checker', 'Leap Year Checker'],
+    ['/week-number-calculator', 'Week Number Calculator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

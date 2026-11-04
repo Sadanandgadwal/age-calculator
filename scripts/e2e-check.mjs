@@ -803,6 +803,22 @@ const DATE_TIME_CHECKS = [
         ],
       }),
   },
+  {
+    name: 'weeknumber',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Week Number Calculator',
+        path: '/week-number-calculator',
+        screenshot: 'week-number',
+        requiredError: 'Please choose a date.',
+        clearFirst: '#week-date',
+        flows: [
+          { inputs: { '#week-date': '2030-06-12' }, answer: 'Week Code\n2030-W24' },
+          { inputs: { '#week-date': '2016-01-01' }, answer: 'its ISO week belongs to 2015' },
+          { inputs: { '#week-date': '2029-12-31' }, answer: 'Week Code\n2030-W01' },
+        ],
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -834,7 +850,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '11 tools found'));
+  check('home search finds tools by category', await hasText(page, '12 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');
