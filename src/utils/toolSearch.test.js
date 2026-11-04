@@ -67,6 +67,11 @@ describe('tool listings', () => {
     expect(getToolsInCategory(TOOLS, 'missing')).toEqual([]);
   });
 
+  it('treats later registry entries as newer when added on the same day', () => {
+    const sameDay = [tool('First', { addedOn: '2026-01-01' }), tool('Second', { addedOn: '2026-01-01' })];
+    expect(ids(getRecentTools(sameDay))).toEqual(['Second', 'First']);
+  });
+
   it('lists related tools, sharing a category first, excluding the tool itself', () => {
     const age = TOOLS[1];
     expect(ids(getRelatedTools(TOOLS, age))).toEqual(['Date Calculator', 'Weight Converter', 'GST Calculator']);

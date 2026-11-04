@@ -14,6 +14,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | KG to Gram Converter | `/kg-to-gram-converter` |
 | CM to Feet Converter | `/cm-to-feet-converter` |
 | Date Calculator | `/date-calculator` |
+| GST Calculator | `/gst-calculator` |
 
 ## Adding a tool
 

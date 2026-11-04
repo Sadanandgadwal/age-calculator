@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import App from './App.jsx';
 import ErrorBoundary from './components/common/ErrorBoundary.jsx';
+import ToolDirectoryPage from './pages/ToolDirectoryPage.jsx';
 import { getAllPaths, getPageMeta } from './seo/pageMeta.js';
 
 function renderAt(path) {
@@ -35,6 +36,7 @@ describe('routes', () => {
     ['/kg-to-gram-converter', 'KG to Gram Converter'],
     ['/cm-to-feet-converter', 'CM to Feet Converter'],
     ['/date-calculator', 'Date Calculator'],
+    ['/gst-calculator', 'GST Calculator'],
   ])('%s shows its page', async (path, heading) => {
     renderAt(path);
     expect(await pageHeading(heading)).toBeInTheDocument();
@@ -197,12 +199,16 @@ describe('tool directory', () => {
 
   it('searches within the current category only', async () => {
     const user = renderAt('/finance');
-    await user.type(search(), 'age');
+    await user.type(search(), 'birthday');
     expect(screen.getByText('No tools match your search')).toBeInTheDocument();
   });
 
   it('explains an empty category and links to all tools', () => {
-    renderAt('/finance');
+    render(
+      <MemoryRouter>
+        <ToolDirectoryPage category={{ id: 'empty', name: 'Empty', description: 'Nothing yet.' }} />
+      </MemoryRouter>,
+    );
     expect(screen.getByText('No tools here yet')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'View all tools' })).toHaveAttribute('href', '/all-tools');
   });

@@ -505,6 +505,67 @@ async function checkDate(browser, siteUrl) {
   }
 }
 
+async function checkGst(browser, siteUrl) {
+  console.log('\nGST Calculator');
+  for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
+    const label = `${viewport.width}px`;
+    const page = await browser.newPage();
+    const problems = [];
+    page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
+    page.on('pageerror', (error) => problems.push(error.message));
+    await page.setViewport(viewport);
+    await page.goto(new URL('/gst-calculator', siteUrl).href, { waitUntil: 'networkidle0' });
+    const noOverflow = () => page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth);
+
+    check(`${label}: shows the tax disclaimer`, await hasText(page, 'does not replace professional tax advice'));
+    await clickButton(page, 'Calculate');
+    await settle();
+    check(`${label}: requires an amount`, await hasText(page, 'Please enter an amount.'));
+    await runAxe(page, `${label} errors`);
+
+    await setDate(page, '#gst-amount', '1000');
+    await clickButton(page, 'Calculate');
+    await settle();
+    check(`${label}: intra-state breakdown`, (await hasText(page, '₹90.00')) && (await hasText(page, '₹1,180.00')));
+    await runAxe(page, `${label} results`);
+
+    await clickButton(page, 'Inter-state');
+    await settle();
+    check(`${label}: inter-state breakdown`, (await hasText(page, '₹180.00')) && (await hasText(page, 'Not applicable')));
+
+    await clickButton(page, 'Remove GST');
+    await settle();
+    await setDate(page, '#gst-amount', '1180');
+    await settle();
+    check(`${label}: removes GST`, await page.evaluate(() => [...document.querySelectorAll('dl > div')].some((row) => row.textContent.startsWith('Taxable Amount') && row.textContent.includes('₹1,000.00'))));
+
+    await page.select('#gst-rate', 'custom');
+    await settle();
+    await setDate(page, '#gst-custom-rate', '7.5');
+    await setDate(page, '#gst-amount', '999999999999.99');
+    await settle();
+    check(`${label}: long amounts do not overflow`, await noOverflow());
+    const spills = await page.$$eval('[data-testid="result-card"]', (cards) =>
+      cards.filter((card) => {
+        const box = card.getBoundingClientRect();
+        return [...card.querySelectorAll('span')].some((span) => {
+          const inner = span.getBoundingClientRect();
+          return inner.left < box.left - 1 || inner.right > box.right + 1;
+        });
+      }).length,
+    );
+    check(`${label}: long amounts stay inside their cards`, spills === 0, `${spills} spilling`);
+    await runAxe(page, `${label} custom rate`);
+    await page.screenshot({ path: `${OUTPUT_DIR}/gst-${viewport.width}.png`, fullPage: true });
+
+    await clickButton(page, 'Reset');
+    await settle();
+    check(`${label}: reset clears the amount`, (await page.$eval('#gst-amount', (input) => input.value)) === '');
+    check(`${label}: no console errors`, problems.length === 0, problems.join(' | '));
+    await page.close();
+  }
+}
+
 async function checkPlatform(browser, siteUrl) {
   console.log('\nPlatform');
   const page = await browser.newPage();
@@ -546,7 +607,7 @@ async function checkPlatform(browser, siteUrl) {
 
   await clickLink('nav[aria-label="Filter by category"] a[href="/finance"]');
   check('category filter opens a category', (await heading()) === 'Finance');
-  check('empty category explains itself', await hasText(page, 'No tools here yet'));
+  check('category lists its tools', await hasText(page, 'GST Calculator'));
 
   await page.goBack();
   await settle();
@@ -737,6 +798,7 @@ try {
     ],
   });
   await checkDate(browser, siteUrl);
+  await checkGst(browser, siteUrl);
   await checkRoutes(browser, siteUrl);
   await checkPlatform(browser, siteUrl);
 } finally {

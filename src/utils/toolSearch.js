@@ -36,6 +36,5 @@ export function getRelatedTools(tools, tool, limit = 3) {
 
 export const getFeaturedTools = (tools) => tools.filter((tool) => tool.featured);
 
-/** Newest first. ISO dates sort correctly as text. */
 export const getRecentTools = (tools, limit = 3) =>
-  [...tools].sort((a, b) => b.addedOn.localeCompare(a.addedOn)).slice(0, limit);
+  [...tools].reverse().sort((a, b) => b.addedOn.localeCompare(a.addedOn)).slice(0, limit);

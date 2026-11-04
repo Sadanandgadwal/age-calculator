@@ -1,4 +1,4 @@
-import { Cake, CalendarRange, GraduationCap, Percent, Ruler, Scale } from 'lucide-react';
+import { Cake, CalendarRange, GraduationCap, Percent, ReceiptIndianRupee, Ruler, Scale } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -98,7 +98,7 @@ export const TOOLS = [
     icon: Scale,
     description: 'Convert instantly between kilograms, grams, milligrams, tonnes, pounds and ounces.',
     keywords: ['kg', 'gram', 'weight', 'mass', 'kilogram', 'milligram', 'tonne', 'pound', 'lb', 'ounce', 'oz'],
-    featured: true,
+    featured: false,
     addedOn: '2026-11-04',
     seo: {
       title: 'KG to Gram Converter – Free Weight Conversion Tool',
@@ -122,7 +122,7 @@ export const TOOLS = [
     icon: Ruler,
     description: 'Convert instantly between centimeters, meters, kilometers, millimeters, feet, inches, yards and miles.',
     keywords: ['cm', 'feet', 'ft', 'foot', 'length', 'height', 'distance', 'inch', 'meter', 'metre', 'km', 'mm', 'yard', 'mile'],
-    featured: true,
+    featured: false,
     addedOn: '2026-11-04',
     seo: {
       title: 'CM to Feet Converter – Free Length Conversion Tool',
@@ -147,7 +147,7 @@ export const TOOLS = [
     icon: CalendarRange,
     description: 'Count the days between dates, add or subtract time, and find business days and weekends.',
     keywords: ['date', 'days between', 'duration', 'add days', 'subtract days', 'business days', 'working days', 'weekdays', 'weekends', 'calendar'],
-    featured: true,
+    featured: false,
     addedOn: '2026-11-04',
     seo: {
       title: 'Date Calculator – Calculate Days Between Dates',
@@ -163,6 +163,31 @@ export const TOOLS = [
     },
     load: () => import('../tools/date/Page.jsx'),
     loadContent: () => import('../tools/date/content.js'),
+  },
+  {
+    id: 'gst-calculator',
+    name: 'GST Calculator',
+    route: '/gst-calculator',
+    categories: ['finance', 'calculators'],
+    icon: ReceiptIndianRupee,
+    description: 'Add or remove Indian GST and see the CGST, SGST or IGST breakdown.',
+    keywords: ['gst', 'tax', 'india', 'cgst', 'sgst', 'igst', 'invoice', 'inclusive', 'exclusive', 'rupee', 'inr'],
+    featured: true,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'GST Calculator India – Calculate CGST, SGST and IGST',
+      description:
+        'Add or remove GST at any rate and see the taxable amount, CGST, SGST, IGST and final amount in rupees. A free GST calculator for quick estimates in India.',
+      featureList: [
+        'Add GST or remove it from an inclusive amount',
+        'CGST and SGST for intra-state transactions',
+        'IGST for inter-state transactions',
+        'Standard and custom GST rates',
+        'Full breakdown in Indian rupees',
+      ],
+    },
+    load: () => import('../tools/gst/Page.jsx'),
+    loadContent: () => import('../tools/gst/content.js'),
   },
 ];
 
