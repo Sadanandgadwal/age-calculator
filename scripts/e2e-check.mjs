@@ -678,6 +678,35 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+  {
+    name: 'stopwatch',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Online Stopwatch',
+        path: '/stopwatch',
+        screenshot: 'stopwatch',
+        steps: async (page, label) => {
+          const reading = () => page.$eval('[role="timer"]', (element) => element.textContent);
+          check(`${label}: starts at zero`, (await reading()) === '00:00:00.00');
+          await clickButton(page, 'Start');
+          await pause(600);
+          const running = await reading();
+          check(`${label}: counts while running`, running !== '00:00:00.00', running);
+          await clickButton(page, 'Lap');
+          await pause(400);
+          await clickButton(page, 'Lap');
+          await settle();
+          check(`${label}: records laps`, (await page.$$('tbody tr')).length === 2);
+          await clickButton(page, 'Pause');
+          await settle();
+          const paused = await reading();
+          await pause(500);
+          check(`${label}: pause holds the time`, paused === (await reading()));
+          const seconds = Number(paused.split(':')[2]);
+          check(`${label}: elapsed time is accurate`, seconds > 0.9 && seconds < 2.5, paused);
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -709,7 +738,7 @@ async function checkPlatform(browser, siteUrl) {
   await page.$eval('#tool-search', (input) => input.select());
   await page.keyboard.type('date & time');
   await settle();
-  check('home search finds tools by category', await hasText(page, '5 tools found'));
+  check('home search finds tools by category', await hasText(page, '6 tools found'));
 
   await clickLink('a[aria-label="Open Tool: Age Calculator"]');
   check('tool card opens the tool', (await heading()) === 'Age Calculator' && new URL(page.url()).pathname === '/age-calculator');

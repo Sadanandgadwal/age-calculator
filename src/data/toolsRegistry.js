@@ -1,4 +1,4 @@
-import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Zap } from 'lucide-react';
+import { AudioWaveform, Beaker, Cake, CalendarRange, CircleGauge, Clock, DraftingCompass, Gauge, GraduationCap, HardDrive, Hourglass, LandPlot, Landmark, Percent, ReceiptIndianRupee, Ruler, Scale, Tag, Thermometer, Timer, Users, Watch, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -473,6 +473,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/countdown-timer/Page.jsx'),
     loadContent: () => import('../tools/countdown-timer/content.js'),
+  },
+  {
+    id: 'stopwatch',
+    name: 'Online Stopwatch',
+    route: '/stopwatch',
+    categories: ['date-time'],
+    icon: Watch,
+    description: 'Time anything with an accurate online stopwatch, with start, pause, reset and lap times.',
+    keywords: ['stopwatch', 'timer', 'lap', 'split', 'elapsed', 'running', 'stop watch'],
+    featured: false,
+    addedOn: '2026-11-04',
+    seo: {
+      title: 'Online Stopwatch – Free Stopwatch With Lap Times',
+      description:
+        'A free, accurate online stopwatch with start, pause and reset, plus lap times you can copy. Timing stays correct even if the page is in a background tab.',
+      featureList: ['Start, pause and reset', 'Lap and total times', 'Accurate timing that does not drift', 'Copy lap records'],
+    },
+    load: () => import('../tools/stopwatch/Page.jsx'),
+    loadContent: () => import('../tools/stopwatch/content.js'),
   },
 ];
 
