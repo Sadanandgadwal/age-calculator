@@ -1482,6 +1482,24 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'screenres',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Screen Resolution Checker',
+        path: '/screen-resolution-checker',
+        screenshot: 'screen-resolution',
+        steps: async (page, label) => {
+          const width = await page.evaluate(() => window.innerWidth);
+          check(`${label}: shows the window width`, (await resultCards(page)).some((card) => card.includes('Browser Window') && card.includes(width.toLocaleString('en-GB'))));
+          await page.setViewport({ width: width - 10, height: 700 });
+          await pause(200);
+          check(`${label}: follows a resize`, (await resultCards(page)).some((card) => card.includes('Browser Window') && card.includes((width - 10).toLocaleString('en-GB'))));
+          await page.setViewport({ width, height: 700 });
+          await pause(200);
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

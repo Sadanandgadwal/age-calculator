@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1309,6 +1309,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/uptime-calculator/Page.jsx'),
     loadContent: () => import('../tools/uptime-calculator/content.js'),
+  },
+  {
+    id: 'screen-resolution-checker',
+    name: 'Screen Resolution Checker',
+    route: '/screen-resolution-checker',
+    categories: ['everyday-tools'],
+    icon: Monitor,
+    description: 'See your screen resolution, window size and pixel ratio, live.',
+    keywords: ['screen resolution', 'what is my resolution', 'screen size', 'viewport size', 'window size', 'pixel ratio', 'display resolution'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Screen Resolution Checker – What Is My Screen Size?',
+      description:
+        'See your screen resolution, browser window size, device pixel ratio and colour depth, updated live as you resize. Nothing is stored or sent.',
+      featureList: ['Screen resolution', 'Browser window size', 'Device pixel ratio', 'Colour depth and orientation', 'Updates as you resize'],
+    },
+    load: () => import('../tools/screen-resolution-checker/Page.jsx'),
+    loadContent: () => import('../tools/screen-resolution-checker/content.js'),
   },
 ];
 

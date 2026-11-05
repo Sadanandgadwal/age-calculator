@@ -87,6 +87,7 @@ describe('routes', () => {
     ['/random-name-picker', 'Random Name Picker'],
     ['/decision-maker', 'Decision Maker'],
     ['/uptime-calculator', 'Uptime Calculator'],
+    ['/screen-resolution-checker', 'Screen Resolution Checker'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
