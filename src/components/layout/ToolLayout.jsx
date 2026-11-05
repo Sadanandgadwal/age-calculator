@@ -14,7 +14,7 @@ function InfoCards({ id, title, items }) {
       </h2>
       <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {items.map(({ title: itemTitle, text }) => (
-          <article key={itemTitle} className="rounded-2xl bg-card p-6 shadow-card">
+          <article key={`${itemTitle}-${text}`} className="rounded-2xl bg-card p-6 shadow-card">
             <h3 className="font-bold">{itemTitle}</h3>
             <p className="mt-2 text-[15px] leading-relaxed text-ink/80">{text}</p>
           </article>
