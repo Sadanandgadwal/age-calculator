@@ -1153,6 +1153,22 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'jsonvalidate',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'JSON Validator',
+        path: '/json-validator',
+        screenshot: 'json-validator',
+        steps: async (page, label) => {
+          await setText(page, '#json-validate-text', '{\n  "a": 1,\n}');
+          check(`${label}: finds the error line`, await hasText(page, 'Line 3'));
+          await setText(page, '#json-validate-text', '{"a":1,"a":2}');
+          check(`${label}: accepts valid JSON`, (await resultCards(page)).some((card) => card.includes('Valid JSON')));
+          check(`${label}: flags a repeated key`, await hasText(page, '1 key is repeated'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

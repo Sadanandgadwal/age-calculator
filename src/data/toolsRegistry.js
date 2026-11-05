@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, FileCheck2, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -948,6 +948,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/json-formatter/Page.jsx'),
     loadContent: () => import('../tools/json-formatter/content.js'),
+  },
+  {
+    id: 'json-validator',
+    name: 'JSON Validator',
+    route: '/json-validator',
+    categories: ['developer-tools'],
+    icon: FileCheck2,
+    description: 'Check whether JSON is valid, find errors, and see its structure.',
+    keywords: ['json validator', 'validate json', 'json lint', 'jsonlint', 'check json', 'json error', 'json syntax'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'JSON Validator – Check JSON and Find Errors Online',
+      description:
+        'Check whether your JSON is valid and find the exact line and column of any mistake. See object, array and key counts, and spot repeated keys.',
+      featureList: ['Valid or invalid at a glance', 'Error line and column', 'Object, array and key counts', 'Finds repeated keys', 'Runs in your browser'],
+    },
+    load: () => import('../tools/json-validator/Page.jsx'),
+    loadContent: () => import('../tools/json-validator/content.js'),
   },
 ];
 
