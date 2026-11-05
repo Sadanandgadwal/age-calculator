@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Database, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1214,6 +1214,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/sql-formatter/Page.jsx'),
     loadContent: () => import('../tools/sql-formatter/content.js'),
+  },
+  {
+    id: 'coin-flip',
+    name: 'Coin Flip',
+    route: '/coin-flip',
+    categories: ['everyday-tools'],
+    icon: Coins,
+    description: 'Flip a fair virtual coin once, or up to 1,000 times with totals.',
+    keywords: ['coin flip', 'flip a coin', 'heads or tails', 'coin toss', 'toss a coin', 'virtual coin'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Coin Flip – Flip a Fair Virtual Coin Online',
+      description:
+        'Flip a fair virtual coin for heads or tails, once or up to 1,000 times, with totals and percentages. Uses secure randomness from your browser.',
+      featureList: ['Heads or tails in one click', 'Up to 1,000 flips at once', 'Totals and percentages', 'Secure browser randomness', 'Every flip is listed'],
+    },
+    load: () => import('../tools/coin-flip/Page.jsx'),
+    loadContent: () => import('../tools/coin-flip/content.js'),
   },
 ];
 

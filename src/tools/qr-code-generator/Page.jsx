@@ -6,18 +6,10 @@ import ResultActions from '../../components/common/ResultActions.jsx';
 import SegmentedControl from '../../components/common/SegmentedControl.jsx';
 import TextToolShell, { TextField } from '../../components/common/TextToolShell.jsx';
 import ToolLayout from '../../components/layout/ToolLayout.jsx';
+import { saveBlob } from '../../utils/download.js';
 
 const downloadButton =
   'inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-2xl bg-primary px-4 font-bold text-white transition-colors outline-none hover:opacity-90 focus-visible:ring-3 focus-visible:ring-mint focus-visible:ring-offset-2';
-
-function saveBlob(blob, filename) {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
-}
 
 function QrImage({ matrix, label }) {
   const size = getViewSize(matrix);

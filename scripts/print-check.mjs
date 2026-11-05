@@ -82,6 +82,7 @@ const CASES = [
   { route: '/css-minifier', steps: [['#css-text', 'a { color: #ffffff; }']], expected: ['Saved', 'Minified size', 'Minified CSS', 'a{color:#fff}'] },
   { route: '/javascript-minifier', steps: [['#js-text', 'function add(first, second) { return first + second; }'], ['click', 'Minify'], ['wait', 1500]], expected: ['Saved', 'Compress code', 'Minified JavaScript', 'function add('] },
   { route: '/sql-formatter', steps: [['#sql-text', 'select a from t']], expected: ['Dialect', 'Standard SQL', 'Formatted SQL', 'SELECT'] },
+  { route: '/coin-flip', steps: [['click', 'Flip']], expected: ['Number of flips', 'Result'] },
 ];
 
 const failures = [];
@@ -137,6 +138,7 @@ async function run(browser, siteUrl, item) {
   for (const step of item.steps) {
     if (step[0] === 'click') await clickButton(page, step[1]);
     else if (step[0] === 'wait') await new Promise((resolve) => setTimeout(resolve, step[1]));
+    else if (step[0] === 'fill-from') await setField(page, step[2], await page.$eval(step[1], (element) => element.textContent));
     else await setField(page, step[0], step[1]);
   }
 

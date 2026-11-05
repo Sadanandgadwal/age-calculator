@@ -1387,6 +1387,23 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'coinflip',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Coin Flip',
+        path: '/coin-flip',
+        screenshot: 'coin-flip',
+        steps: async (page, label) => {
+          await setText(page, '#coin-count', '100');
+          await clickButton(page, 'Flip');
+          await settle();
+          const cards = await resultCards(page);
+          const number = (name) => Number(cards.find((card) => card.includes(name)).replace(/\D/g, ''));
+          check(`${label}: heads and tails add up`, number('Heads') + number('Tails') === 100);
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -1463,7 +1480,7 @@ async function checkPlatform(browser, siteUrl) {
   check('browser back button works', (await heading()) === 'Date & Time');
 
   const sitemap = await (await fetch(new URL('/sitemap.xml', siteUrl))).text();
-  for (const [path, name] of [['/pdf-tools', 'PDF Tools'], ['/image-tools', 'Image Tools'], ['/everyday-tools', 'Everyday Tools']]) {
+  for (const [path, name] of [['/pdf-tools', 'PDF Tools'], ['/image-tools', 'Image Tools']]) {
     const response = await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
     check(`${path} opens its page`, response.status() === 200 && (await heading()) === name);
     check(`${path} is noindex while empty`, (await page.$eval('meta[name="robots"]', (tag) => tag.content)).includes('noindex'));

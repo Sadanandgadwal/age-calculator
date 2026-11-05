@@ -199,6 +199,12 @@
     margin: 0 auto;
   }
 
+  .pr-visual .pr-barcode svg {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+  }
+
   .pr-footer {
     margin-top: auto;
     padding-top: 5mm;
