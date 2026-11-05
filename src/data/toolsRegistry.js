@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -929,6 +929,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/qr-code-generator/Page.jsx'),
     loadContent: () => import('../tools/qr-code-generator/content.js'),
+  },
+  {
+    id: 'json-formatter',
+    name: 'JSON Formatter',
+    route: '/json-formatter',
+    categories: ['developer-tools'],
+    icon: Braces,
+    description: 'Pretty-print JSON with your choice of indent, and sort keys if you like.',
+    keywords: ['json formatter', 'json beautifier', 'pretty print json', 'format json', 'indent json', 'json viewer'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'JSON Formatter – Pretty-Print and Beautify JSON Online',
+      description:
+        'Format JSON into clean, indented text with 2 spaces, 4 spaces or tabs, and optionally sort the keys. Long numbers stay exact, and nothing is uploaded.',
+      featureList: ['2 spaces, 4 spaces or tabs', 'Optional key sorting', 'Exact long numbers and repeated keys', 'Error line and column', 'Runs in your browser'],
+    },
+    load: () => import('../tools/json-formatter/Page.jsx'),
+    loadContent: () => import('../tools/json-formatter/content.js'),
   },
 ];
 

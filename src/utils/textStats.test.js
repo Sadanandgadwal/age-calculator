@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { countCharacters, durationSeconds, excerpt, formatTextDuration, getLines, getTextStats, getWords, splitGraphemes } from './textStats.js';
+import { byteLength, describeSaving, countCharacters, durationSeconds, excerpt, formatTextDuration, getLines, getTextStats, getWords, splitGraphemes } from './textStats.js';
 
 describe('getWords', () => {
   it.each([
@@ -76,6 +76,18 @@ describe('durations', () => {
     [3665, '1 h 1 min 5 sec'],
   ])('formats %i seconds as %s', (seconds, text) => {
     expect(formatTextDuration(seconds)).toBe(text);
+  });
+});
+
+describe('sizes', () => {
+  it('counts bytes, not characters', () => {
+    expect(byteLength('abc')).toBe(3);
+    expect(byteLength('😀')).toBe(4);
+  });
+
+  it('describes a saving', () => {
+    expect(describeSaving(200, 150)).toEqual({ before: 200, after: 150, saved: 50, percent: 25 });
+    expect(describeSaving(0, 0).percent).toBe(0);
   });
 });
 

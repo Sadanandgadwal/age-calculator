@@ -73,7 +73,7 @@ function ReportDocument({ title, report, printedAt, url }) {
       {text && (
         <section className="pr-section">
           <h2>{text.title}</h2>
-          <p className="pr-text">{text.value}</p>
+          <p className={text.mono ? 'pr-text pr-mono' : 'pr-text'}>{text.value}</p>
         </section>
       )}
 

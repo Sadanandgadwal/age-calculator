@@ -4,7 +4,7 @@ import ResultPanel from './ResultPanel.jsx';
 const clearButton =
   'inline-flex min-h-12 cursor-pointer items-center justify-center gap-3 rounded-2xl border-2 border-line bg-white px-5 font-bold text-primary transition-colors outline-none hover:border-mint hover:bg-secondary focus-visible:ring-3 focus-visible:ring-mint focus-visible:ring-offset-2';
 
-export function TextField({ id, label, value, onChange, error, rows = 8, ...props }) {
+export function TextField({ id, label, value, onChange, error, rows = 8, className = '', ...props }) {
   const errorId = `${id}-error`;
 
   return (
@@ -23,7 +23,7 @@ export function TextField({ id, label, value, onChange, error, rows = 8, ...prop
         aria-describedby={error ? errorId : undefined}
         className={`mt-2 block w-full resize-y rounded-2xl border-2 bg-white px-4 py-3 text-base font-medium text-ink transition-colors outline-none focus-visible:border-primary focus-visible:ring-3 focus-visible:ring-mint ${
           error ? 'border-danger' : 'border-line hover:border-mint'
-        }`}
+        } ${className}`}
         {...props}
       />
       {error && (

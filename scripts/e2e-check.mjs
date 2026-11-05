@@ -1138,6 +1138,21 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'jsonformat',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'JSON Formatter',
+        path: '/json-formatter',
+        screenshot: 'json-formatter',
+        steps: async (page, label) => {
+          await setText(page, '#json-format-text', '{"z":');
+          check(`${label}: explains bad JSON`, await hasText(page, 'not valid JSON'));
+          await setText(page, '#json-format-text', '{"big":12345678901234567890}');
+          check(`${label}: formats and keeps exact numbers`, (await outputText(page)) === '{\n  "big": 12345678901234567890\n}');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -1188,7 +1203,7 @@ async function checkPlatform(browser, siteUrl) {
   check('browser back button works', (await heading()) === 'Date & Time');
 
   const sitemap = await (await fetch(new URL('/sitemap.xml', siteUrl))).text();
-  for (const [path, name] of [['/pdf-tools', 'PDF Tools'], ['/image-tools', 'Image Tools'], ['/developer-tools', 'Developer Tools'], ['/everyday-tools', 'Everyday Tools']]) {
+  for (const [path, name] of [['/pdf-tools', 'PDF Tools'], ['/image-tools', 'Image Tools'], ['/everyday-tools', 'Everyday Tools']]) {
     const response = await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
     check(`${path} opens its page`, response.status() === 200 && (await heading()) === name);
     check(`${path} is noindex while empty`, (await page.$eval('meta[name="robots"]', (tag) => tag.content)).includes('noindex'));

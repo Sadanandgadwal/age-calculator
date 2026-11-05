@@ -55,3 +55,10 @@ export function formatTextDuration(seconds) {
 }
 
 export const excerpt = (text) => (text.length > EXCERPT_LENGTH ? `${text.slice(0, EXCERPT_LENGTH).trimEnd()}…` : text);
+
+export const byteLength = (text) => new TextEncoder().encode(text).length;
+
+export function describeSaving(before, after) {
+  const saved = before - after;
+  return { before, after, saved, percent: before > 0 ? Math.round((saved / before) * 1000) / 10 : 0 };
+}

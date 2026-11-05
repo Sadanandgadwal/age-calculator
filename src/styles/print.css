@@ -222,6 +222,12 @@
     overflow-wrap: anywhere;
   }
 
+  .pr-mono {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+  }
+
   .pr-visual svg {
     display: block;
     width: 70mm;
