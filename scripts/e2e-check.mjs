@@ -1336,6 +1336,20 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'cssminify',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'CSS Minifier',
+        path: '/css-minifier',
+        screenshot: 'css-minifier',
+        steps: async (page, label) => {
+          await setText(page, '#css-text', 'a { color: #ffffff; } b { color: #ffffff; }');
+          await pause(200);
+          check(`${label}: minifies and merges`, (await outputText(page)) === 'a,b{color:#fff}');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

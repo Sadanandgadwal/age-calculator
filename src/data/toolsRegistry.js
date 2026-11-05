@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, FileCode, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, FileCode, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1157,6 +1157,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/html-formatter/Page.jsx'),
     loadContent: () => import('../tools/html-formatter/content.js'),
+  },
+  {
+    id: 'css-minifier',
+    name: 'CSS Minifier',
+    route: '/css-minifier',
+    categories: ['developer-tools'],
+    icon: Paintbrush,
+    description: 'Shrink CSS by removing spaces and merging rules, and see the bytes saved.',
+    keywords: ['css minifier', 'minify css', 'compress css', 'css optimizer', 'reduce css size', 'css compressor'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'CSS Minifier – Compress and Optimize CSS Online',
+      description:
+        'Shrink your CSS by removing spaces and comments and merging rules, and see the bytes saved. Warns you about any CSS that could not be read properly.',
+      featureList: ['Removes spaces and comments', 'Merges matching rules', 'Bytes and percent saved', 'Warns about unreadable CSS', 'Runs in your browser'],
+    },
+    load: () => import('../tools/css-minifier/Page.jsx'),
+    loadContent: () => import('../tools/css-minifier/content.js'),
   },
 ];
 

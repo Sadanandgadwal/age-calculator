@@ -79,6 +79,7 @@ const CASES = [
   { route: '/regex-tester', steps: [['#regex-pattern', '(\\d+)'], ['#regex-text', 'On 15 May 2026'], ['wait', 800]], expected: ['Pattern', 'Flags', 'Position', '2026', 'Test text'] },
   { route: '/markdown-preview', steps: [['#markdown-text', '# Hello there\n\n- First item\n\n| A | B |\n|---|---|\n| 1 | 2 |']], expected: ['Hello there', 'First item'] },
   { route: '/html-formatter', steps: [['#html-text', '<ul><li>One</li></ul>']], expected: ['Indent', 'Formatted HTML', '<li>One</li>'] },
+  { route: '/css-minifier', steps: [['#css-text', 'a { color: #ffffff; }']], expected: ['Minified CSS', 'a{color:#fff}'] },
 ];
 
 const failures = [];

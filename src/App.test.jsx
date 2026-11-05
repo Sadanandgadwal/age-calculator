@@ -79,6 +79,7 @@ describe('routes', () => {
     ['/regex-tester', 'Regex Tester'],
     ['/markdown-preview', 'Markdown Previewer'],
     ['/html-formatter', 'HTML Formatter'],
+    ['/css-minifier', 'CSS Minifier'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
