@@ -88,6 +88,7 @@ describe('routes', () => {
     ['/decision-maker', 'Decision Maker'],
     ['/uptime-calculator', 'Uptime Calculator'],
     ['/screen-resolution-checker', 'Screen Resolution Checker'],
+    ['/typing-speed-test', 'Typing Speed Test'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

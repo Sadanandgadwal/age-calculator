@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1328,6 +1328,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/screen-resolution-checker/Page.jsx'),
     loadContent: () => import('../tools/screen-resolution-checker/content.js'),
+  },
+  {
+    id: 'typing-speed-test',
+    name: 'Typing Speed Test',
+    route: '/typing-speed-test',
+    categories: ['everyday-tools'],
+    icon: Keyboard,
+    description: 'Test your typing speed and accuracy in words per minute.',
+    keywords: ['typing test', 'typing speed', 'wpm test', 'words per minute', 'typing practice', 'keyboard speed', 'accuracy'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Typing Speed Test – Check Your WPM and Accuracy',
+      description:
+        'Test your typing speed in words per minute and your accuracy, over 30, 60 or 120 seconds. Starts when you type, with no sign-up. Nothing is saved.',
+      featureList: ['30, 60 or 120 second tests', 'Words per minute', 'Accuracy percentage', 'Live highlighting of mistakes', 'Starts when you start typing'],
+    },
+    load: () => import('../tools/typing-speed-test/Page.jsx'),
+    loadContent: () => import('../tools/typing-speed-test/content.js'),
   },
 ];
 

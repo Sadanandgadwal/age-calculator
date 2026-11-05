@@ -10,6 +10,7 @@ const TOOL_PATHS = [
   '/cm-to-feet-converter',
   '/date-calculator',
   '/gst-calculator',
+  '/typing-speed-test',
   '/screen-resolution-checker',
   '/uptime-calculator',
   '/decision-maker',

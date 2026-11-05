@@ -1500,6 +1500,27 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'typing',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Typing Speed Test',
+        path: '/typing-speed-test',
+        screenshot: 'typing-test',
+        steps: async (page, label) => {
+          await clickButton(page, '30 seconds');
+          await settle();
+          await page.type('#typing-input', 'The quiet river', { delay: 5 });
+          await pause(1400);
+          check(`${label}: starts the timer on the first key`, (await page.$eval('[role="timer"]', (timer) => timer.textContent)) !== '30 s');
+          const passage = await page.$eval('[data-testid="passage"]', (element) => element.textContent);
+          await setText(page, '#typing-input', passage);
+          await pause(200);
+          check(`${label}: scores a finished text`, (await resultCards(page)).some((card) => card.includes('Accuracy') && card.includes('100%')));
+          check(`${label}: finishes the test`, await page.$eval('#typing-input', (input) => input.disabled));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

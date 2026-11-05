@@ -88,6 +88,7 @@ const CASES = [
   { route: '/decision-maker', steps: [['#decide-options', 'Tea | 3\nCoffee'], ['click', 'Decide']], expected: ['Decision', 'All options', '75%', 'Coffee'] },
   { route: '/uptime-calculator', steps: [['#uptime-percent', '99.9']], expected: ['Uptime', '99.9%', 'Allowed downtime per year', '8 h 45 min 57.6 s', '365.25'] },
   { route: '/screen-resolution-checker', steps: [], expected: ['Screen resolution', 'Browser window', 'Pixel ratio', 'Aspect Ratio'] },
+  { route: '/typing-speed-test', steps: [['fill-from', '[data-testid="passage"]', '#typing-input'], ['wait', 200]], expected: ['Words per minute', 'Accuracy', 'Mistakes', 'Raw Speed'] },
 ];
 
 const failures = [];
