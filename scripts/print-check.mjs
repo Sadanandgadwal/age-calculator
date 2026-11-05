@@ -73,6 +73,7 @@ const CASES = [
   { route: '/base64-encoder-decoder', steps: [['#base64-text', 'Hello']], expected: ['Action', 'Encode', 'SGVsbG8='] },
   { route: '/url-encoder-decoder', steps: [['#url-text', 'a b']], expected: ['Action', 'Applies to', 'a%20b'] },
   { route: '/html-entity-encoder', steps: [['#entity-text', '<b>Hi</b>']], expected: ['Action', 'Encoded text', '&lt;b&gt;Hi&lt;/b&gt;'] },
+  { route: '/uuid-generator', steps: [['click', 'Generate']], expected: ['Version', 'Version 4', 'UUID created'] },
 ];
 
 const failures = [];

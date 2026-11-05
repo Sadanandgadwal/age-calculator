@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1043,6 +1043,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/html-entity-encoder/Page.jsx'),
     loadContent: () => import('../tools/html-entity-encoder/content.js'),
+  },
+  {
+    id: 'uuid-generator',
+    name: 'UUID Generator',
+    route: '/uuid-generator',
+    categories: ['developer-tools'],
+    icon: Fingerprint,
+    description: 'Create random v4 or time-ordered v7 UUIDs, up to 1,000 at once.',
+    keywords: ['uuid', 'guid', 'uuid generator', 'uuid v4', 'uuid v7', 'unique id', 'random id'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'UUID Generator – Create v4 and v7 UUIDs Online',
+      description:
+        'Create random v4 or time-ordered v7 UUIDs, up to 1,000 at once, with uppercase and no-hyphen options. Made with secure randomness in your browser.',
+      featureList: ['Version 4 and version 7', 'Up to 1,000 at once', 'Uppercase option', 'No-hyphen option', 'Secure browser randomness'],
+    },
+    load: () => import('../tools/uuid-generator/Page.jsx'),
+    loadContent: () => import('../tools/uuid-generator/content.js'),
   },
 ];
 

@@ -1234,6 +1234,23 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'uuid',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'UUID Generator',
+        path: '/uuid-generator',
+        screenshot: 'uuid',
+        steps: async (page, label) => {
+          await clickButton(page, 'Version 7 (time-ordered)');
+          await setText(page, '#uuid-count', '3');
+          await clickButton(page, 'Generate');
+          await settle();
+          const uuids = (await outputText(page)).split('\n');
+          check(`${label}: creates version 7 UUIDs`, uuids.length === 3 && uuids.every((uuid) => /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(uuid)));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

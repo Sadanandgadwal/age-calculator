@@ -15,6 +15,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | CM to Feet Converter | `/cm-to-feet-converter` |
 | Date Calculator | `/date-calculator` |
 | GST Calculator | `/gst-calculator` |
+| UUID Generator | `/uuid-generator` |
 | HTML Entity Encoder/Decoder | `/html-entity-encoder` |
 | URL Encoder/Decoder | `/url-encoder-decoder` |
 | Base64 Encoder/Decoder | `/base64-encoder-decoder` |
