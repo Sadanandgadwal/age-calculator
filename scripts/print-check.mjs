@@ -75,6 +75,7 @@ const CASES = [
   { route: '/html-entity-encoder', steps: [['#entity-text', '<b>Hi</b>']], expected: ['Action', 'Encoded text', '&lt;b&gt;Hi&lt;/b&gt;'] },
   { route: '/uuid-generator', steps: [['click', 'Generate']], expected: ['Version', 'Version 4'] },
   { route: '/hash-generator', steps: [['#hash-text', 'abc'], ['wait', 300]], expected: ['MD5', 'SHA-512', 'can be forged'] },
+  { route: '/jwt-decoder', noPrint: true, steps: [['#jwt-token', 'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiQXNoYSJ9.c2ln']], expected: [] },
 ];
 
 const failures = [];

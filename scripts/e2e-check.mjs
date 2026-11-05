@@ -1267,6 +1267,21 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'jwt',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'JWT Decoder',
+        path: '/jwt-decoder',
+        screenshot: 'jwt',
+        copyOnly: true,
+        steps: async (page, label) => {
+          await setText(page, '#jwt-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c');
+          check(`${label}: decodes the payload`, await hasText(page, '"name": "John Doe"'));
+          check(`${label}: says it is not verified`, await hasText(page, 'has not been verified'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

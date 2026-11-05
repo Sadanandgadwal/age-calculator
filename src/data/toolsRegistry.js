@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1081,6 +1081,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/hash-generator/Page.jsx'),
     loadContent: () => import('../tools/hash-generator/content.js'),
+  },
+  {
+    id: 'jwt-decoder',
+    name: 'JWT Decoder',
+    route: '/jwt-decoder',
+    categories: ['developer-tools'],
+    icon: KeySquare,
+    description: 'Read the header, payload and dates in a JWT, without verifying it.',
+    keywords: ['jwt', 'jwt decoder', 'decode jwt', 'json web token', 'token decoder', 'bearer token', 'jwt payload'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'JWT Decoder – Read JSON Web Tokens in Your Browser',
+      description:
+        'Decode a JSON Web Token to read its header, payload and expiry time. Runs only in your browser. It reads tokens but does not verify the signature.',
+      featureList: ['Decodes header and payload', 'Readable issued and expiry dates', 'Expired or active status', 'Warns about unsigned tokens', 'Token never leaves your browser'],
+    },
+    load: () => import('../tools/jwt-decoder/Page.jsx'),
+    loadContent: () => import('../tools/jwt-decoder/content.js'),
   },
 ];
 
