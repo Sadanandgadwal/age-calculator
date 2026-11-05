@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, FileCode, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, FileCode, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1138,6 +1138,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/markdown-preview/Page.jsx'),
     loadContent: () => import('../tools/markdown-preview/content.js'),
+  },
+  {
+    id: 'html-formatter',
+    name: 'HTML Formatter',
+    route: '/html-formatter',
+    categories: ['developer-tools'],
+    icon: FileType,
+    description: 'Tidy messy HTML with clean indents, without running any of it.',
+    keywords: ['html formatter', 'html beautifier', 'format html', 'pretty print html', 'indent html', 'tidy html'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'HTML Formatter – Beautify and Indent HTML Online',
+      description:
+        'Tidy messy or minified HTML with clean indents of 2 spaces, 4 spaces or tabs. Your HTML is treated as text and is never run, so it is safe to paste.',
+      featureList: ['2 spaces, 4 spaces or tabs', 'Tidies minified HTML', 'Never runs your HTML', 'Live as you type', 'Runs in your browser'],
+    },
+    load: () => import('../tools/html-formatter/Page.jsx'),
+    loadContent: () => import('../tools/html-formatter/content.js'),
   },
 ];
 

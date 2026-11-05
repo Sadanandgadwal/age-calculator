@@ -1321,6 +1321,21 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'htmlformat',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'HTML Formatter',
+        path: '/html-formatter',
+        screenshot: 'html-formatter',
+        steps: async (page, label) => {
+          await setText(page, '#html-text', '<div><img src=x onerror="window.__ran=1"><p>a</p></div>');
+          await pause(200);
+          check(`${label}: formats`, (await outputText(page)).includes('\n  <p>a</p>\n'));
+          check(`${label}: runs nothing`, !(await page.evaluate(() => window.__ran)));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

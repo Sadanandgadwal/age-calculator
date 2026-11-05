@@ -78,6 +78,7 @@ describe('routes', () => {
     ['/jwt-decoder', 'JWT Decoder'],
     ['/regex-tester', 'Regex Tester'],
     ['/markdown-preview', 'Markdown Previewer'],
+    ['/html-formatter', 'HTML Formatter'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
