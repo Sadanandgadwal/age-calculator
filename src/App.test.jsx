@@ -76,6 +76,7 @@ describe('routes', () => {
     ['/uuid-generator', 'UUID Generator'],
     ['/hash-generator', 'Hash Generator'],
     ['/jwt-decoder', 'JWT Decoder'],
+    ['/regex-tester', 'Regex Tester'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

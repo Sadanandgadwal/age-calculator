@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1100,6 +1100,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/jwt-decoder/Page.jsx'),
     loadContent: () => import('../tools/jwt-decoder/content.js'),
+  },
+  {
+    id: 'regex-tester',
+    name: 'Regex Tester',
+    route: '/regex-tester',
+    categories: ['developer-tools'],
+    icon: Regex,
+    description: 'Test regular expressions with highlighted matches and capture groups.',
+    keywords: ['regex', 'regex tester', 'regular expression', 'regexp', 'test regex', 'pattern matching', 'capture groups'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Regex Tester – Test Regular Expressions Online',
+      description:
+        'Test regular expressions as you type, with highlighted matches, positions and capture groups. Slow patterns are stopped safely so the page stays responsive.',
+      featureList: ['Highlighted matches', 'Capture groups and named groups', 'Global, case, multiline, dot-all and Unicode flags', 'Slow patterns stopped safely', 'JavaScript regex syntax'],
+    },
+    load: () => import('../tools/regex-tester/Page.jsx'),
+    loadContent: () => import('../tools/regex-tester/content.js'),
   },
 ];
 

@@ -1282,6 +1282,26 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'regex',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Regex Tester',
+        path: '/regex-tester',
+        screenshot: 'regex',
+        steps: async (page, label) => {
+          await setText(page, '#regex-text', `${'a'.repeat(40)}b`);
+          await setText(page, '#regex-pattern', '(a+)+$');
+          await pause(2700);
+          check(`${label}: stops a runaway pattern`, await hasText(page, 'This pattern took too long'));
+          await setText(page, '#regex-text', 'On 15 May 2026');
+          await setText(page, '#regex-pattern', '(\\d+)');
+          await pause(800);
+          const marks = await page.$$eval('mark', (items) => items.map((item) => item.textContent));
+          check(`${label}: highlights the matches`, marks.join() === '15,2026');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
