@@ -987,6 +987,25 @@ export const TOOLS = [
     load: () => import('../tools/json-minifier/Page.jsx'),
     loadContent: () => import('../tools/json-minifier/content.js'),
   },
+  {
+    id: 'base64-encoder-decoder',
+    name: 'Base64 Encoder/Decoder',
+    route: '/base64-encoder-decoder',
+    categories: ['developer-tools'],
+    icon: Binary,
+    description: 'Encode text to Base64 or decode it back, in any language.',
+    keywords: ['base64', 'base64 encode', 'base64 decode', 'encode text', 'decode base64', 'base64url', 'btoa'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Base64 Encoder and Decoder – Convert Text Online',
+      description:
+        'Encode text to Base64 or decode Base64 back to text, with full support for Hindi, emoji and URL-safe Base64. Everything runs in your browser.',
+      featureList: ['Encode and decode', 'Works with every language and emoji', 'URL-safe option', 'Clear errors for invalid input', 'Runs in your browser'],
+    },
+    load: () => import('../tools/base64-encoder-decoder/Page.jsx'),
+    loadContent: () => import('../tools/base64-encoder-decoder/content.js'),
+  },
 ];
 
 export const getToolByRoute = (route) => TOOLS.find((tool) => tool.route === route);

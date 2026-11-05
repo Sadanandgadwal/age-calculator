@@ -1182,6 +1182,24 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'base64',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Base64 Encoder/Decoder',
+        path: '/base64-encoder-decoder',
+        screenshot: 'base64',
+        steps: async (page, label) => {
+          await setText(page, '#base64-text', 'नमस्ते 😀');
+          const encoded = await outputText(page);
+          check(`${label}: encodes`, encoded === '4KSo4KSu4KS44KWN4KSk4KWHIPCfmIA=');
+          await clickButton(page, 'Decode');
+          await settle();
+          await setText(page, '#base64-text', encoded);
+          check(`${label}: decodes back`, (await outputText(page)) === 'नमस्ते 😀');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

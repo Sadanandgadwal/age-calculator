@@ -70,6 +70,7 @@ describe('routes', () => {
     ['/json-formatter', 'JSON Formatter'],
     ['/json-validator', 'JSON Validator'],
     ['/json-minifier', 'JSON Minifier'],
+    ['/base64-encoder-decoder', 'Base64 Encoder/Decoder'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
