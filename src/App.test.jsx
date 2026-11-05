@@ -84,6 +84,7 @@ describe('routes', () => {
     ['/sql-formatter', 'SQL Formatter'],
     ['/coin-flip', 'Coin Flip'],
     ['/dice-roller', 'Dice Roller'],
+    ['/random-name-picker', 'Random Name Picker'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

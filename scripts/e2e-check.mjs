@@ -1423,6 +1423,27 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'namepicker',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Random Name Picker',
+        path: '/random-name-picker',
+        screenshot: 'name-picker',
+        steps: async (page, label) => {
+          await setText(page, '#names-text', 'Asha\nBen\nChitra\nAsha');
+          await setText(page, '#names-count', '4');
+          await clickButton(page, 'Pick');
+          await settle();
+          check(`${label}: counts a repeat once`, await hasText(page, 'The list only has 3 names.'));
+          await setText(page, '#names-count', '3');
+          await clickButton(page, 'Pick');
+          await settle();
+          const winners = (await page.$eval('[role="region"][aria-label="Winners"]', (element) => element.textContent)).split('\n').sort();
+          check(`${label}: picks each name once`, winners.join() === 'Asha,Ben,Chitra');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1252,6 +1252,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/dice-roller/Page.jsx'),
     loadContent: () => import('../tools/dice-roller/content.js'),
+  },
+  {
+    id: 'random-name-picker',
+    name: 'Random Name Picker',
+    route: '/random-name-picker',
+    categories: ['everyday-tools'],
+    icon: UserRoundCheck,
+    description: 'Paste a list of names and pick one or more winners at random.',
+    keywords: ['random name picker', 'name picker', 'pick a winner', 'raffle', 'giveaway picker', 'draw names', 'random selection'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Random Name Picker – Pick a Winner From a List',
+      description:
+        'Paste a list of names and pick one or more winners at random, with no repeats. Fair for giveaways and classrooms, and your list stays in your browser.',
+      featureList: ['Pick one or many winners', 'No name picked twice', 'Option to merge repeated names', 'Secure browser randomness', 'Your list is never uploaded'],
+    },
+    load: () => import('../tools/random-name-picker/Page.jsx'),
+    loadContent: () => import('../tools/random-name-picker/content.js'),
   },
 ];
 

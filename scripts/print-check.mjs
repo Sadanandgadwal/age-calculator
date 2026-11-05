@@ -84,6 +84,7 @@ const CASES = [
   { route: '/sql-formatter', steps: [['#sql-text', 'select a from t']], expected: ['Dialect', 'Standard SQL', 'Formatted SQL', 'SELECT'] },
   { route: '/coin-flip', steps: [['click', 'Flip']], expected: ['Number of flips', 'Result'] },
   { route: '/dice-roller', steps: [['click', 'Roll']], expected: ['Dice', '1d6', 'Total', 'Every roll'] },
+  { route: '/random-name-picker', steps: [['#names-text', 'Asha'], ['click', 'Pick']], expected: ['Names in the list', 'Winner', 'Asha'] },
 ];
 
 const failures = [];
