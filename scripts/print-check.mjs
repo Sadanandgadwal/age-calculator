@@ -69,6 +69,7 @@ const CASES = [
   { route: '/qr-code-generator', steps: [['#qr-text', 'https://example.com']], expected: ['Text or link', 'https://example.com', 'Error correction', 'Modules per side'] },
   { route: '/json-formatter', steps: [['#json-format-text', '{"name":"Asha","age":30}']], expected: ['Indent', '2 spaces', 'Formatted JSON', '"name": "Asha"'] },
   { route: '/json-validator', steps: [['#json-validate-text', '{"a":[1,2]}']], expected: ['Valid JSON', 'Objects', 'Deepest Level'] },
+  { route: '/json-minifier', steps: [['#json-minify-text', '{ "a" : 1 }']], expected: ['Saved', 'Minified size', 'Minified JSON', '{"a":1}'] },
 ];
 
 const failures = [];

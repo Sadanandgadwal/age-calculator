@@ -69,6 +69,7 @@ describe('routes', () => {
     ['/qr-code-generator', 'QR Code Generator'],
     ['/json-formatter', 'JSON Formatter'],
     ['/json-validator', 'JSON Validator'],
+    ['/json-minifier', 'JSON Minifier'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

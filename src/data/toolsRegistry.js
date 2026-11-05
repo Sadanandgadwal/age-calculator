@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, FileCheck2, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, FileCheck2, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -967,6 +967,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/json-validator/Page.jsx'),
     loadContent: () => import('../tools/json-validator/content.js'),
+  },
+  {
+    id: 'json-minifier',
+    name: 'JSON Minifier',
+    route: '/json-minifier',
+    categories: ['developer-tools'],
+    icon: Minimize2,
+    description: 'Remove spaces from JSON to make it smaller, and see the bytes saved.',
+    keywords: ['json minifier', 'minify json', 'compress json', 'json compact', 'remove json whitespace', 'one line json'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'JSON Minifier – Compress JSON to One Line Online',
+      description:
+        'Remove spaces and line breaks from JSON to make it smaller, and see how many bytes you save. The data stays exactly the same, including long numbers.',
+      featureList: ['Removes all spare whitespace', 'Bytes and percent saved', 'Keeps long numbers exact', 'Checks the JSON is valid', 'Runs in your browser'],
+    },
+    load: () => import('../tools/json-minifier/Page.jsx'),
+    loadContent: () => import('../tools/json-minifier/content.js'),
   },
 ];
 

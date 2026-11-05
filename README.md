@@ -15,6 +15,7 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | CM to Feet Converter | `/cm-to-feet-converter` |
 | Date Calculator | `/date-calculator` |
 | GST Calculator | `/gst-calculator` |
+| JSON Minifier | `/json-minifier` |
 | JSON Validator | `/json-validator` |
 | JSON Formatter | `/json-formatter` |
 | QR Code Generator | `/qr-code-generator` |

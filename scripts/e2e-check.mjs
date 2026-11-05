@@ -1169,6 +1169,19 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'jsonminify',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'JSON Minifier',
+        path: '/json-minifier',
+        screenshot: 'json-minifier',
+        steps: async (page, label) => {
+          await setText(page, '#json-minify-text', '{\n  "name": "A  B",\n  "n": 1\n}');
+          check(`${label}: minifies`, (await outputText(page)) === '{"name":"A  B","n":1}');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
