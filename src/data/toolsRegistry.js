@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1347,6 +1347,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/typing-speed-test/Page.jsx'),
     loadContent: () => import('../tools/typing-speed-test/content.js'),
+  },
+  {
+    id: 'barcode-generator',
+    name: 'Barcode Generator',
+    route: '/barcode-generator',
+    categories: ['everyday-tools'],
+    icon: Barcode,
+    description: 'Create Code 128, EAN-13, UPC-A, Code 39 and ITF-14 barcodes to download.',
+    keywords: ['barcode generator', 'create barcode', 'code 128', 'ean 13', 'upc', 'code 39', 'itf 14', 'product barcode'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Barcode Generator – Code 128, EAN-13, UPC-A and More',
+      description:
+        'Create Code 128, EAN-13, UPC-A, Code 39 and ITF-14 barcodes and download them as PNG or SVG. Check digits are verified, and nothing is uploaded.',
+      featureList: ['Code 128, Code 39, EAN-13, UPC-A and ITF-14', 'PNG and SVG download', 'Check digits worked out or verified', 'Clear errors for invalid values', 'Made in your browser'],
+    },
+    load: () => import('../tools/barcode-generator/Page.jsx'),
+    loadContent: () => import('../tools/barcode-generator/content.js'),
   },
 ];
 

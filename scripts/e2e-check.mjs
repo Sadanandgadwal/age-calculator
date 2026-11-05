@@ -1521,6 +1521,24 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'barcode',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Barcode Generator',
+        path: '/barcode-generator',
+        screenshot: 'barcode',
+        steps: async (page, label) => {
+          await clickButton(page, 'EAN-13');
+          await settle();
+          await setText(page, '#barcode-value', '5901234123458');
+          check(`${label}: rejects a wrong check digit`, await hasText(page, 'not a valid EAN-13'));
+          await setText(page, '#barcode-value', '5901234123457');
+          check(`${label}: draws the barcode`, (await page.$('[role="img"] svg')) !== null);
+          check(`${label}: offers downloads`, await hasText(page, 'Download PNG'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

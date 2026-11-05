@@ -89,6 +89,7 @@ const CASES = [
   { route: '/uptime-calculator', steps: [['#uptime-percent', '99.9']], expected: ['Uptime', '99.9%', 'Allowed downtime per year', '8 h 45 min 57.6 s', '365.25'] },
   { route: '/screen-resolution-checker', steps: [], expected: ['Screen resolution', 'Browser window', 'Pixel ratio', 'Aspect Ratio'] },
   { route: '/typing-speed-test', steps: [['fill-from', '[data-testid="passage"]', '#typing-input'], ['wait', 200]], expected: ['Words per minute', 'Accuracy', 'Mistakes', 'Raw Speed'] },
+  { route: '/barcode-generator', steps: [['#barcode-value', 'SKU-10482']], expected: ['Value', 'SKU-10482', 'Format', 'Code 128', 'Barcode'] },
 ];
 
 const failures = [];
@@ -144,6 +145,7 @@ async function run(browser, siteUrl, item) {
   for (const step of item.steps) {
     if (step[0] === 'click') await clickButton(page, step[1]);
     else if (step[0] === 'wait') await new Promise((resolve) => setTimeout(resolve, step[1]));
+    else if (step[0] === 'upload') await (await page.$(step[1])).uploadFile(step[2]);
     else if (step[0] === 'fill-from') await setField(page, step[2], await page.$eval(step[1], (element) => element.textContent));
     else await setField(page, step[0], step[1]);
   }
