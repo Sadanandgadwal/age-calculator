@@ -83,6 +83,7 @@ const CASES = [
   { route: '/javascript-minifier', steps: [['#js-text', 'function add(first, second) { return first + second; }'], ['click', 'Minify'], ['wait', 1500]], expected: ['Saved', 'Compress code', 'Minified JavaScript', 'function add('] },
   { route: '/sql-formatter', steps: [['#sql-text', 'select a from t']], expected: ['Dialect', 'Standard SQL', 'Formatted SQL', 'SELECT'] },
   { route: '/coin-flip', steps: [['click', 'Flip']], expected: ['Number of flips', 'Result'] },
+  { route: '/dice-roller', steps: [['click', 'Roll']], expected: ['Dice', '1d6', 'Total', 'Every roll'] },
 ];
 
 const failures = [];

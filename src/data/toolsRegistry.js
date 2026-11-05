@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1233,6 +1233,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/coin-flip/Page.jsx'),
     loadContent: () => import('../tools/coin-flip/content.js'),
+  },
+  {
+    id: 'dice-roller',
+    name: 'Dice Roller',
+    route: '/dice-roller',
+    categories: ['everyday-tools'],
+    icon: Dice5,
+    description: 'Roll d4 to d100 dice, with each roll and the total shown.',
+    keywords: ['dice roller', 'roll dice', 'd20', 'd6', 'virtual dice', 'tabletop dice', 'rpg dice'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Dice Roller – Roll d4, d6, d8, d10, d12, d20 and d100',
+      description:
+        'Roll up to 100 fair virtual dice from d4 to d100, for board games and role-playing. See every roll, the total, the highest and the lowest.',
+      featureList: ['d4, d6, d8, d10, d12, d20 and d100', 'Up to 100 dice at once', 'Total, highest and lowest', 'Every roll listed', 'Secure browser randomness'],
+    },
+    load: () => import('../tools/dice-roller/Page.jsx'),
+    loadContent: () => import('../tools/dice-roller/content.js'),
   },
 ];
 

@@ -83,6 +83,7 @@ describe('routes', () => {
     ['/javascript-minifier', 'JavaScript Minifier'],
     ['/sql-formatter', 'SQL Formatter'],
     ['/coin-flip', 'Coin Flip'],
+    ['/dice-roller', 'Dice Roller'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

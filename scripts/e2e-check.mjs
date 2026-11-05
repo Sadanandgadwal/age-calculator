@@ -1404,6 +1404,25 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'dice',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Dice Roller',
+        path: '/dice-roller',
+        screenshot: 'dice-roller',
+        steps: async (page, label) => {
+          await clickButton(page, 'd20');
+          await settle();
+          await setText(page, '#dice-count', '5');
+          await clickButton(page, 'Roll');
+          await settle();
+          const rolls = (await page.$eval('[role="region"][aria-label="Every roll"]', (element) => element.textContent)).split(', ').map(Number);
+          check(`${label}: rolls five dice in range`, rolls.length === 5 && rolls.every((roll) => roll >= 1 && roll <= 20));
+          check(`${label}: shows the right total`, (await resultCards(page)).some((card) => card.includes('Total') && card.includes(String(rolls.reduce((a, b) => a + b, 0)))));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
