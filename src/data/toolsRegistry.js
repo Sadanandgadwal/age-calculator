@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1404,6 +1404,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/image-to-base64/Page.jsx'),
     loadContent: () => import('../tools/image-to-base64/content.js'),
+  },
+  {
+    id: 'base64-to-image',
+    name: 'Base64 to Image',
+    route: '/base64-to-image',
+    categories: ['image-tools', 'developer-tools'],
+    icon: ImageDown,
+    description: 'Paste Base64 text or a data URI to see the image and download it.',
+    keywords: ['base64 to image', 'data uri to image', 'decode base64 image', 'base64 to png', 'base64 to jpg', 'view base64 image'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Base64 to Image – Decode and Download Online',
+      description:
+        'Paste Base64 text or a data URI to preview the image and download it. Detects PNG, JPG, GIF, WebP, BMP, ICO, AVIF and SVG, right in your browser.',
+      featureList: ['Accepts Base64 and data URIs', 'Detects the real image type', 'Live preview', 'Download the file', 'Nothing leaves your device'],
+    },
+    load: () => import('../tools/base64-to-image/Page.jsx'),
+    loadContent: () => import('../tools/base64-to-image/content.js'),
   },
 ];
 

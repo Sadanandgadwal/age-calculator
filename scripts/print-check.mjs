@@ -92,6 +92,7 @@ const CASES = [
   { route: '/barcode-generator', steps: [['#barcode-value', 'SKU-10482']], expected: ['Value', 'SKU-10482', 'Format', 'Code 128', 'Barcode'] },
   { route: '/qr-code-scanner', steps: [['upload', '#qr-file', 'scripts/fixtures/qr-example.png'], ['wait', 600]], expected: ['Scanned from', 'Image', 'Web link', 'https://example.com/toolnest-test', 'Check the address'] },
   { route: '/image-to-base64', noPrint: true, steps: [['upload', '#base64-file', 'scripts/fixtures/image-sample.png'], ['wait', 500]], expected: [] },
+  { route: '/base64-to-image', fileOnly: true, steps: [['#base64-input', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYPj/HwADAgH/h0Bh2AAAAABJRU5ErkJggg=='], ['wait', 300]], expected: [] },
 ];
 
 const failures = [];

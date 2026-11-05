@@ -92,6 +92,7 @@ describe('routes', () => {
     ['/barcode-generator', 'Barcode Generator'],
     ['/qr-code-scanner', 'QR Code Scanner'],
     ['/image-to-base64', 'Image to Base64'],
+    ['/base64-to-image', 'Base64 to Image'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

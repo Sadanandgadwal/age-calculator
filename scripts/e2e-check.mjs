@@ -703,6 +703,8 @@ async function uploadFile(page, selector, name, wait = 500) {
   await pause(wait);
 }
 
+const factText = (page) => page.$eval('[data-testid="facts"]', (element) => element.innerText);
+
 const captureDownload = (page, buttonLabel) =>
   page.evaluate(async (name) => {
     const createUrl = URL.createObjectURL;
@@ -1614,6 +1616,34 @@ const DATE_TIME_CHECKS = [
           check(`${label}: gives an image tag`, (await outputText(page)).startsWith('<img src="data:image/png;base64,'));
           const download = await captureDownload(page, 'Download .txt');
           check(`${label}: downloads the text`, download.filename === 'image-sample-base64.txt' && download.type === 'text/plain');
+        },
+      }),
+  },
+{
+    name: 'base64image',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Base64 to Image',
+        path: '/base64-to-image',
+        screenshot: 'base64-to-image',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          const sample = readFileSync(fixturePath('image-sample.png')).toString('base64');
+          await setText(page, '#base64-input', sample.slice(0, 200));
+          await pause(300);
+          check(`${label}: reports a cut-off image`, await hasText(page, 'damaged'));
+          await setText(page, '#base64-input', btoa('hello world'));
+          check(`${label}: rejects data that is not an image`, await hasText(page, 'not a supported image'));
+          await setText(page, '#base64-input', '<script>alert(1)</script>');
+          check(`${label}: rejects other text`, await hasText(page, 'not valid Base64'));
+          await setText(page, '#base64-input', btoa('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="10" onload="window.__svgRan=1"><script>window.__svgRan=1</script><rect width="20" height="10"/></svg>'));
+          await pause(300);
+          check(`${label}: shows an SVG without running its scripts`, (await factText(page)).includes('20 × 10 px') && (await page.evaluate(() => window.__svgRan)) === undefined);
+          await setText(page, '#base64-input', `data:image/png;base64,${sample}`);
+          await pause(300);
+          check(`${label}: shows the image details`, (await factText(page)).includes('400 × 300 px'));
+          const download = await captureDownload(page, 'Download image');
+          check(`${label}: downloads the exact file`, download.filename === 'image.png' && download.width === 400 && download.size === readFileSync(fixturePath('image-sample.png')).length);
         },
       }),
   },
