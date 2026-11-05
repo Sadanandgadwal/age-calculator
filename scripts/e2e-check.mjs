@@ -1425,8 +1425,34 @@ async function checkPlatform(browser, siteUrl) {
   check('navigating updates the title', (await page.title()).startsWith('Age Calculator'));
   check('navigating updates the canonical URL', (await page.$eval('link[rel="canonical"]', (link) => link.href)).endsWith('/age-calculator'));
 
+  const categoriesOpen = () => page.$eval('#categories-menu', (menu) => !menu.hidden);
+  check('categories menu starts closed', !(await categoriesOpen()));
+  await page.click('button[aria-controls="categories-menu"]');
+  await settle();
+  check('categories menu opens', await categoriesOpen());
+  await runAxe(page, 'categories menu open');
+  await page.keyboard.press('Escape');
+  await settle();
+  check('Escape closes the categories menu and returns focus', !(await categoriesOpen()) && (await page.evaluate(() => document.activeElement.getAttribute('aria-controls'))) === 'categories-menu');
+  await page.click('button[aria-controls="categories-menu"]');
+  await settle();
+  await page.mouse.click(5, 500);
+  await settle();
+  check('clicking elsewhere closes the categories menu', !(await categoriesOpen()));
+  await page.click('button[aria-controls="categories-menu"]');
+  await settle();
   await clickLink('nav[aria-label="Main"] a[href="/date-time"]');
   check('main navigation opens a category', (await heading()) === 'Date & Time');
+  check('choosing a category closes the menu', !(await categoriesOpen()));
+  check('the menu shows the current category', (await page.$eval('button[aria-controls="categories-menu"]', (button) => button.className)).includes('bg-secondary'));
+  for (const width of [1024, 1100, 1280]) {
+    await page.setViewport({ width, height: 800 });
+    await settle();
+    const fit = await page.evaluate(() => ({ height: document.querySelector('nav[aria-label="Main"] > ul').getBoundingClientRect().height, overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
+    check(`navigation fits one line at ${width}px`, fit.height <= 44 && fit.overflow <= 0, JSON.stringify(fit));
+  }
+  await page.setViewport({ width: 1280, height: 800 });
+  await settle();
 
   await clickLink('nav[aria-label="Filter by category"] a[href="/finance"]');
   check('category filter opens a category', (await heading()) === 'Finance');
@@ -1599,6 +1625,7 @@ const browser = await puppeteer.launch({
 try {
   const only = process.env.E2E_ONLY;
   if (only) {
+    if (only === 'platform') await checkPlatform(browser, siteUrl);
     for (const item of DATE_TIME_CHECKS.filter(({ name }) => name === only)) await item.run(browser, siteUrl);
     await browser.close();
     await server?.close();

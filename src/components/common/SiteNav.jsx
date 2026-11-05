@@ -1,16 +1,18 @@
-import { useState } from 'react';
-import { Link, NavLink } from 'react-router';
-import { Menu, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import BrandMark from './BrandMark.jsx';
 import { siteConfig } from '../../config/site.js';
 import { CATEGORIES } from '../../data/toolCategories.js';
 import { TOOLS } from '../../data/toolsRegistry.js';
 import { getActiveCategories } from '../../utils/toolSearch.js';
 
-const NAV_LINKS = [
+const LEAD_LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/all-tools', label: 'All Tools' },
-  ...getActiveCategories(CATEGORIES, TOOLS).map(({ route, name }) => ({ to: route, label: name })),
+];
+const CATEGORY_LINKS = getActiveCategories(CATEGORIES, TOOLS).map(({ route, name }) => ({ to: route, label: name }));
+const TAIL_LINKS = [
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];
@@ -20,14 +22,65 @@ const linkClass = ({ isActive }) =>
     isActive ? 'bg-secondary text-primary' : 'text-ink/80 hover:bg-secondary hover:text-primary'
   }`;
 
-function NavLinks({ onNavigate }) {
-  return NAV_LINKS.map(({ to, label, end }) => (
+function NavLinks({ links, onNavigate }) {
+  return links.map(({ to, label, end }) => (
     <li key={to}>
       <NavLink to={to} end={end} className={linkClass} onClick={onNavigate}>
         {label}
       </NavLink>
     </li>
   ));
+}
+
+function CategoriesMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+  const container = useRef(null);
+  const button = useRef(null);
+  const { pathname } = useLocation();
+  const isActive = CATEGORY_LINKS.some(({ to }) => to === pathname);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const closeOutside = (event) => {
+      if (!container.current?.contains(event.target)) setIsOpen(false);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key !== 'Escape') return;
+      setIsOpen(false);
+      button.current?.focus();
+    };
+    document.addEventListener('pointerdown', closeOutside);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [isOpen]);
+
+  return (
+    <li
+      ref={container}
+      className="relative"
+      onBlur={(event) => {
+        if (event.relatedTarget && !container.current?.contains(event.relatedTarget)) setIsOpen(false);
+      }}
+    >
+      <button
+        ref={button}
+        type="button"
+        aria-expanded={isOpen}
+        aria-controls="categories-menu"
+        onClick={() => setIsOpen((open) => !open)}
+        className={`${linkClass({ isActive })} cursor-pointer gap-1`}
+      >
+        Categories
+        <ChevronDown aria-hidden="true" className={`size-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      <ul id="categories-menu" hidden={!isOpen} className="absolute right-0 z-20 mt-1 w-56 rounded-2xl border border-line bg-white p-2 shadow-card">
+        <NavLinks links={CATEGORY_LINKS} onNavigate={() => setIsOpen(false)} />
+      </ul>
+    </li>
+  );
 }
 
 export default function SiteNav() {
@@ -48,7 +101,9 @@ export default function SiteNav() {
 
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-0.5">
-            <NavLinks />
+            <NavLinks links={LEAD_LINKS} />
+            <CategoriesMenu />
+            <NavLinks links={TAIL_LINKS} />
           </ul>
         </nav>
 
@@ -67,7 +122,7 @@ export default function SiteNav() {
       {isOpen && (
         <nav id="mobile-menu" aria-label="Main" className="border-t border-line/70 px-4 py-2 sm:px-6 lg:hidden">
           <ul className="flex flex-col gap-0.5">
-            <NavLinks onNavigate={() => setIsOpen(false)} />
+            <NavLinks links={[...LEAD_LINKS, ...CATEGORY_LINKS, ...TAIL_LINKS]} onNavigate={() => setIsOpen(false)} />
           </ul>
         </nav>
       )}

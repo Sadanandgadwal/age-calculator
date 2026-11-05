@@ -138,6 +138,36 @@ describe('new categories', () => {
   });
 });
 
+describe('categories menu', () => {
+  const toggle = () => screen.getByRole('button', { name: 'Categories' });
+
+  it('opens and closes, with links kept in the page for search engines', async () => {
+    const user = renderAt('/');
+    expect(toggle()).toHaveAttribute('aria-expanded', 'false');
+    expect(document.querySelector('#categories-menu a[href="/calculators"]')).toBeTruthy();
+    expect(document.getElementById('categories-menu').hidden).toBe(true);
+    await user.click(toggle());
+    expect(toggle()).toHaveAttribute('aria-expanded', 'true');
+    expect(document.getElementById('categories-menu').hidden).toBe(false);
+    await user.keyboard('{Escape}');
+    expect(toggle()).toHaveFocus();
+    expect(document.getElementById('categories-menu').hidden).toBe(true);
+  });
+
+  it('closes after choosing a category', async () => {
+    const user = renderAt('/');
+    await user.click(toggle());
+    await user.click(within(document.getElementById('categories-menu')).getByRole('link', { name: 'Finance' }));
+    expect(await pageHeading('Finance')).toBeInTheDocument();
+    expect(document.getElementById('categories-menu').hidden).toBe(true);
+  });
+
+  it('leaves out categories with no tools', () => {
+    renderAt('/');
+    expect(document.querySelector('#categories-menu a[href="/pdf-tools"]')).toBeNull();
+  });
+});
+
 describe('navigation', () => {
   it('offers every main section', async () => {
     renderAt('/');
