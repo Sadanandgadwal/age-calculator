@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1423,6 +1423,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/base64-to-image/Page.jsx'),
     loadContent: () => import('../tools/base64-to-image/content.js'),
+  },
+  {
+    id: 'image-color-picker',
+    name: 'Image Color Picker',
+    route: '/image-color-picker',
+    categories: ['image-tools'],
+    icon: Pipette,
+    description: 'Pick any color from an image and get its HEX, RGB and HSL values.',
+    keywords: ['image color picker', 'color from image', 'eyedropper', 'hex from image', 'pick color from photo', 'image palette', 'color palette from image'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Image Color Picker – Get HEX, RGB and HSL From a Photo',
+      description:
+        'Click anywhere on an image to get the exact HEX, RGB and HSL color, and see its main colors. Works with a mouse, touch or keyboard, on your device.',
+      featureList: ['Pick any pixel', 'HEX, RGB and HSL values', 'Main colors of the image', 'Mouse, touch and keyboard', 'Images stay on your device'],
+    },
+    load: () => import('../tools/image-color-picker/Page.jsx'),
+    loadContent: () => import('../tools/image-color-picker/content.js'),
   },
 ];
 

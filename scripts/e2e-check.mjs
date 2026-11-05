@@ -1647,6 +1647,41 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'colorpicker',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Image Color Picker',
+        path: '/image-color-picker',
+        screenshot: 'image-color-picker',
+        steps: async (page, label) => {
+          await uploadFile(page, '#color-file', 'image-sample.png');
+          check(`${label}: starts at the center`, (await factText(page)).includes('#FFFF00'));
+          const box = await (await page.$('[data-testid="color-image"]')).boundingBox();
+          const clickAt = async (x, y) => {
+            await page.evaluate((px) => window.scrollTo(0, px), Math.max(0, box.y - 40));
+            const area = await (await page.$('[data-testid="color-image"]')).boundingBox();
+            await page.mouse.click(area.x + area.width * x, area.y + area.height * y);
+            await pause(80);
+          };
+          await clickAt(0.25, 0.25);
+          check(`${label}: reads red exactly`, (await factText(page)).includes('#FF0000') && (await factText(page)).includes('hsl(0, 100%, 50%)'));
+          await clickAt(0.75, 0.25);
+          check(`${label}: reads green exactly`, (await factText(page)).includes('#00FF00'));
+          await clickAt(0.25, 0.75);
+          check(`${label}: reads blue exactly`, (await factText(page)).includes('#0000FF'));
+          await clickAt(0.5, 0.97);
+          check(`${label}: reports a transparent pixel`, (await factText(page)).includes('Opacity'));
+          await clickAt(0.25, 0.25);
+          await page.focus('[data-testid="color-image"]');
+          for (let moves = 0; moves < 60; moves += 1) await page.keyboard.press('ArrowRight');
+          await pause(80);
+          check(`${label}: moves with the keyboard`, (await factText(page)).includes('#00FF00'));
+          const palette = await page.$$eval('button[aria-label^="Use #"]', (items) => items.map((item) => item.getAttribute('aria-label')));
+          check(`${label}: finds the four main colors`, palette.length === 4 && ['#FF0000', '#00FF00', '#0000FF', '#FFFF00'].every((hex) => palette.some((item) => item.includes(hex))), palette.join(','));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

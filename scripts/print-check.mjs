@@ -93,6 +93,7 @@ const CASES = [
   { route: '/qr-code-scanner', steps: [['upload', '#qr-file', 'scripts/fixtures/qr-example.png'], ['wait', 600]], expected: ['Scanned from', 'Image', 'Web link', 'https://example.com/toolnest-test', 'Check the address'] },
   { route: '/image-to-base64', noPrint: true, steps: [['upload', '#base64-file', 'scripts/fixtures/image-sample.png'], ['wait', 500]], expected: [] },
   { route: '/base64-to-image', fileOnly: true, steps: [['#base64-input', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYPj/HwADAgH/h0Bh2AAAAABJRU5ErkJggg=='], ['wait', 300]], expected: [] },
+  { route: '/image-color-picker', steps: [['upload', '#color-file', 'scripts/fixtures/image-sample.png'], ['wait', 600]], expected: ['Image', 'image-sample.png', 'HEX', '#FFFF00', 'rgb(255, 255, 0)', 'hsl(60, 100%, 50%)', 'Main color 1'] },
 ];
 
 const failures = [];
