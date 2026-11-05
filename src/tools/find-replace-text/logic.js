@@ -1,9 +1,6 @@
 import { formatNumber } from '../../utils/formatResult.js';
 import { excerpt } from '../../utils/textStats.js';
 
-export const REGEX_TIMEOUT_MS = 2000;
-export const TIMEOUT_MESSAGE = 'This pattern took too long, so it was stopped. Please try a simpler one.';
-
 const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export function validate({ text, find }) {

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Hash, Replace } from 'lucide-react';
 import * as content from './content.js';
-import { REGEX_TIMEOUT_MS, TIMEOUT_MESSAGE, buildReport, buildResultText, replaceText, validate } from './logic.js';
+import { buildReport, buildResultText, replaceText, validate } from './logic.js';
 import CalculatorInput from '../../components/common/CalculatorInput.jsx';
 import CalculatorShell from '../../components/common/CalculatorShell.jsx';
 import ResultActions from '../../components/common/ResultActions.jsx';
@@ -10,23 +10,9 @@ import { CheckField, TextField, TextOutput } from '../../components/common/TextT
 import ToolLayout from '../../components/layout/ToolLayout.jsx';
 import { useCalculatorForm } from '../../hooks/useCalculatorForm.js';
 import { formatNumber } from '../../utils/formatResult.js';
+import { runInWorker } from '../../utils/runInWorker.js';
 
-function runInWorker(request, onDone) {
-  const worker = new Worker(new URL('./regexWorker.js', import.meta.url), { type: 'module' });
-  const finish = (outcome) => {
-    clearTimeout(timer);
-    worker.terminate();
-    onDone(outcome);
-  };
-  const timer = setTimeout(() => finish({ error: TIMEOUT_MESSAGE }), REGEX_TIMEOUT_MS);
-  worker.onmessage = ({ data }) => finish(data);
-  worker.onerror = () => finish({ error: 'This pattern could not be run. Please try a different one.' });
-  worker.postMessage(request);
-  return () => {
-    clearTimeout(timer);
-    worker.terminate();
-  };
-}
+const createWorker = () => new Worker(new URL('./regexWorker.js', import.meta.url), { type: 'module' });
 
 export default function FindReplaceTextPage() {
   const [text, setText] = useState('');
@@ -67,7 +53,7 @@ export default function FindReplaceTextPage() {
       return;
     }
     setIsRunning(true);
-    cancelRun.current = runInWorker(request, (result) => finish(event, request, result));
+    cancelRun.current = runInWorker(createWorker, request, { errorMessage: 'This pattern could not be run. Please try a different one.' }, (result) => finish(event, request, result));
   };
 
   const reset = () => {
