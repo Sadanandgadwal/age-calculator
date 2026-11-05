@@ -10,6 +10,7 @@ const TOOL_PATHS = [
   '/cm-to-feet-converter',
   '/date-calculator',
   '/gst-calculator',
+  '/hash-generator',
   '/uuid-generator',
   '/html-entity-encoder',
   '/url-encoder-decoder',

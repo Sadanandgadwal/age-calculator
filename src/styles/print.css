@@ -93,6 +93,11 @@
     break-inside: avoid;
   }
 
+  .pr-rows dt {
+    flex: 0 0 auto;
+    max-width: 45%;
+  }
+
   .pr-rows dd {
     font-weight: 700;
     text-align: right;

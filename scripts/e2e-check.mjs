@@ -1251,6 +1251,22 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'hash',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Hash Generator',
+        path: '/hash-generator',
+        screenshot: 'hash',
+        steps: async (page, label) => {
+          await setText(page, '#hash-text', 'The quick brown fox jumps over the lazy dog');
+          await pause(200);
+          check(`${label}: matches known MD5`, await hasText(page, '9e107d9d372bb6826bd81d3542a419d6'));
+          check(`${label}: matches known SHA-1`, await hasText(page, '2fd4e1c67a2d28fced849ee1bb76e7391b93eb12'));
+          check(`${label}: matches known SHA-256`, await hasText(page, 'd7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

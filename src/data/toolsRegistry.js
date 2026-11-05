@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1062,6 +1062,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/uuid-generator/Page.jsx'),
     loadContent: () => import('../tools/uuid-generator/content.js'),
+  },
+  {
+    id: 'hash-generator',
+    name: 'Hash Generator',
+    route: '/hash-generator',
+    categories: ['developer-tools'],
+    icon: Hash,
+    description: 'Create SHA-256, SHA-512, SHA-1 and MD5 hashes of any text.',
+    keywords: ['hash generator', 'sha256', 'sha-256', 'sha512', 'sha1', 'md5', 'checksum', 'hash text'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Hash Generator – SHA-256, SHA-512, SHA-1 and MD5 Online',
+      description:
+        'Create SHA-256, SHA-384, SHA-512, SHA-1 and MD5 hashes of any text as you type. Hashes are worked out in your browser, so your text stays private.',
+      featureList: ['SHA-256, SHA-384 and SHA-512', 'SHA-1 and MD5 for old systems', 'Live as you type', 'Uppercase option', 'Runs in your browser'],
+    },
+    load: () => import('../tools/hash-generator/Page.jsx'),
+    loadContent: () => import('../tools/hash-generator/content.js'),
   },
 ];
 
