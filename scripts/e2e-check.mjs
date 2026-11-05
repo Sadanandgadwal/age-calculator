@@ -1539,6 +1539,23 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'qrscanner',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'QR Code Scanner',
+        path: '/qr-code-scanner',
+        screenshot: 'qr-scanner',
+        steps: async (page, label) => {
+          const input = await page.$('#qr-file');
+          await input.uploadFile(new URL('./fixtures/qr-example.png', import.meta.url).pathname);
+          await pause(600);
+          check(`${label}: reads an uploaded code`, (await outputText(page)) === 'https://example.com/toolnest-test');
+          const opened = await page.$$eval('a[target="_blank"]', (links) => links.map((link) => link.getAttribute('rel')));
+          check(`${label}: offers the link safely, only on request`, opened.some((rel) => rel?.includes('noopener')) && new URL(page.url()).pathname === '/qr-code-scanner');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1366,6 +1366,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/barcode-generator/Page.jsx'),
     loadContent: () => import('../tools/barcode-generator/content.js'),
+  },
+  {
+    id: 'qr-code-scanner',
+    name: 'QR Code Scanner',
+    route: '/qr-code-scanner',
+    categories: ['everyday-tools'],
+    icon: ScanLine,
+    description: 'Read a QR code from an image or your camera, right in your browser.',
+    keywords: ['qr code scanner', 'scan qr code', 'qr reader', 'read qr code', 'qr from image', 'decode qr', 'camera qr'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'QR Code Scanner – Read QR Codes From Image or Camera',
+      description:
+        'Read a QR code from an image or your camera. Images stay on your device, and scanned links never open by themselves, so you can check them first.',
+      featureList: ['Scan from an image', 'Scan with your camera', 'Drag and drop', 'Links never open by themselves', 'Images stay on your device'],
+    },
+    load: () => import('../tools/qr-code-scanner/Page.jsx'),
+    loadContent: () => import('../tools/qr-code-scanner/content.js'),
   },
 ];
 

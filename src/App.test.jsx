@@ -90,6 +90,7 @@ describe('routes', () => {
     ['/screen-resolution-checker', 'Screen Resolution Checker'],
     ['/typing-speed-test', 'Typing Speed Test'],
     ['/barcode-generator', 'Barcode Generator'],
+    ['/qr-code-scanner', 'QR Code Scanner'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
