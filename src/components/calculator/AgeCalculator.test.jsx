@@ -96,6 +96,64 @@ describe('AgeCalculator', () => {
       expect(detailValue('Next Birthday In')).toBe('Today!');
     });
 
+    describe('birthday confetti', () => {
+      const confetti = () => screen.queryByTestId('confetti');
+
+      it('appears when today is the birthday', async () => {
+        const { submit } = setup();
+        setDate(dobInput(), '2000-11-03');
+        await submit();
+
+        expect(confetti()).toBeInTheDocument();
+        expect(confetti()).toHaveAttribute('aria-hidden', 'true');
+      });
+
+      it('does not appear on other days', async () => {
+        const { submit } = setup();
+        setDate(dobInput(), '1998-06-15');
+        await submit();
+
+        expect(confetti()).not.toBeInTheDocument();
+      });
+
+      it('does not appear for someone born today', async () => {
+        const { submit } = setup();
+        setDate(dobInput(), '2026-11-03');
+        await submit();
+
+        expect(confetti()).not.toBeInTheDocument();
+      });
+
+      it('does not appear for an anniversary on another chosen date', async () => {
+        const { submit } = setup();
+        setDate(dobInput(), '2000-06-15');
+        setDate(asOfInput(), '2020-06-15');
+        await submit();
+
+        expect(screen.getByText(/Happy birthday/)).toBeInTheDocument();
+        expect(confetti()).not.toBeInTheDocument();
+      });
+
+      it('appears on 28 February in a common year for a 29 February birthday', async () => {
+        vi.setSystemTime(new Date(2027, 1, 28, 12));
+        const { submit } = setup();
+        setDate(dobInput(), '2000-02-29');
+        await submit();
+
+        expect(confetti()).toBeInTheDocument();
+      });
+
+      it('is removed by reset', async () => {
+        const { user, submit } = setup();
+        setDate(dobInput(), '2000-11-03');
+        await submit();
+
+        await user.click(screen.getByRole('button', { name: 'Reset' }));
+
+        expect(confetti()).not.toBeInTheDocument();
+      });
+    });
+
     it('explains the observed date for a 29 February birthday', async () => {
       const { submit } = setup();
       setDate(dobInput(), '2000-02-29');
@@ -254,6 +312,8 @@ describe('AgeCalculator', () => {
 
         expect(navigator.share).toHaveBeenCalledOnce();
         expect(navigator.share.mock.calls[0][0].text).toContain('28 years, 4 months, 19 days');
+        expect(navigator.share.mock.calls[0][0].title).toBe('Age Calculator');
+        expect(navigator.share.mock.calls[0][0].url).toMatch(/\/age-calculator$/);
       });
 
       it('stays quiet when the user closes the share sheet', async () => {

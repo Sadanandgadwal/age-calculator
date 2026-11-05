@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 dist/
+.ssr-build/
 coverage/
 
 # Local environment files (may hold real IDs or secrets)

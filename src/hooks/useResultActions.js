@@ -3,6 +3,8 @@ import { siteConfig } from '../config/site.js';
 import { buildResultText } from '../utils/formatResult.js';
 
 const STATUS_TIMEOUT_MS = 3000;
+const TOOL_NAME = 'Age Calculator';
+const TOOL_URL = `${siteConfig.url}/age-calculator`;
 
 async function copyText(text) {
   try {
@@ -37,7 +39,7 @@ export function useResultActions(result) {
 
     if (typeof navigator.share === 'function') {
       try {
-        await navigator.share({ title: siteConfig.name, text, url: siteConfig.url });
+        await navigator.share({ title: TOOL_NAME, text, url: TOOL_URL });
       } catch (error) {
         // AbortError means the user closed the share sheet, which needs no message.
         if (error.name !== 'AbortError') {
@@ -47,7 +49,7 @@ export function useResultActions(result) {
       return;
     }
 
-    const copied = await copyText(`${text}\n${siteConfig.url}`);
+    const copied = await copyText(`${text}\n${TOOL_URL}`);
     showStatus(
       copied
         ? "Sharing isn't available in this browser, so the result was copied instead."
