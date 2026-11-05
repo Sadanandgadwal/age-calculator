@@ -29,10 +29,10 @@ describe('PrintReportHost', () => {
     firePrint('beforeprint');
     expect(report().parentElement).toBe(document.body);
     expect(report().querySelector('h1').textContent).toBe('Some Tool');
-    for (const text of ['ToolNest', 'A mode', 'Value entered', 'Extra', 'Rows', 'A note', 'Generated on']) {
+    for (const text of ['ToolNest', 'A mode', 'Value entered', 'Answer', 'Extra', 'Rows', 'A note', 'Generated on']) {
       expect(report().textContent).toContain(text);
     }
-    for (const text of ['Formula', 'A = B', 'Calculation steps', 'Step one', 'Answer']) {
+    for (const text of ['Formula', 'A = B', 'Calculation steps', 'Step one']) {
       expect(report().textContent).not.toContain(text);
     }
 
@@ -42,7 +42,7 @@ describe('PrintReportHost', () => {
 
   it('uses the newest report and values', () => {
     const { rerender } = render(<PrintReportHost title="T" getReport={() => REPORT} />);
-    rerender(<PrintReportHost title="T" getReport={() => ({ details: [{ label: 'Answer', value: 'Newest' }] })} />);
+    rerender(<PrintReportHost title="T" getReport={() => ({ results: [{ label: 'Answer', value: 'Newest' }] })} />);
     firePrint('beforeprint');
     expect(report().textContent).toContain('Newest');
     firePrint('afterprint');

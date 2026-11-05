@@ -104,46 +104,13 @@
     overflow-wrap: anywhere;
   }
 
-  .pr-results {
-    display: grid;
-    gap: 3mm;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .pr-results[data-count='1'] {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .pr-results[data-count='3'] {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .pr-results[data-count='4'] {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .pr-results div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1mm;
-    padding: 6mm 3mm;
-    border: 0.5mm solid #000;
-    border-radius: 2mm;
-    text-align: center;
-    break-inside: avoid;
-  }
-
-  .pr-results strong {
-    font-size: 22pt;
+  .pr-answers dd {
+    font-size: 15pt;
     font-weight: 800;
-    line-height: 1.2;
-    overflow-wrap: anywhere;
   }
 
-  .pr-results span {
-    font-size: 10pt;
-    font-weight: 600;
+  .print-report[data-dense] .pr-answers dd {
+    font-size: 11pt;
   }
 
   .pr-table {
@@ -201,14 +168,6 @@
   .print-report[data-dense] .pr-rows div {
     gap: 2mm;
     padding: 1mm 0;
-  }
-
-  .print-report[data-dense] .pr-results div {
-    padding: 2.5mm 2mm;
-  }
-
-  .print-report[data-dense] .pr-results strong {
-    font-size: 15pt;
   }
 
   .print-report[data-dense] .pr-table {

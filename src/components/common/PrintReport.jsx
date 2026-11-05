@@ -7,12 +7,12 @@ import { siteConfig } from '../../config/site.js';
 const DENSE_ROWS = 12;
 const timestampFormatter = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeStyle: 'short' });
 
-function Rows({ title, items }) {
+function Rows({ title, items, prominent = false }) {
   if (!items?.length) return null;
   return (
     <section className="pr-section">
       <h2>{title}</h2>
-      <dl className="pr-rows">
+      <dl className={prominent ? 'pr-rows pr-answers' : 'pr-rows'}>
         {items.map(({ label, value }) => (
           <div key={label}>
             <dt>{label}</dt>
@@ -37,7 +37,7 @@ function Lines({ title, lines }) {
 }
 
 function ReportDocument({ title, report, printedAt, url }) {
-  const { subtitle, inputs, details, /* formula, steps, */ table, notes, text, visual } = report;
+  const { subtitle, inputs, results, details, /* formula, steps, */ table, notes, text, visual } = report;
 
   return (
     <article className="print-report" data-dense={table?.rows.length > DENSE_ROWS || undefined}>
@@ -54,17 +54,7 @@ function ReportDocument({ title, report, printedAt, url }) {
 
       <Rows title="Values entered" items={inputs} />
 
-      {/* <section className="pr-section">
-        <h2>Result</h2>
-        <div className="pr-results" data-count={Math.min(results.length, 4)}>
-          {results.map(({ label, value }) => (
-            <div key={label}>
-              <strong>{value}</strong>
-              <span>{label}</span>
-            </div>
-          ))}
-        </div>
-      </section> */}
+      <Rows title="Result" items={results} prominent />
 
       {visual && <section className="pr-section pr-visual">{visual}</section>}
 
