@@ -85,6 +85,7 @@ describe('routes', () => {
     ['/coin-flip', 'Coin Flip'],
     ['/dice-roller', 'Dice Roller'],
     ['/random-name-picker', 'Random Name Picker'],
+    ['/decision-maker', 'Decision Maker'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

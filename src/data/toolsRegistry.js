@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1271,6 +1271,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/random-name-picker/Page.jsx'),
     loadContent: () => import('../tools/random-name-picker/content.js'),
+  },
+  {
+    id: 'decision-maker',
+    name: 'Decision Maker',
+    route: '/decision-maker',
+    categories: ['everyday-tools'],
+    icon: Signpost,
+    description: 'List your options, weight them if you like, and get one fair answer.',
+    keywords: ['decision maker', 'help me decide', 'random choice', 'choose for me', 'yes or no', 'option picker', 'what should i'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Decision Maker – Help Me Decide Between Options',
+      description:
+        'Stuck between options? List them, give the ones you prefer more weight if you like, and get one fair answer, with the chance of each option shown.',
+      featureList: ['Pick between any options', 'Optional weights for favourites', 'Chance shown for each option', 'Secure browser randomness', 'Nothing is saved'],
+    },
+    load: () => import('../tools/decision-maker/Page.jsx'),
+    loadContent: () => import('../tools/decision-maker/content.js'),
   },
 ];
 

@@ -1444,6 +1444,25 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'decision',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Decision Maker',
+        path: '/decision-maker',
+        screenshot: 'decision-maker',
+        steps: async (page, label) => {
+          await setText(page, '#decide-options', 'Tea | oops\nCoffee');
+          await clickButton(page, 'Decide');
+          await settle();
+          check(`${label}: explains a bad weight`, await hasText(page, 'Line 1: the weight'));
+          await setText(page, '#decide-options', 'Tea | 3\nCoffee');
+          await clickButton(page, 'Decide');
+          await settle();
+          check(`${label}: shows the chances`, (await hasText(page, '75%')) && (await hasText(page, '25%')));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
