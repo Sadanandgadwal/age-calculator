@@ -91,6 +91,7 @@ describe('routes', () => {
     ['/typing-speed-test', 'Typing Speed Test'],
     ['/barcode-generator', 'Barcode Generator'],
     ['/qr-code-scanner', 'QR Code Scanner'],
+    ['/image-to-base64', 'Image to Base64'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
@@ -128,7 +129,6 @@ describe('routes', () => {
 describe('new categories', () => {
   const NEW_CATEGORIES = [
     ['/pdf-tools', 'PDF Tools'],
-    ['/image-tools', 'Image Tools'],
   ];
 
   it.each(NEW_CATEGORIES)('%s has its own page, and stays out of search results while empty', async (path, name) => {
@@ -142,7 +142,7 @@ describe('new categories', () => {
     renderAt('/all-tools');
     await pageHeading('All Tools');
     const filters = within(screen.getByRole('navigation', { name: 'Filter by category' })).getAllByRole('link');
-    expect(filters.map((link) => link.textContent)).toEqual(['All Tools', 'Calculators', 'Converters', 'Date & Time', 'Finance', 'Text & Writing', 'Developer Tools', 'Everyday Tools']);
+    expect(filters.map((link) => link.textContent)).toEqual(['All Tools', 'Calculators', 'Converters', 'Date & Time', 'Finance', 'Text & Writing', 'Image Tools', 'Developer Tools', 'Everyday Tools']);
   });
 });
 
@@ -189,6 +189,7 @@ describe('navigation', () => {
       'Date & Time',
       'Finance',
       'Text & Writing',
+      'Image Tools',
       'Developer Tools',
       'Everyday Tools',
       'About',

@@ -91,6 +91,7 @@ const CASES = [
   { route: '/typing-speed-test', steps: [['fill-from', '[data-testid="passage"]', '#typing-input'], ['wait', 200]], expected: ['Words per minute', 'Accuracy', 'Mistakes', 'Raw Speed'] },
   { route: '/barcode-generator', steps: [['#barcode-value', 'SKU-10482']], expected: ['Value', 'SKU-10482', 'Format', 'Code 128', 'Barcode'] },
   { route: '/qr-code-scanner', steps: [['upload', '#qr-file', 'scripts/fixtures/qr-example.png'], ['wait', 600]], expected: ['Scanned from', 'Image', 'Web link', 'https://example.com/toolnest-test', 'Check the address'] },
+  { route: '/image-to-base64', noPrint: true, steps: [['upload', '#base64-file', 'scripts/fixtures/image-sample.png'], ['wait', 500]], expected: [] },
 ];
 
 const failures = [];
@@ -149,6 +150,14 @@ async function run(browser, siteUrl, item) {
     else if (step[0] === 'upload') await (await page.$(step[1])).uploadFile(step[2]);
     else if (step[0] === 'fill-from') await setField(page, step[2], await page.$eval(step[1], (element) => element.textContent));
     else await setField(page, step[0], step[1]);
+  }
+
+  if (item.fileOnly) {
+    const names = await page.$$eval('button', (buttons) => buttons.map((button) => button.textContent.trim()));
+    check(`${name}: offers only a download`, names.some((label) => label.startsWith('Download')) && !['Print', 'Share', 'Copy results'].some((label) => names.includes(label)));
+    console.log(`  ${name}: file only`);
+    await page.close();
+    return;
   }
 
   if (item.noPrint) {

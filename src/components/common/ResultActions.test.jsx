@@ -80,6 +80,8 @@ describe('ResultActions', () => {
   });
 });
 
+const DOWNLOAD_ONLY_TOOLS = ['base64-to-image', 'image-compressor', 'image-resizer', 'image-cropper', 'favicon-generator'];
+
 describe('every tool', () => {
   const pages = import.meta.glob('../../tools/*/Page.jsx', { query: '?raw', import: 'default', eager: true });
   const sources = import.meta.glob('../../tools/*/*.jsx', { query: '?raw', import: 'default', eager: true });
@@ -94,6 +96,11 @@ describe('every tool', () => {
       .filter(([path]) => path.startsWith(folder) && !path.endsWith('.test.jsx'))
       .map(([, source]) => source)
       .join('\n');
+    if (DOWNLOAD_ONLY_TOOLS.some((tool) => folder.endsWith(`/${tool}/`))) {
+      expect(/<ResultActions\b/.test(code)).toBe(false);
+      expect(/<ImageResult\b|<DownloadButton\b/.test(code)).toBe(true);
+      return;
+    }
     expect(/<ResultActions\b|<UnitConverter\b/.test(code)).toBe(true);
     expect(code.match(/<ResultActions\b[^\n]*/g)?.every((line) => line.includes('getReport=') || line.includes('copyOnly')) ?? true).toBe(true);
   });

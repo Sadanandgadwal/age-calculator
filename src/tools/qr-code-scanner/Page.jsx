@@ -7,6 +7,7 @@ import ResultActions from '../../components/common/ResultActions.jsx';
 import SegmentedControl from '../../components/common/SegmentedControl.jsx';
 import TextToolShell, { TextOutput } from '../../components/common/TextToolShell.jsx';
 import ToolLayout from '../../components/layout/ToolLayout.jsx';
+import { loadImage } from '../../utils/imageFile.js';
 
 const SCAN_INTERVAL_MS = 200;
 const cameraButton =
@@ -20,22 +21,6 @@ function readPixels(source, sourceWidth, sourceHeight) {
   const context = canvas.getContext('2d', { willReadFrequently: true });
   context.drawImage(source, 0, 0, width, height);
   return context.getImageData(0, 0, width, height);
-}
-
-function loadImage(file) {
-  return new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(file);
-    const image = new Image();
-    image.onload = () => {
-      URL.revokeObjectURL(url);
-      resolve(image);
-    };
-    image.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error('unreadable'));
-    };
-    image.src = url;
-  });
 }
 
 export default function QrCodeScannerPage() {

@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1385,6 +1385,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/qr-code-scanner/Page.jsx'),
     loadContent: () => import('../tools/qr-code-scanner/content.js'),
+  },
+  {
+    id: 'image-to-base64',
+    name: 'Image to Base64',
+    route: '/image-to-base64',
+    categories: ['image-tools', 'developer-tools'],
+    icon: FileImage,
+    description: 'Turn an image into Base64 text, ready to paste into HTML, CSS or code.',
+    keywords: ['image to base64', 'png to base64', 'jpg to base64', 'base64 encode image', 'data uri', 'image data url', 'inline image'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Image to Base64 – Convert Images to Data URIs',
+      description:
+        'Convert a PNG, JPG, WebP, GIF or SVG image to Base64, as a data URI, HTML image tag or CSS background. Your image stays on your device.',
+      featureList: ['Data URI output', 'Plain Base64 output', 'HTML and CSS snippets', 'Copy or download', 'Images stay on your device'],
+    },
+    load: () => import('../tools/image-to-base64/Page.jsx'),
+    loadContent: () => import('../tools/image-to-base64/content.js'),
   },
 ];
 

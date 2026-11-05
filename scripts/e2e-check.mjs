@@ -586,8 +586,12 @@ async function checkGst(browser, siteUrl) {
   }
 }
 
-async function checkResultActions(page, label, copyOnly = false) {
+async function checkResultActions(page, label, copyOnly = false, actions = null) {
   const names = await page.$$eval('button', (buttons) => buttons.filter((button) => button.offsetParent).map((button) => button.textContent.trim()));
+  if (actions) {
+    check(`${label}: offers ${actions.join(' and ')} only`, actions.every((name) => names.some((item) => item.startsWith(name))) && ['Copy results', 'Share', 'Print'].filter((name) => !actions.includes(name)).every((name) => !names.includes(name)));
+    return;
+  }
   check(`${label}: offers copy, share and print`, copyOnly ? names.includes('Copy results') && !names.includes('Share') && !names.includes('Print') : ['Copy results', 'Share', 'Print'].every((name) => names.includes(name)));
   if (copyOnly) return;
 
@@ -649,7 +653,7 @@ async function checkFlows(browser, siteUrl, { title, path, screenshot, requiredE
   }
 }
 
-async function checkLiveTool(browser, siteUrl, { title, path, screenshot, steps, copyOnly }) {
+async function checkLiveTool(browser, siteUrl, { title, path, screenshot, steps, copyOnly, actions }) {
   console.log(`\n${title}`);
   for (const viewport of [{ width: 320, height: 640 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
     const label = `${viewport.width}px`;
@@ -662,7 +666,7 @@ async function checkLiveTool(browser, siteUrl, { title, path, screenshot, steps,
     await runAxe(page, `${label} initial`);
     await steps(page, label);
     await runAxe(page, `${label} after use`);
-    await checkResultActions(page, label, copyOnly);
+    await checkResultActions(page, label, copyOnly, actions);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     check(`${label}: no horizontal scroll`, !overflow);
     await page.screenshot({ path: `${OUTPUT_DIR}/${screenshot}-${viewport.width}.png`, fullPage: true });
@@ -690,6 +694,39 @@ const outputText = (page) => page.$eval('[role="region"][aria-label="Output"]', 
 const resultCards = (page) => page.$$eval('[data-testid="result-card"]', (cards) => cards.map((card) => card.textContent));
 const cardValue = (page, name) =>
   page.evaluate((label) => [...document.querySelectorAll('[data-testid="result-card"]')].find((card) => card.textContent.includes(label))?.textContent, name);
+
+const fixturePath = (name) => new URL(`./fixtures/${name}`, import.meta.url).pathname;
+
+async function uploadFile(page, selector, name, wait = 500) {
+  const input = await page.$(selector);
+  await input.uploadFile(fixturePath(name));
+  await pause(wait);
+}
+
+const captureDownload = (page, buttonLabel) =>
+  page.evaluate(async (name) => {
+    const createUrl = URL.createObjectURL;
+    const clickLink = HTMLAnchorElement.prototype.click;
+    let blob;
+    let filename;
+    URL.createObjectURL = (item) => {
+      blob = item;
+      return createUrl.call(URL, item);
+    };
+    HTMLAnchorElement.prototype.click = function click() {
+      filename = this.download;
+    };
+    [...document.querySelectorAll('button')].find((button) => button.textContent.trim() === name).click();
+    URL.createObjectURL = createUrl;
+    HTMLAnchorElement.prototype.click = clickLink;
+    const info = { filename, type: blob.type, size: blob.size };
+    if (['image/png', 'image/jpeg', 'image/webp'].includes(blob.type)) {
+      const bitmap = await createImageBitmap(blob);
+      info.width = bitmap.width;
+      info.height = bitmap.height;
+    }
+    return info;
+  }, buttonLabel);
 
 const DATE_TIME_CHECKS = [
   {
@@ -1556,6 +1593,30 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'imagebase64',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Image to Base64',
+        path: '/image-to-base64',
+        screenshot: 'image-to-base64',
+        copyOnly: true,
+        steps: async (page, label) => {
+          await uploadFile(page, '#base64-file', 'image-sample.png');
+          const output = await outputText(page);
+          check(`${label}: gives a data URI`, output.startsWith('data:image/png;base64,iVBOR'));
+          check(`${label}: the text decodes to the same image`, await page.evaluate(async (text) => {
+            const bitmap = await createImageBitmap(await (await fetch(text)).blob());
+            return bitmap.width === 400 && bitmap.height === 300;
+          }, output));
+          await clickButton(page, 'HTML');
+          await settle();
+          check(`${label}: gives an image tag`, (await outputText(page)).startsWith('<img src="data:image/png;base64,'));
+          const download = await captureDownload(page, 'Download .txt');
+          check(`${label}: downloads the text`, download.filename === 'image-sample-base64.txt' && download.type === 'text/plain');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -1632,7 +1693,7 @@ async function checkPlatform(browser, siteUrl) {
   check('browser back button works', (await heading()) === 'Date & Time');
 
   const sitemap = await (await fetch(new URL('/sitemap.xml', siteUrl))).text();
-  for (const [path, name] of [['/pdf-tools', 'PDF Tools'], ['/image-tools', 'Image Tools']]) {
+  for (const [path, name] of [['/pdf-tools', 'PDF Tools']]) {
     const response = await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
     check(`${path} opens its page`, response.status() === 200 && (await heading()) === name);
     check(`${path} is noindex while empty`, (await page.$eval('meta[name="robots"]', (tag) => tag.content)).includes('noindex'));
