@@ -86,6 +86,7 @@ const CASES = [
   { route: '/dice-roller', steps: [['click', 'Roll']], expected: ['Dice', '1d6', 'Total', 'Every roll'] },
   { route: '/random-name-picker', steps: [['#names-text', 'Asha'], ['click', 'Pick']], expected: ['Names in the list', 'Winner', 'Asha'] },
   { route: '/decision-maker', steps: [['#decide-options', 'Tea | 3\nCoffee'], ['click', 'Decide']], expected: ['Decision', 'All options', '75%', 'Coffee'] },
+  { route: '/uptime-calculator', steps: [['#uptime-percent', '99.9']], expected: ['Uptime', '99.9%', 'Allowed downtime per year', '8 h 45 min 57.6 s', '365.25'] },
 ];
 
 const failures = [];

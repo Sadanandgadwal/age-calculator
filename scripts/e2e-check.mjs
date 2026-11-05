@@ -1463,6 +1463,25 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'uptime',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Uptime Calculator',
+        path: '/uptime-calculator',
+        screenshot: 'uptime',
+        steps: async (page, label) => {
+          await clickButton(page, 'Downtime to uptime');
+          await settle();
+          await setText(page, '#uptime-minutes', '60');
+          check(`${label}: works out uptime`, (await resultCards(page)).some((card) => card.includes('Uptime') && card.includes('99.863')));
+          await clickButton(page, 'Uptime to downtime');
+          await settle();
+          await setText(page, '#uptime-percent', '99.9');
+          check(`${label}: works out downtime`, await hasText(page, '8 h 45 min 57.6 s'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

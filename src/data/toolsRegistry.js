@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1290,6 +1290,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/decision-maker/Page.jsx'),
     loadContent: () => import('../tools/decision-maker/content.js'),
+  },
+  {
+    id: 'uptime-calculator',
+    name: 'Uptime Calculator',
+    route: '/uptime-calculator',
+    categories: ['everyday-tools'],
+    icon: Activity,
+    description: 'Turn an uptime percentage into allowed downtime, or downtime into uptime.',
+    keywords: ['uptime calculator', 'sla calculator', 'downtime calculator', 'nines', '99.9 uptime', 'availability', 'sla'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Uptime Calculator – SLA Percentage to Allowed Downtime',
+      description:
+        'Turn an SLA uptime percentage into allowed downtime per day, week, month and year, or work out the uptime from an outage. Ideal for planning SLAs.',
+      featureList: ['Uptime to downtime', 'Downtime to uptime', 'Per day, week, month, quarter and year', 'Handles many nines', 'Instant results'],
+    },
+    load: () => import('../tools/uptime-calculator/Page.jsx'),
+    loadContent: () => import('../tools/uptime-calculator/content.js'),
   },
 ];
 
