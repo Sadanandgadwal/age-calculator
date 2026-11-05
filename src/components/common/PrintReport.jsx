@@ -37,7 +37,7 @@ function Lines({ title, lines }) {
 }
 
 function ReportDocument({ title, report, printedAt, url }) {
-  const { subtitle, inputs, results, details, /* formula, steps, */ table, notes, text, visual } = report;
+  const { subtitle, inputs, details, /* formula, steps, */ table, notes, text, visual } = report;
 
   return (
     <article className="print-report" data-dense={table?.rows.length > DENSE_ROWS || undefined}>
@@ -54,7 +54,7 @@ function ReportDocument({ title, report, printedAt, url }) {
 
       <Rows title="Values entered" items={inputs} />
 
-      <section className="pr-section">
+      {/* <section className="pr-section">
         <h2>Result</h2>
         <div className="pr-results" data-count={Math.min(results.length, 4)}>
           {results.map(({ label, value }) => (
@@ -64,7 +64,7 @@ function ReportDocument({ title, report, printedAt, url }) {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {visual && <section className="pr-section pr-visual">{visual}</section>}
 
