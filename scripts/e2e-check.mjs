@@ -1302,6 +1302,25 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'markdown',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Markdown Previewer',
+        path: '/markdown-preview',
+        screenshot: 'markdown',
+        steps: async (page, label) => {
+          const external = [];
+          page.on('request', (request) => request.url().includes('evil.example') && external.push(request.url()));
+          await setText(page, '#markdown-text', '# Safe heading\n\n![pic](https://evil.example/a.png)\n\n<img src=x onerror="window.__ran=1">\n\n<script>window.__ran=1</script>\n\n<style>@import url(https://evil.example/a.css)</style>\n\n<div style="background:url(https://evil.example/b.png)">x</div>\n\n[a](javascript:window.__ran=1)');
+          await pause(500);
+          check(`${label}: renders Markdown`, (await page.$eval('[aria-label="Markdown preview"] h1', (heading) => heading.textContent)) === 'Safe heading');
+          check(`${label}: runs nothing`, !(await page.evaluate(() => window.__ran)));
+          check(`${label}: contacts no other server`, external.length === 0, external.join(','));
+          check(`${label}: explains blocked images`, await hasText(page, 'not loaded'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

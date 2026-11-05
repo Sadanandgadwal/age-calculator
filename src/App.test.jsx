@@ -77,6 +77,7 @@ describe('routes', () => {
     ['/hash-generator', 'Hash Generator'],
     ['/jwt-decoder', 'JWT Decoder'],
     ['/regex-tester', 'Regex Tester'],
+    ['/markdown-preview', 'Markdown Previewer'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

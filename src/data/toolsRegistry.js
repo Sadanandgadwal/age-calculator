@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, FileCode, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1119,6 +1119,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/regex-tester/Page.jsx'),
     loadContent: () => import('../tools/regex-tester/content.js'),
+  },
+  {
+    id: 'markdown-preview',
+    name: 'Markdown Previewer',
+    route: '/markdown-preview',
+    categories: ['developer-tools'],
+    icon: FileCode,
+    description: 'Write Markdown and see a safe, live preview of how it will look.',
+    keywords: ['markdown', 'markdown preview', 'markdown editor', 'md to html', 'github markdown', 'readme preview', 'gfm'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Markdown Previewer – Live Markdown to HTML Online',
+      description:
+        'Write Markdown and see a live preview, with tables and task lists. Unsafe HTML is removed and remote images are blocked. Copy the clean HTML in one click.',
+      featureList: ['Live preview', 'Tables, task lists and strikethrough', 'Unsafe HTML removed', 'Remote images blocked for privacy', 'Copy the HTML'],
+    },
+    load: () => import('../tools/markdown-preview/Page.jsx'),
+    loadContent: () => import('../tools/markdown-preview/content.js'),
   },
 ];
 

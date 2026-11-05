@@ -77,6 +77,7 @@ const CASES = [
   { route: '/hash-generator', steps: [['#hash-text', 'abc'], ['wait', 300]], expected: ['MD5', 'SHA-512', 'can be forged'] },
   { route: '/jwt-decoder', noPrint: true, steps: [['#jwt-token', 'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiQXNoYSJ9.c2ln']], expected: [] },
   { route: '/regex-tester', steps: [['#regex-pattern', '(\\d+)'], ['#regex-text', 'On 15 May 2026'], ['wait', 800]], expected: ['Pattern', 'Flags', 'Position', '2026', 'Test text'] },
+  { route: '/markdown-preview', steps: [['#markdown-text', '# Hello there\n\n- First item\n\n| A | B |\n|---|---|\n| 1 | 2 |']], expected: ['Hello there', 'First item'] },
 ];
 
 const failures = [];
