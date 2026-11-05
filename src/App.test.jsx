@@ -80,6 +80,7 @@ describe('routes', () => {
     ['/markdown-preview', 'Markdown Previewer'],
     ['/html-formatter', 'HTML Formatter'],
     ['/css-minifier', 'CSS Minifier'],
+    ['/javascript-minifier', 'JavaScript Minifier'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

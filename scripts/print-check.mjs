@@ -80,6 +80,7 @@ const CASES = [
   { route: '/markdown-preview', steps: [['#markdown-text', '# Hello there\n\n- First item\n\n| A | B |\n|---|---|\n| 1 | 2 |']], expected: ['Hello there', 'First item'] },
   { route: '/html-formatter', steps: [['#html-text', '<ul><li>One</li></ul>']], expected: ['Indent', 'Formatted HTML', '<li>One</li>'] },
   { route: '/css-minifier', steps: [['#css-text', 'a { color: #ffffff; }']], expected: ['Minified CSS', 'a{color:#fff}'] },
+  { route: '/javascript-minifier', steps: [['#js-text', 'function add(first, second) { return first + second; }'], ['click', 'Minify'], ['wait', 1500]], expected: ['Compress code', 'Minified JavaScript', 'function add('] },
 ];
 
 const failures = [];

@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, FileCode, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1176,6 +1176,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/css-minifier/Page.jsx'),
     loadContent: () => import('../tools/css-minifier/content.js'),
+  },
+  {
+    id: 'javascript-minifier',
+    name: 'JavaScript Minifier',
+    route: '/javascript-minifier',
+    categories: ['developer-tools'],
+    icon: FileJson,
+    description: 'Shrink JavaScript with Terser. Your code is parsed, never run.',
+    keywords: ['javascript minifier', 'minify js', 'js compressor', 'terser', 'uglify', 'compress javascript', 'reduce js size'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'JavaScript Minifier – Compress JS with Terser Online',
+      description:
+        'Shrink JavaScript with Terser, with options to compress and shorten names. Your code is only parsed and never run, and syntax errors show the line.',
+      featureList: ['Powered by Terser', 'Compress and shorten names options', 'Bytes and percent saved', 'Syntax errors with line and column', 'Your code is never run'],
+    },
+    load: () => import('../tools/javascript-minifier/Page.jsx'),
+    loadContent: () => import('../tools/javascript-minifier/content.js'),
   },
 ];
 

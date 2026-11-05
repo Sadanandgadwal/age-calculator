@@ -1350,6 +1350,26 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'jsminify',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'JavaScript Minifier',
+        path: '/javascript-minifier',
+        screenshot: 'js-minifier',
+        steps: async (page, label) => {
+          await setText(page, '#js-text', 'window.__ran = true;\nfunction (');
+          await clickButton(page, 'Minify');
+          await pause(1500);
+          check(`${label}: explains syntax errors`, await hasText(page, 'Line 2'));
+          await setText(page, '#js-text', 'window.__ran = true; function add(first, second) { return first + second; }');
+          await clickButton(page, 'Minify');
+          await pause(1500);
+          check(`${label}: minifies in the worker`, (await outputText(page)).includes('function add('));
+          check(`${label}: never runs the code`, !(await page.evaluate(() => window.__ran)));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
