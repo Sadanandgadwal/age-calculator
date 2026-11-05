@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, FileCheck2, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, FileCheck2, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1005,6 +1005,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/base64-encoder-decoder/Page.jsx'),
     loadContent: () => import('../tools/base64-encoder-decoder/content.js'),
+  },
+  {
+    id: 'url-encoder-decoder',
+    name: 'URL Encoder/Decoder',
+    route: '/url-encoder-decoder',
+    categories: ['developer-tools'],
+    icon: Link,
+    description: 'Encode text for a web address, or decode percent-encoded text.',
+    keywords: ['url encode', 'url decode', 'percent encoding', 'encodeuricomponent', 'query string', 'uri encoder'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'URL Encoder and Decoder – Percent-Encode Text Online',
+      description:
+        'Encode text for use in a web address, or decode percent-encoded text back. Choose a whole URL or a single value, with clear errors for broken input.',
+      featureList: ['Encode and decode', 'Whole URL or a single value', 'Plus signs as spaces option', 'Works with every language', 'Clear errors for broken input'],
+    },
+    load: () => import('../tools/url-encoder-decoder/Page.jsx'),
+    loadContent: () => import('../tools/url-encoder-decoder/content.js'),
   },
 ];
 

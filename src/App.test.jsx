@@ -71,6 +71,7 @@ describe('routes', () => {
     ['/json-validator', 'JSON Validator'],
     ['/json-minifier', 'JSON Minifier'],
     ['/base64-encoder-decoder', 'Base64 Encoder/Decoder'],
+    ['/url-encoder-decoder', 'URL Encoder/Decoder'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

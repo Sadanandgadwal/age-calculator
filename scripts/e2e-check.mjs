@@ -1200,6 +1200,23 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'urlcode',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'URL Encoder/Decoder',
+        path: '/url-encoder-decoder',
+        screenshot: 'url-encoder',
+        steps: async (page, label) => {
+          await setText(page, '#url-text', 'cats & dogs');
+          check(`${label}: encodes`, (await outputText(page)) === 'cats%20%26%20dogs');
+          await clickButton(page, 'Decode');
+          await settle();
+          await setText(page, '#url-text', 'x%20y');
+          check(`${label}: decodes`, (await outputText(page)) === 'x y');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
