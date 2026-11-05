@@ -72,6 +72,7 @@ const CASES = [
   { route: '/json-minifier', steps: [['#json-minify-text', '{ "a" : 1 }']], expected: ['Saved', 'Minified size', 'Minified JSON', '{"a":1}'] },
   { route: '/base64-encoder-decoder', steps: [['#base64-text', 'Hello']], expected: ['Action', 'Encode', 'SGVsbG8='] },
   { route: '/url-encoder-decoder', steps: [['#url-text', 'a b']], expected: ['Action', 'Applies to', 'a%20b'] },
+  { route: '/html-entity-encoder', steps: [['#entity-text', '<b>Hi</b>']], expected: ['Action', 'Encoded text', '&lt;b&gt;Hi&lt;/b&gt;'] },
 ];
 
 const failures = [];

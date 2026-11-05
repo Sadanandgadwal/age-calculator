@@ -1217,6 +1217,23 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'entities',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'HTML Entity Encoder/Decoder',
+        path: '/html-entity-encoder',
+        screenshot: 'html-entity',
+        steps: async (page, label) => {
+          await setText(page, '#entity-text', '<b>Tom & Jerry</b>');
+          check(`${label}: encodes`, (await outputText(page)) === '&lt;b&gt;Tom &amp; Jerry&lt;/b&gt;');
+          await clickButton(page, 'Decode');
+          await settle();
+          await setText(page, '#entity-text', '\n&copy;</textarea><img src=x onerror="window.__ran=1">');
+          check(`${label}: decodes safely, as text`, (await outputText(page)) === '\n©</textarea><img src=x onerror="window.__ran=1">' && !(await page.evaluate(() => window.__ran)));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

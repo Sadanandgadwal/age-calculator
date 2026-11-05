@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, Dices, DraftingCompass, FileCheck2, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, Gauge, Globe, GraduationCap, HardDrive, Hourglass, KeyRound, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1024,6 +1024,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/url-encoder-decoder/Page.jsx'),
     loadContent: () => import('../tools/url-encoder-decoder/content.js'),
+  },
+  {
+    id: 'html-entity-encoder',
+    name: 'HTML Entity Encoder/Decoder',
+    route: '/html-entity-encoder',
+    categories: ['developer-tools'],
+    icon: CodeXml,
+    description: 'Escape special characters as HTML entities, or decode them back.',
+    keywords: ['html entities', 'html encode', 'html decode', 'escape html', 'unescape html', 'ampersand', 'special characters'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'HTML Entity Encoder and Decoder – Escape HTML Online',
+      description:
+        'Escape special characters as HTML entities so they show as text, or decode entities back to characters. Handles named and numeric entities safely.',
+      featureList: ['Encode and decode', 'Named and numeric entities', 'Option for all non-English characters', 'Never runs your HTML', 'Runs in your browser'],
+    },
+    load: () => import('../tools/html-entity-encoder/Page.jsx'),
+    loadContent: () => import('../tools/html-entity-encoder/content.js'),
   },
 ];
 
