@@ -1,4 +1,4 @@
-import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { AlarmClock, ArrowDownAZ, AudioWaveform, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Database, Dices, DraftingCompass, FileCheck2, FileCode, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, KeyRound, KeySquare, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Paintbrush, Percent, Pilcrow, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Space, Tag, Thermometer, Timer, Undo2, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1195,6 +1195,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/javascript-minifier/Page.jsx'),
     loadContent: () => import('../tools/javascript-minifier/content.js'),
+  },
+  {
+    id: 'sql-formatter',
+    name: 'SQL Formatter',
+    route: '/sql-formatter',
+    categories: ['developer-tools'],
+    icon: Database,
+    description: 'Format SQL queries for easier reading, in your chosen dialect.',
+    keywords: ['sql formatter', 'format sql', 'sql beautifier', 'pretty print sql', 'mysql formatter', 'postgres formatter', 'sql query'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'SQL Formatter – Beautify SQL Queries Online',
+      description:
+        'Format messy SQL for easier reading, with support for MySQL, PostgreSQL, SQLite, SQL Server and more. Queries are never run, and nothing is uploaded.',
+      featureList: ['MySQL, PostgreSQL, SQLite and SQL Server', 'Uppercase keywords option', 'Clear parse errors', 'Queries are never run', 'Runs in your browser'],
+    },
+    load: () => import('../tools/sql-formatter/Page.jsx'),
+    loadContent: () => import('../tools/sql-formatter/content.js'),
   },
 ];
 

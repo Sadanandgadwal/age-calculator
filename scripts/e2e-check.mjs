@@ -1370,6 +1370,23 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'sqlformat',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'SQL Formatter',
+        path: '/sql-formatter',
+        screenshot: 'sql-formatter',
+        steps: async (page, label) => {
+          await setText(page, '#sql-text', "select 'x");
+          await pause(100);
+          check(`${label}: explains errors`, await hasText(page, 'Parse error'));
+          await setText(page, '#sql-text', 'select a from t where x=1');
+          await pause(100);
+          check(`${label}: formats`, (await outputText(page)) === 'SELECT\n  a\nFROM\n  t\nWHERE\n  x = 1');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
