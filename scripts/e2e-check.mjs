@@ -1818,6 +1818,39 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'favicon',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Favicon Generator',
+        path: '/favicon-generator',
+        screenshot: 'favicon-generator',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#favicon-file', 'image-sample.png', 1200);
+          check(`${label}: previews the icons`, (await page.$$('ul[aria-label="Icon previews"] img')).length === 4);
+          const ico = await captureDownload(page, 'Download favicon.ico');
+          check(`${label}: downloads favicon.ico`, ico.filename === 'favicon.ico' && ico.type === 'image/x-icon' && ico.size > 100);
+          const zip = await captureDownload(page, 'Download ZIP');
+          check(`${label}: downloads the ZIP`, zip.filename === 'favicons.zip' && zip.type === 'application/zip' && zip.size > 1000);
+          check(`${label}: shows the HTML tags`, (await page.$eval('[role="region"][aria-label="HTML to add"]', (element) => element.textContent)).includes('apple-touch-icon'));
+          check(`${label}: the Apple icon is solid`, await page.evaluate(() => {
+            const image = document.querySelector('img[alt="180 by 180 pixel icon"]');
+            const canvas = document.createElement('canvas');
+            canvas.width = 180;
+            canvas.height = 180;
+            const context = canvas.getContext('2d');
+            context.drawImage(image, 0, 0);
+            const small = document.querySelector('img[alt="48 by 48 pixel icon"]');
+            const other = document.createElement('canvas');
+            other.width = 48;
+            other.height = 48;
+            other.getContext('2d').drawImage(small, 0, 0);
+            return context.getImageData(90, 179, 1, 1).data[3] === 255 && other.getContext('2d').getImageData(24, 47, 1, 1).data[3] === 0;
+          }));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

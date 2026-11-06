@@ -97,6 +97,7 @@ const CASES = [
   { route: '/image-compressor', fileOnly: true, steps: [['upload', '#compress-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 700]], expected: [] },
   { route: '/image-resizer', fileOnly: true, steps: [['upload', '#resize-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 800]], expected: [] },
   { route: '/image-cropper', fileOnly: true, steps: [['upload', '#crop-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 800]], expected: [] },
+  { route: '/favicon-generator', fileOnly: true, steps: [['upload', '#favicon-file', 'scripts/fixtures/image-sample.png'], ['wait', 1200]], expected: [] },
 ];
 
 const failures = [];

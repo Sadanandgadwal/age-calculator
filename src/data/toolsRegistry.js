@@ -1500,6 +1500,25 @@ export const TOOLS = [
     load: () => import('../tools/image-cropper/Page.jsx'),
     loadContent: () => import('../tools/image-cropper/content.js'),
   },
+  {
+    id: 'favicon-generator',
+    name: 'Favicon Generator',
+    route: '/favicon-generator',
+    categories: ['image-tools', 'developer-tools'],
+    icon: Globe,
+    description: 'Make favicon.ico, app icons and the HTML tags for your website from one image.',
+    keywords: ['favicon generator', 'favicon maker', 'create favicon', 'favicon ico', 'apple touch icon', 'site icon', 'web manifest icons', 'png to ico'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Favicon Generator – Create favicon.ico and App Icons',
+      description:
+        'Turn one image into favicon.ico, PNG icons, an Apple touch icon, a web manifest and the HTML tags, in one ZIP file. Made in your browser.',
+      featureList: ['favicon.ico with 16, 32 and 48 px', 'Apple and Android icons', 'Web manifest and HTML tags', 'Square crop or fit', 'Images stay on your device'],
+    },
+    load: () => import('../tools/favicon-generator/Page.jsx'),
+    loadContent: () => import('../tools/favicon-generator/content.js'),
+  },
 ];
 
 export const getToolByRoute = (route) => TOOLS.find((tool) => tool.route === route);

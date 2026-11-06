@@ -97,6 +97,7 @@ describe('routes', () => {
     ['/image-compressor', 'Image Compressor'],
     ['/image-resizer', 'Image Resizer'],
     ['/image-cropper', 'Image Cropper'],
+    ['/favicon-generator', 'Favicon Generator'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
