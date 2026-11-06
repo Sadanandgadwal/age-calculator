@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, ScanText, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1537,6 +1537,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/passport-photo-maker/Page.jsx'),
     loadContent: () => import('../tools/passport-photo-maker/content.js'),
+  },
+  {
+    id: 'image-to-text',
+    name: 'Image to Text',
+    route: '/image-to-text',
+    categories: ['image-tools', 'text-tools'],
+    icon: ScanText,
+    description: 'Copy the printed English text from a photo, scan or screenshot.',
+    keywords: ['image to text', 'ocr', 'extract text from image', 'photo to text', 'screenshot to text', 'picture to text', 'jpg to text', 'text recognition'],
+    featured: true,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Image to Text (OCR) – Extract Text From Images',
+      description:
+        'Extract printed English text from a photo, scan or screenshot with OCR that runs in your browser. Copy it or save it as a text file. Images are never uploaded.',
+      featureList: ['Printed English text', 'Photos, scans and screenshots', 'Confidence score', 'Copy or download as .txt', 'Images stay on your device'],
+    },
+    load: () => import('../tools/image-to-text/Page.jsx'),
+    loadContent: () => import('../tools/image-to-text/content.js'),
   },
 ];
 

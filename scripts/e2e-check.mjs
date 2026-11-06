@@ -1883,6 +1883,34 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'ocr',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Image to Text',
+        path: '/image-to-text',
+        screenshot: 'image-to-text',
+        copyOnly: true,
+        steps: async (page, label) => {
+          const outside = [];
+          page.on('request', (request) => {
+            const url = request.url();
+            if (!url.startsWith(siteUrl) && !url.startsWith('blob:') && !url.startsWith('data:')) outside.push(url);
+          });
+          await uploadFile(page, '#ocr-file', 'ocr-sample.png', 200);
+          await page.waitForSelector('[role="region"][aria-label="Output"]', { timeout: 60000 });
+          const text = await outputText(page);
+          const expected = 'The quick brown fox jumps over the lazy dog. Invoice number 48213 was paid on 12 March 2026. Please keep this receipt for your records.'.split(' ');
+          const found = text.split(/\s+/);
+          const matched = expected.filter((word) => found.includes(word)).length;
+          check(`${label}: reads the printed text`, matched / expected.length >= 0.95, `${matched} of ${expected.length}: ${text}`);
+          check(`${label}: reads the numbers exactly`, text.includes('48213') && text.includes('2026'));
+          check(`${label}: loads nothing from other sites`, outside.length === 0, outside.join(', '));
+          const download = await captureDownload(page, 'Download .txt');
+          check(`${label}: downloads the text`, download.filename === 'ocr-sample-text.txt' && download.type === 'text/plain');
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

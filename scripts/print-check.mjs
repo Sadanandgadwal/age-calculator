@@ -99,6 +99,7 @@ const CASES = [
   { route: '/image-cropper', fileOnly: true, steps: [['upload', '#crop-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 800]], expected: [] },
   { route: '/favicon-generator', fileOnly: true, steps: [['upload', '#favicon-file', 'scripts/fixtures/image-sample.png'], ['wait', 1200]], expected: [] },
   { route: '/passport-photo-maker', steps: [['upload', '#passport-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 1500]], expected: ['Document', 'India passport', '35 × 45 mm', 'Photos on this page', 'Actual size', 'official requirements'] },
+  { route: '/image-to-text', noPrint: true, steps: [['upload', '#ocr-file', 'scripts/fixtures/ocr-sample.png'], ['wait', 15000]], expected: [] },
 ];
 
 const failures = [];

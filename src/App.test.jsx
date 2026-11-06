@@ -99,6 +99,7 @@ describe('routes', () => {
     ['/image-cropper', 'Image Cropper'],
     ['/favicon-generator', 'Favicon Generator'],
     ['/passport-photo-maker', 'Passport Photo Maker'],
+    ['/image-to-text', 'Image to Text'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
