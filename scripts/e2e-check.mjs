@@ -1851,6 +1851,38 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'passport',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Passport Photo Maker',
+        path: '/passport-photo-maker',
+        screenshot: 'passport-photo',
+        actions: ['Download', 'Print'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#passport-file', 'image-photo.jpg', 300);
+          check(`${label}: India is 35 × 45 mm`, await factsInclude(page, '413 × 531 px at 300 DPI'));
+          check(`${label}: six photos fit 4 × 6 in`, await factsInclude(page, '6 photos on 4 × 6 in'));
+          const photo = await captureDownload(page, 'Download photo');
+          check(`${label}: the photo has the exact pixels`, photo.width === 413 && photo.height === 531 && photo.type === 'image/jpeg' && photo.filename === 'image-photo-passport.jpg', JSON.stringify(photo));
+          const sheet = await captureDownload(page, 'Download sheet');
+          check(`${label}: the sheet is 4 × 6 in at 300 DPI`, sheet.width === 1200 && sheet.height === 1800, JSON.stringify(sheet));
+          await clickButton(page, 'USA');
+          check(`${label}: USA is 2 × 2 in`, await factsInclude(page, '602 × 602 px'));
+          check(`${label}: shows the US head height`, await factsInclude(page, '25 to 35 mm'));
+          await clickButton(page, 'A4');
+          check(`${label}: fits more photos on A4`, await factsInclude(page, 'on A4'));
+          const a4 = await captureDownload(page, 'Download sheet');
+          check(`${label}: the A4 sheet has the exact pixels`, a4.width === 2480 && a4.height === 3508, JSON.stringify(a4));
+          await clickButton(page, 'Custom');
+          await setText(page, '#passport-width', '10');
+          check(`${label}: rejects a tiny custom size`, await hasText(page, '20 to 100 mm'));
+          await setText(page, '#passport-width', '30');
+          await setText(page, '#passport-height', '40');
+          check(`${label}: uses a custom size`, await factsInclude(page, '30 × 40 mm'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

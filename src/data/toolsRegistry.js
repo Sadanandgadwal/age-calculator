@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1518,6 +1518,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/favicon-generator/Page.jsx'),
     loadContent: () => import('../tools/favicon-generator/content.js'),
+  },
+  {
+    id: 'passport-photo-maker',
+    name: 'Passport Photo Maker',
+    route: '/passport-photo-maker',
+    categories: ['image-tools'],
+    icon: Contact,
+    description: 'Crop a photo to passport size and get a print sheet with several copies.',
+    keywords: ['passport photo maker', 'passport size photo', 'passport photo online', 'visa photo', '35x45 photo', '2x2 photo', 'passport photo sheet', 'print passport photos'],
+    featured: true,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Passport Photo Maker – Passport Size Photos and Print Sheets',
+      description:
+        'Crop your photo to passport or visa size for India, the USA, the UK, Canada or Schengen, with face guides. Download a 300 DPI photo and a print sheet.',
+      featureList: ['India, USA, UK, Canada and Schengen sizes', 'Custom sizes', 'Face position guide', '300 DPI photo and print sheet', 'Photos stay on your device'],
+    },
+    load: () => import('../tools/passport-photo-maker/Page.jsx'),
+    loadContent: () => import('../tools/passport-photo-maker/content.js'),
   },
 ];
 

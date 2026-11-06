@@ -19,6 +19,13 @@ describe('ResultActions', () => {
     expect(screen.queryByRole('button', { name: /Print/ })).toBeNull();
   });
 
+  it('can offer Print alone', () => {
+    render(<ResultActions getText={() => ''} getReport={() => ({})} printOnly />);
+    expect(screen.getByRole('button', { name: /Print/ })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Copy results/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /Share/ })).toBeNull();
+  });
+
   afterEach(() => {
     delete navigator.share;
   });

@@ -10,6 +10,7 @@ const TOOL_PATHS = [
   '/cm-to-feet-converter',
   '/date-calculator',
   '/gst-calculator',
+  '/passport-photo-maker',
   '/favicon-generator',
   '/image-cropper',
   '/image-resizer',
