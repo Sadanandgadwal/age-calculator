@@ -107,7 +107,7 @@ export default function ImageToTextPage() {
                   <div className="mt-2 h-2 overflow-hidden rounded-full bg-line" aria-hidden="true">
                     <div className="h-full bg-primary transition-[width]" style={{ width: `${progress.percent}%` }} />
                   </div>
-                  <p className="mt-2 text-sm text-ink/80">The first time, about 7 MB of reader files are downloaded. Your image is not sent anywhere.</p>
+                  <p className="mt-2 text-sm text-ink/80">The first time, about 4.5 MB of reader files are downloaded. Your image is not sent anywhere.</p>
                   <button type="button" onClick={stop} className={`${stopButton} mt-3`}>
                     Stop
                   </button>

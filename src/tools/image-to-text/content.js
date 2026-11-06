@@ -35,6 +35,6 @@ export const faqs = [
   },
   {
     question: 'Why is the first use slow?',
-    answer: 'About 7 MB of reader files are downloaded the first time. Your browser keeps them, so later uses start faster.',
+    answer: 'About 4.5 MB of reader files are downloaded the first time. Your browser keeps them, so later uses start faster.',
   },
 ];
