@@ -96,6 +96,7 @@ const CASES = [
   { route: '/image-color-picker', steps: [['upload', '#color-file', 'scripts/fixtures/image-sample.png'], ['wait', 600]], expected: ['Image', 'image-sample.png', 'HEX', '#FFFF00', 'rgb(255, 255, 0)', 'hsl(60, 100%, 50%)', 'Main color 1'] },
   { route: '/image-compressor', fileOnly: true, steps: [['upload', '#compress-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 700]], expected: [] },
   { route: '/image-resizer', fileOnly: true, steps: [['upload', '#resize-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 800]], expected: [] },
+  { route: '/image-cropper', fileOnly: true, steps: [['upload', '#crop-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 800]], expected: [] },
 ];
 
 const failures = [];

@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1480,6 +1480,25 @@ export const TOOLS = [
     },
     load: () => import('../tools/image-resizer/Page.jsx'),
     loadContent: () => import('../tools/image-resizer/content.js'),
+  },
+  {
+    id: 'image-cropper',
+    name: 'Image Cropper',
+    route: '/image-cropper',
+    categories: ['image-tools'],
+    icon: Crop,
+    description: 'Crop an image freely or to a set shape, such as square or 16:9.',
+    keywords: ['image cropper', 'crop image', 'crop photo', 'crop picture', 'square crop', 'crop to 16:9', 'cut image', 'trim image'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Image Cropper – Crop Photos to Any Size or Ratio',
+      description:
+        'Crop a JPG, PNG or WebP image by dragging or with the keyboard, freely or to 1:1, 4:3, 3:2, 16:9 or 9:16, then download it. Your image stays on your device.',
+      featureList: ['Drag or keyboard cropping', 'Square and common ratios', 'Keeps JPG, PNG and WebP formats', 'Keeps transparency in PNG', 'Images stay on your device'],
+    },
+    load: () => import('../tools/image-cropper/Page.jsx'),
+    loadContent: () => import('../tools/image-cropper/content.js'),
   },
 ];
 

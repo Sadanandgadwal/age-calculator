@@ -705,6 +705,12 @@ async function uploadFile(page, selector, name, wait = 500) {
 
 const factText = (page) => page.$eval('[data-testid="facts"]', (element) => element.innerText);
 
+const factsInclude = (page, text, timeout = 5000) =>
+  page.waitForFunction((needle) => document.querySelector('[data-testid="facts"]')?.innerText.includes(needle), { timeout }, text).then(
+    () => true,
+    () => false,
+  );
+
 const captureDownload = (page, buttonLabel) =>
   page.evaluate(async (name) => {
     const createUrl = URL.createObjectURL;
@@ -1755,6 +1761,60 @@ const DATE_TIME_CHECKS = [
           await uploadFile(page, '#resize-file', 'image-photo.jpg', 900);
           const photo = await captureDownload(page, 'Download image');
           check(`${label}: keeps JPEG as JPEG`, photo.type === 'image/jpeg' && photo.width === 300 && photo.height === 225, JSON.stringify(photo));
+        },
+      }),
+  },
+{
+    name: 'cropper',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Image Cropper',
+        path: '/image-cropper',
+        screenshot: 'image-cropper',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#crop-file', 'image-sample.png', 800);
+          check(`${label}: starts with an 80% crop`, (await factsInclude(page, '320 × 240 px')));
+          await page.focus('[data-testid="crop-box"]');
+          for (let presses = 0; presses < 12; presses += 1) await page.keyboard.press('ArrowLeft');
+          for (let presses = 0; presses < 12; presses += 1) await page.keyboard.press('ArrowUp');
+          await pause(500);
+          check(`${label}: moves with the keyboard`, (await factsInclude(page, '0, 0 px from the top left')));
+          await page.keyboard.down('Shift');
+          for (let presses = 0; presses < 10; presses += 1) await page.keyboard.press('ArrowLeft');
+          await page.keyboard.up('Shift');
+          await pause(500);
+          check(`${label}: resizes with the keyboard`, (await factsInclude(page, '280 × 240 px')));
+          await clickButton(page, '1:1');
+          await factsInclude(page, '240 × 240 px');
+          const square = await captureDownload(page, 'Download image');
+          check(`${label}: crops to a square`, square.width === 240 && square.height === 240 && square.filename === 'image-sample-cropped.png', JSON.stringify(square));
+          await clickButton(page, 'Free');
+          await page.evaluate(() => document.querySelector('[data-testid="crop-box"]').scrollIntoView({ block: 'center' }));
+          const box = await (await page.$('[data-testid="crop-box"]')).boundingBox();
+          await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+          await page.mouse.down();
+          await page.mouse.move(box.x - 2000, box.y - 2000, { steps: 5 });
+          await page.mouse.up();
+          const corner = await (await page.$('[data-testid="crop-box"]')).boundingBox();
+          await page.mouse.move(corner.x + corner.width - 1, corner.y + corner.height - 1);
+          await page.mouse.down();
+          await page.mouse.move(corner.x + 3000, corner.y + 3000, { steps: 5 });
+          await page.mouse.up();
+          await pause(500);
+          const full = await captureDownload(page, 'Download image');
+          check(`${label}: drags without leaving the image`, full.width === 400 && full.height === 300, JSON.stringify(full));
+          check(`${label}: keeps the exact pixels`, await page.evaluate(() => {
+            const image = document.querySelector('img[alt="The cropped image"]');
+            const canvas = document.createElement('canvas');
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(image, 0, 0);
+            const [r, g, b, a] = context.getImageData(199, 149, 1, 1).data;
+            const [r2, g2, b2] = context.getImageData(200, 150, 1, 1).data;
+            return r === 255 && g === 0 && b === 0 && a === 255 && r2 === 255 && g2 === 255 && b2 === 0 ? true : `${r},${g},${b},${a} ${r2},${g2},${b2}`;
+          }) === true);
         },
       }),
   },

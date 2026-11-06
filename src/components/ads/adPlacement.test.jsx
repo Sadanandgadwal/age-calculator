@@ -10,6 +10,7 @@ const TOOL_PATHS = [
   '/cm-to-feet-converter',
   '/date-calculator',
   '/gst-calculator',
+  '/image-cropper',
   '/image-resizer',
   '/image-compressor',
   '/image-color-picker',

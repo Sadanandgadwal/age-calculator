@@ -96,6 +96,7 @@ describe('routes', () => {
     ['/image-color-picker', 'Image Color Picker'],
     ['/image-compressor', 'Image Compressor'],
     ['/image-resizer', 'Image Resizer'],
+    ['/image-cropper', 'Image Cropper'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
