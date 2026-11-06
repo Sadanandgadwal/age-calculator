@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, ScanText, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Combine, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileDigit, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, ScanText, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1556,6 +1556,44 @@ export const TOOLS = [
     },
     load: () => import('../tools/image-to-text/Page.jsx'),
     loadContent: () => import('../tools/image-to-text/content.js'),
+  },
+  {
+    id: 'pdf-page-counter',
+    name: 'PDF Page Counter',
+    route: '/pdf-page-counter',
+    categories: ['pdf-tools'],
+    icon: FileDigit,
+    description: 'Count the pages in one or more PDFs, and see their page sizes and details.',
+    keywords: ['pdf page counter', 'count pdf pages', 'how many pages pdf', 'pdf page count', 'pdf page size', 'pdf info', 'count pages in multiple pdfs'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'PDF Page Counter – Count Pages in Several PDFs',
+      description:
+        'Count the pages in one PDF or many at once, with a total, page sizes such as A4 or Letter, title and author. Your files stay on your device.',
+      featureList: ['Count several PDFs at once', 'Total page count', 'Page sizes such as A4 and Letter', 'Title and author', 'Files stay on your device'],
+    },
+    load: () => import('../tools/pdf-page-counter/Page.jsx'),
+    loadContent: () => import('../tools/pdf-page-counter/content.js'),
+  },
+  {
+    id: 'merge-pdf',
+    name: 'Merge PDF',
+    route: '/merge-pdf',
+    categories: ['pdf-tools'],
+    icon: Combine,
+    description: 'Combine several PDF files into one, in the order you choose.',
+    keywords: ['merge pdf', 'combine pdf', 'join pdf', 'merge pdf files', 'combine pdf files', 'pdf merger', 'put pdfs together'],
+    featured: true,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Merge PDF – Combine PDF Files Into One',
+      description:
+        'Combine up to 50 PDF files into one document. Put them in order, then download the merged PDF. Files are merged in your browser and never uploaded.',
+      featureList: ['Combine up to 50 PDFs', 'Choose the order', 'Keeps text and links selectable', 'No watermark', 'Files stay on your device'],
+    },
+    load: () => import('../tools/merge-pdf/Page.jsx'),
+    loadContent: () => import('../tools/merge-pdf/content.js'),
   },
 ];
 

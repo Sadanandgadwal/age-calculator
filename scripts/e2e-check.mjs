@@ -9,7 +9,8 @@
  * Set CHROME_PATH if Chrome isn't at /usr/bin/google-chrome.
  * Screenshots are saved to e2e-output/.
  */
-import { mkdirSync, readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import puppeteer from 'puppeteer-core';
 import { preview } from 'vite';
@@ -711,8 +712,8 @@ const factsInclude = (page, text, timeout = 5000) =>
     () => false,
   );
 
-const captureDownload = (page, buttonLabel) =>
-  page.evaluate(async (name) => {
+const captureDownload = (page, buttonLabel, withBytes = false) =>
+  page.evaluate(async (name, keepBytes) => {
     const createUrl = URL.createObjectURL;
     const clickLink = HTMLAnchorElement.prototype.click;
     let blob;
@@ -728,13 +729,39 @@ const captureDownload = (page, buttonLabel) =>
     URL.createObjectURL = createUrl;
     HTMLAnchorElement.prototype.click = clickLink;
     const info = { filename, type: blob.type, size: blob.size };
+    if (keepBytes) {
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      let binary = '';
+      for (let start = 0; start < bytes.length; start += 0x8000) binary += String.fromCharCode(...bytes.subarray(start, start + 0x8000));
+      info.base64 = btoa(binary);
+    }
     if (['image/png', 'image/jpeg', 'image/webp'].includes(blob.type)) {
       const bitmap = await createImageBitmap(blob);
       info.width = bitmap.width;
       info.height = bitmap.height;
     }
     return info;
-  }, buttonLabel);
+  }, buttonLabel, withBytes);
+
+async function capturePdf(page, buttonLabel, password) {
+  const info = await captureDownload(page, buttonLabel, true);
+  const file = `${OUTPUT_DIR}/download-check.pdf`;
+  writeFileSync(file, Buffer.from(info.base64, 'base64'));
+  const access = password ? ['-upw', password] : [];
+  const meta = execFileSync('pdfinfo', [...access, file], { encoding: 'utf8' });
+  const text = execFileSync('pdftotext', [...access, '-layout', file, '-'], { encoding: 'utf8' });
+  const sizes = execFileSync('pdfinfo', [...access, '-f', '1', '-l', '9999', file], { encoding: 'utf8' });
+  return {
+    ...info,
+    pages: Number(meta.match(/Pages:\s+(\d+)/)?.[1]),
+    encrypted: /Encrypted:\s+yes/.test(meta),
+    meta,
+    pageTexts: text.split('\f').slice(0, -1).map((item) => item.trim()),
+    rotations: [...sizes.matchAll(/rot:\s+(\d+)/g)].map((match) => Number(match[1])),
+  };
+}
+
+const firstLines = (pdf) => pdf.pageTexts.map((item) => item.split('\n')[0].trim());
 
 const DATE_TIME_CHECKS = [
   {
@@ -1911,6 +1938,53 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'pagecounter',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'PDF Page Counter',
+        path: '/pdf-page-counter',
+        screenshot: 'pdf-page-counter',
+        steps: async (page, label) => {
+          const input = await page.$('#count-files');
+          await input.uploadFile(fixturePath('pdf-sample.pdf'), fixturePath('pdf-short.pdf'), fixturePath('pdf-locked.pdf'), fixturePath('image-sample.png'));
+          check(`${label}: adds up the pages`, await factsInclude(page, 'Total pages\t11') || await factsInclude(page, 'Total pages\n11'));
+          const list = await page.$eval('ol[aria-label="Counted files"]', (element) => element.innerText);
+          check(`${label}: finds mixed page sizes`, list.includes('6 pages') && list.includes('Mixed: 2 sizes'));
+          check(`${label}: counts a protected file`, list.includes('3 pages') && list.includes('password protected'));
+          check(`${label}: reports a file that is not a PDF`, list.includes('Please choose a PDF file.'));
+        },
+      }),
+  },
+{
+    name: 'mergepdf',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Merge PDF',
+        path: '/merge-pdf',
+        screenshot: 'merge-pdf',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          const input = await page.$('#merge-files');
+          await input.uploadFile(fixturePath('pdf-sample.pdf'), fixturePath('pdf-short.pdf'), fixturePath('pdf-locked.pdf'));
+          await page.waitForSelector('ol[aria-label="Files to merge, in order"]');
+          await pause(300);
+          check(`${label}: refuses a protected file and explains`, await hasText(page, 'password protected'));
+          await clickButton(page, 'Merge PDFs');
+          await factsInclude(page, 'Total pages');
+          let merged = await capturePdf(page, 'Download PDF');
+          check(`${label}: merges every page in order`, merged.pages === 8 && firstLines(merged).join('|') === 'Page 1|Page 2|Page 3|Page 4|Page 5|Page 6|Short 1|Short 2', firstLines(merged).join('|'));
+          check(`${label}: keeps the page sizes`, merged.filename === 'merged.pdf' && /Page\s+3 size:\s+792 x 612/.test(execFileSync('pdfinfo', ['-f', '3', '-l', '3', `${OUTPUT_DIR}/download-check.pdf`], { encoding: 'utf8' })));
+          await page.click('button[aria-label="Move pdf-short.pdf up"]');
+          await pause(100);
+          check(`${label}: asks to merge again after a change`, !(await page.$('[data-testid="facts"]')));
+          await clickButton(page, 'Merge PDFs');
+          await factsInclude(page, 'Total pages');
+          merged = await capturePdf(page, 'Download PDF');
+          check(`${label}: follows the new order`, firstLines(merged).slice(0, 3).join('|') === 'Short 1|Short 2|Page 1', firstLines(merged).join('|'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
@@ -1985,16 +2059,6 @@ async function checkPlatform(browser, siteUrl) {
   await page.goBack();
   await settle();
   check('browser back button works', (await heading()) === 'Date & Time');
-
-  const sitemap = await (await fetch(new URL('/sitemap.xml', siteUrl))).text();
-  for (const [path, name] of [['/pdf-tools', 'PDF Tools']]) {
-    const response = await page.goto(new URL(path, siteUrl).href, { waitUntil: 'networkidle0' });
-    check(`${path} opens its page`, response.status() === 200 && (await heading()) === name);
-    check(`${path} is noindex while empty`, (await page.$eval('meta[name="robots"]', (tag) => tag.content)).includes('noindex'));
-    check(`${path} is not in the sitemap`, !sitemap.includes(`${path}<`));
-    check(`${path} is not in the main navigation`, (await page.$(`nav[aria-label="Main"] a[href="${path}"]`)) === null);
-    await runAxe(page, path);
-  }
 
   await page.setViewport({ width: 375, height: 812 });
   await page.goto(siteUrl, { waitUntil: 'networkidle0' });
@@ -2150,7 +2214,7 @@ try {
   const only = process.env.E2E_ONLY;
   if (only) {
     if (only === 'platform') await checkPlatform(browser, siteUrl);
-    for (const item of DATE_TIME_CHECKS.filter(({ name }) => name === only)) await item.run(browser, siteUrl);
+    for (const item of DATE_TIME_CHECKS.filter(({ name }) => only.split(',').includes(name))) await item.run(browser, siteUrl);
     await browser.close();
     await server?.close();
     console.log(failures === 0 ? '\nAll browser checks passed.' : `\n${failures} browser check(s) failed.`);

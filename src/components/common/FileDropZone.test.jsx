@@ -19,6 +19,15 @@ describe('FileDropZone', () => {
     expect(onFile).toHaveBeenCalledWith(file);
   });
 
+  it('passes every file when several are allowed', () => {
+    const onFiles = vi.fn();
+    const second = new File(['y'], 'b.png', { type: 'image/png' });
+    render(<FileDropZone id="f" label="Choose" multiple onFiles={onFiles} />);
+    fireEvent.change(screen.getByLabelText('Choose'), { target: { files: [file, second] } });
+    expect(onFiles).toHaveBeenCalledWith([file, second]);
+    expect(screen.getByLabelText('Choose')).toHaveAttribute('multiple');
+  });
+
   it('ignores an empty choice, and shows errors', () => {
     const onFile = vi.fn();
     render(<FileDropZone id="f" label="Choose" onFile={onFile} error="Too large" />);

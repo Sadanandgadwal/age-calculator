@@ -100,6 +100,8 @@ describe('routes', () => {
     ['/favicon-generator', 'Favicon Generator'],
     ['/passport-photo-maker', 'Passport Photo Maker'],
     ['/image-to-text', 'Image to Text'],
+    ['/pdf-page-counter', 'PDF Page Counter'],
+    ['/merge-pdf', 'Merge PDF'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],
@@ -134,23 +136,19 @@ describe('routes', () => {
   }, 60000);
 });
 
-describe('new categories', () => {
-  const NEW_CATEGORIES = [
-    ['/pdf-tools', 'PDF Tools'],
-  ];
-
-  it.each(NEW_CATEGORIES)('%s has its own page, and stays out of search results while empty', async (path, name) => {
-    renderAt(path);
-    expect(await pageHeading(name)).toBeInTheDocument();
-    expect(screen.getByText('No tools here yet')).toBeInTheDocument();
-    expect(getPageMeta(path).indexable).toBe(false);
+describe('categories', () => {
+  it('/pdf-tools lists its tools and can be indexed', async () => {
+    renderAt('/pdf-tools');
+    expect(await pageHeading('PDF Tools')).toBeInTheDocument();
+    expect(screen.queryByText('No tools here yet')).toBeNull();
+    expect(getPageMeta('/pdf-tools').indexable).toBe(true);
   });
 
   it('stay out of the category filters until they have tools', async () => {
     renderAt('/all-tools');
     await pageHeading('All Tools');
     const filters = within(screen.getByRole('navigation', { name: 'Filter by category' })).getAllByRole('link');
-    expect(filters.map((link) => link.textContent)).toEqual(['All Tools', 'Calculators', 'Converters', 'Date & Time', 'Finance', 'Text & Writing', 'Image Tools', 'Developer Tools', 'Everyday Tools']);
+    expect(filters.map((link) => link.textContent)).toEqual(['All Tools', 'Calculators', 'Converters', 'Date & Time', 'Finance', 'Text & Writing', 'PDF Tools', 'Image Tools', 'Developer Tools', 'Everyday Tools']);
   });
 });
 
@@ -178,9 +176,9 @@ describe('categories menu', () => {
     expect(document.getElementById('categories-menu').hidden).toBe(true);
   });
 
-  it('leaves out categories with no tools', () => {
+  it('lists every category that has tools', () => {
     renderAt('/');
-    expect(document.querySelector('#categories-menu a[href="/pdf-tools"]')).toBeNull();
+    expect(document.querySelector('#categories-menu a[href="/pdf-tools"]')).toBeTruthy();
   });
 });
 
@@ -197,6 +195,7 @@ describe('navigation', () => {
       'Date & Time',
       'Finance',
       'Text & Writing',
+      'PDF Tools',
       'Image Tools',
       'Developer Tools',
       'Everyday Tools',

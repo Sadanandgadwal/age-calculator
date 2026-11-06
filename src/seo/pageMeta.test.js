@@ -29,7 +29,7 @@ describe('tool registry', () => {
       const page = await tool.load();
       expect(typeof page.default).toBe('function');
     }
-  });
+  }, 60000);
 
   it('keeps the Age Calculator at its route', () => {
     expect(TOOLS.find(({ id }) => id === 'age-calculator').route).toBe('/age-calculator');

@@ -87,7 +87,26 @@ describe('ResultActions', () => {
   });
 });
 
-const DOWNLOAD_ONLY_TOOLS = ['base64-to-image', 'image-compressor', 'image-resizer', 'image-cropper', 'favicon-generator'];
+const DOWNLOAD_ONLY_TOOLS = [
+  'base64-to-image',
+  'image-compressor',
+  'image-resizer',
+  'image-cropper',
+  'favicon-generator',
+  'merge-pdf',
+  'split-pdf',
+  'compress-pdf',
+  'pdf-to-jpg',
+  'jpg-to-pdf',
+  'rotate-pdf',
+  'extract-pdf-pages',
+  'delete-pdf-pages',
+  'reorder-pdf-pages',
+  'word-to-pdf',
+  'pdf-to-word',
+  'protect-pdf',
+  'unlock-pdf',
+];
 
 describe('every tool', () => {
   const pages = import.meta.glob('../../tools/*/Page.jsx', { query: '?raw', import: 'default', eager: true });

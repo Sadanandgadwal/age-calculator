@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { CircleAlert, Upload } from 'lucide-react';
 
-export default function FileDropZone({ id, label, hint, accept, onFile, error }) {
+export default function FileDropZone({ id, label, hint, accept, onFile, onFiles, multiple = false, error }) {
   const [isDragging, setIsDragging] = useState(false);
   const errorId = `${id}-error`;
 
   const choose = (files) => {
-    if (files?.[0]) onFile(files[0]);
+    if (!files?.length) return;
+    if (multiple) onFiles([...files]);
+    else onFile(files[0]);
   };
 
   return (
@@ -34,6 +36,7 @@ export default function FileDropZone({ id, label, hint, accept, onFile, error })
           id={id}
           type="file"
           accept={accept}
+          multiple={multiple}
           aria-invalid={error ? 'true' : undefined}
           aria-describedby={error ? errorId : undefined}
           onChange={(event) => {
