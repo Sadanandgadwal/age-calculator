@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1442,6 +1442,44 @@ export const TOOLS = [
     },
     load: () => import('../tools/image-color-picker/Page.jsx'),
     loadContent: () => import('../tools/image-color-picker/content.js'),
+  },
+  {
+    id: 'image-compressor',
+    name: 'Image Compressor',
+    route: '/image-compressor',
+    categories: ['image-tools'],
+    icon: Minimize2,
+    description: 'Make a photo or picture smaller in file size, and see exactly how much you saved.',
+    keywords: ['image compressor', 'compress image', 'reduce image size', 'compress jpg', 'compress png', 'shrink photo', 'image size reducer', 'optimize image'],
+    featured: true,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Image Compressor – Reduce Image File Size Online',
+      description:
+        'Compress a JPG, PNG or WebP image in your browser. Choose the quality, compare the sizes before and after, and download. Your image is never uploaded.',
+      featureList: ['JPEG and WebP output', 'Adjustable quality', 'Before and after sizes', 'Removes photo metadata', 'Images stay on your device'],
+    },
+    load: () => import('../tools/image-compressor/Page.jsx'),
+    loadContent: () => import('../tools/image-compressor/content.js'),
+  },
+  {
+    id: 'image-resizer',
+    name: 'Image Resizer',
+    route: '/image-resizer',
+    categories: ['image-tools'],
+    icon: Scaling,
+    description: 'Change the width and height of an image in pixels or by percent.',
+    keywords: ['image resizer', 'resize image', 'resize photo', 'change image size', 'image dimensions', 'resize picture', 'scale image', 'resize png', 'resize jpg'],
+    featured: true,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Image Resizer – Change Image Dimensions Online',
+      description:
+        'Resize a JPG, PNG or WebP image by pixels or percent, keeping its proportions if you wish, then download it. Your image is processed on your device.',
+      featureList: ['Resize by pixels or percent', 'Keep proportions', 'Keeps JPG, PNG and WebP formats', 'Keeps transparency in PNG', 'Images stay on your device'],
+    },
+    load: () => import('../tools/image-resizer/Page.jsx'),
+    loadContent: () => import('../tools/image-resizer/content.js'),
   },
 ];
 

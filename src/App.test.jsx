@@ -94,6 +94,8 @@ describe('routes', () => {
     ['/image-to-base64', 'Image to Base64'],
     ['/base64-to-image', 'Base64 to Image'],
     ['/image-color-picker', 'Image Color Picker'],
+    ['/image-compressor', 'Image Compressor'],
+    ['/image-resizer', 'Image Resizer'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

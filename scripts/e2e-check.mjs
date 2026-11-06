@@ -1682,6 +1682,82 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'compressor',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Image Compressor',
+        path: '/image-compressor',
+        screenshot: 'image-compressor',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#compress-file', 'image-photo.jpg', 700);
+          check(`${label}: shows the saving`, (await factText(page)).includes('Saved'));
+          const first = await captureDownload(page, 'Download image');
+          check(`${label}: creates a smaller JPEG of the same size`, first.filename === 'image-photo-compressed.jpg' && first.type === 'image/jpeg' && first.width === 1200 && first.height === 900 && first.size < readFileSync(fixturePath('image-photo.jpg')).length, JSON.stringify(first));
+          await page.$eval('#compress-quality', (input) => {
+            Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, '30');
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+          });
+          await pause(600);
+          const lower = await captureDownload(page, 'Download image');
+          check(`${label}: lower quality is smaller`, lower.size < first.size, `${lower.size} vs ${first.size}`);
+          await clickButton(page, 'WebP');
+          await pause(600);
+          const webp = await captureDownload(page, 'Download image');
+          check(`${label}: creates a real WebP`, webp.type === 'image/webp' && webp.filename.endsWith('.webp') && webp.width === 1200);
+          await uploadFile(page, '#compress-file', 'image-sample.png', 700);
+          await clickButton(page, 'JPEG');
+          await page.$eval('#compress-quality', (input) => {
+            Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, '95');
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+          });
+          await pause(600);
+          check(`${label}: is honest when a file does not shrink`, await hasText(page, 'not smaller than your original'));
+          check(`${label}: does not call an increase a saving`, !(await factText(page)).includes('Saved'));
+        },
+      }),
+  },
+{
+    name: 'resizer',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Image Resizer',
+        path: '/image-resizer',
+        screenshot: 'image-resizer',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#resize-file', 'image-sample.png', 700);
+          check(`${label}: fills in the original size`, (await page.$eval('#resize-width', (input) => input.value)) === '400' && (await page.$eval('#resize-height', (input) => input.value)) === '300');
+          await setText(page, '#resize-width', '200');
+          await pause(500);
+          check(`${label}: keeps proportions`, (await page.$eval('#resize-height', (input) => input.value)) === '150');
+          const smaller = await captureDownload(page, 'Download image');
+          check(`${label}: creates the exact size`, smaller.width === 200 && smaller.height === 150 && smaller.filename === 'image-sample-200x150.png', JSON.stringify(smaller));
+          check(`${label}: keeps transparency`, await page.evaluate(async () => {
+            const image = document.querySelector('img[alt="The resized image"]');
+            const canvas = document.createElement('canvas');
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(image, 0, 0);
+            return context.getImageData(100, 145, 1, 1).data[3] === 0 && context.getImageData(50, 30, 1, 1).data[3] === 255;
+          }));
+          await setText(page, '#resize-width', '0');
+          check(`${label}: rejects zero`, await hasText(page, 'whole number of pixels'));
+          await setText(page, '#resize-width', '99999');
+          check(`${label}: rejects a huge size`, await hasText(page, 'too large'));
+          await clickButton(page, 'Percent');
+          await setText(page, '#resize-percent', '25');
+          await pause(500);
+          const quarter = await captureDownload(page, 'Download image');
+          check(`${label}: resizes by percent`, quarter.width === 100 && quarter.height === 75);
+          await uploadFile(page, '#resize-file', 'image-photo.jpg', 900);
+          const photo = await captureDownload(page, 'Download image');
+          check(`${label}: keeps JPEG as JPEG`, photo.type === 'image/jpeg' && photo.width === 300 && photo.height === 225, JSON.stringify(photo));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

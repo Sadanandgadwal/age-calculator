@@ -14,9 +14,12 @@ export default function useImageFile(maxBytes) {
       setSource(null);
       try {
         const opened = await openImage(file, maxBytes);
-        if (request === latest.current) setSource(opened);
+        if (request !== latest.current) return null;
+        setSource(opened);
+        return opened;
       } catch (failure) {
         if (request === latest.current) setError(failure.message);
+        return null;
       }
     },
     [maxBytes],

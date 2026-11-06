@@ -94,6 +94,8 @@ const CASES = [
   { route: '/image-to-base64', noPrint: true, steps: [['upload', '#base64-file', 'scripts/fixtures/image-sample.png'], ['wait', 500]], expected: [] },
   { route: '/base64-to-image', fileOnly: true, steps: [['#base64-input', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYPj/HwADAgH/h0Bh2AAAAABJRU5ErkJggg=='], ['wait', 300]], expected: [] },
   { route: '/image-color-picker', steps: [['upload', '#color-file', 'scripts/fixtures/image-sample.png'], ['wait', 600]], expected: ['Image', 'image-sample.png', 'HEX', '#FFFF00', 'rgb(255, 255, 0)', 'hsl(60, 100%, 50%)', 'Main color 1'] },
+  { route: '/image-compressor', fileOnly: true, steps: [['upload', '#compress-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 700]], expected: [] },
+  { route: '/image-resizer', fileOnly: true, steps: [['upload', '#resize-file', 'scripts/fixtures/image-photo.jpg'], ['wait', 800]], expected: [] },
 ];
 
 const failures = [];
