@@ -102,6 +102,9 @@ const CASES = [
   { route: '/image-to-text', noPrint: true, steps: [['upload', '#ocr-file', 'scripts/fixtures/ocr-sample.png'], ['wait', 15000]], expected: [] },
   { route: '/pdf-page-counter', steps: [['upload', '#count-files', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 1500]], expected: ['Total pages', '6', 'Files counted', 'pdf-sample.pdf', 'ToolNest Sample', 'Mixed'] },
   { route: '/merge-pdf', fileOnly: true, steps: [['upload', '#merge-files', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 800], ['upload', '#merge-files', 'scripts/fixtures/pdf-short.pdf'], ['wait', 800], ['click', 'Merge PDFs'], ['wait', 1000]], expected: [] },
+  { route: '/split-pdf', fileOnly: true, steps: [['upload', '#split-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 800], ['click', 'Every page'], ['click', 'Split PDF'], ['wait', 1500]], expected: [] },
+  { route: '/extract-pdf-pages', fileOnly: true, steps: [['upload', '#extract-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 1000], ['#extract-pages', '1-2'], ['click', 'Extract pages'], ['wait', 1000]], expected: [] },
+  { route: '/delete-pdf-pages', fileOnly: true, steps: [['upload', '#delete-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 1000], ['#delete-pages', '2'], ['click', 'Delete pages'], ['wait', 1000]], expected: [] },
 ];
 
 const failures = [];

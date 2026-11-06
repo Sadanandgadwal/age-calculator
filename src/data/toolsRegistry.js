@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Combine, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileDigit, FileImage, FileJson, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, ScanText, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Combine, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileDigit, FileImage, FileJson, FileMinus2, FileOutput, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, ScanText, Scissors, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1594,6 +1594,63 @@ export const TOOLS = [
     },
     load: () => import('../tools/merge-pdf/Page.jsx'),
     loadContent: () => import('../tools/merge-pdf/content.js'),
+  },
+  {
+    id: 'split-pdf',
+    name: 'Split PDF',
+    route: '/split-pdf',
+    categories: ['pdf-tools'],
+    icon: Scissors,
+    description: 'Split a PDF into several files by page ranges, every few pages, or one file per page.',
+    keywords: ['split pdf', 'separate pdf pages', 'split pdf into pages', 'divide pdf', 'pdf splitter', 'split pdf by range', 'break up pdf'],
+    featured: true,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Split PDF – Separate a PDF Into Several Files',
+      description:
+        'Split a PDF by page ranges, every N pages or into single pages, and download the parts as PDFs in one ZIP. Your file is split in your browser, never uploaded.',
+      featureList: ['Split by page ranges', 'Split every N pages', 'One file per page', 'Download as a ZIP', 'Files stay on your device'],
+    },
+    load: () => import('../tools/split-pdf/Page.jsx'),
+    loadContent: () => import('../tools/split-pdf/content.js'),
+  },
+  {
+    id: 'extract-pdf-pages',
+    name: 'Extract PDF Pages',
+    route: '/extract-pdf-pages',
+    categories: ['pdf-tools'],
+    icon: FileOutput,
+    description: 'Pick pages from a PDF and save them as a new PDF.',
+    keywords: ['extract pdf pages', 'extract pages from pdf', 'save pages from pdf', 'select pdf pages', 'pdf page extractor', 'copy pages from pdf'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Extract PDF Pages – Save Selected Pages as a New PDF',
+      description:
+        'Choose pages from a PDF by clicking them or typing ranges such as 1-3, 5, and save them as a new PDF. Your file is processed in your browser, never uploaded.',
+      featureList: ['Click pages or type ranges', 'Page previews', 'Keeps text selectable', 'No watermark', 'Files stay on your device'],
+    },
+    load: () => import('../tools/extract-pdf-pages/Page.jsx'),
+    loadContent: () => import('../tools/extract-pdf-pages/content.js'),
+  },
+  {
+    id: 'delete-pdf-pages',
+    name: 'Delete PDF Pages',
+    route: '/delete-pdf-pages',
+    categories: ['pdf-tools'],
+    icon: FileMinus2,
+    description: 'Remove pages you do not need from a PDF and save the rest.',
+    keywords: ['delete pdf pages', 'remove pages from pdf', 'delete page from pdf', 'remove pdf pages', 'pdf page remover', 'delete blank pages pdf'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Delete PDF Pages – Remove Pages From a PDF',
+      description:
+        'Remove unwanted pages from a PDF by clicking them or typing ranges, then download the shorter file. Your PDF is processed in your browser, never uploaded.',
+      featureList: ['Click pages or type ranges', 'Page previews', 'Keeps text selectable', 'No watermark', 'Files stay on your device'],
+    },
+    load: () => import('../tools/delete-pdf-pages/Page.jsx'),
+    loadContent: () => import('../tools/delete-pdf-pages/content.js'),
   },
 ];
 

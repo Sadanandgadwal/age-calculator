@@ -1985,6 +1985,80 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'splitpdf',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Split PDF',
+        path: '/split-pdf',
+        screenshot: 'split-pdf',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#split-file', 'pdf-sample.pdf', 800);
+          await setText(page, '#split-ranges', '2-3, 9');
+          check(`${label}: rejects a missing page`, await hasText(page, 'Page 9 does not exist'));
+          await setText(page, '#split-ranges', '2-4');
+          await clickButton(page, 'Split PDF');
+          await factsInclude(page, 'Files created');
+          const single = await capturePdf(page, 'Download PDF');
+          check(`${label}: one range gives one PDF`, single.filename === 'pdf-sample-pages-2-4.pdf' && firstLines(single).join('|') === 'Page 2|Page 3|Page 4', firstLines(single).join('|'));
+          await clickButton(page, 'Every N pages');
+          await setText(page, '#split-every', '4');
+          await clickButton(page, 'Split PDF');
+          await factsInclude(page, 'ZIP size');
+          const zip = await captureDownload(page, 'Download ZIP', true);
+          const zipFile = `${OUTPUT_DIR}/split-check.zip`;
+          writeFileSync(zipFile, Buffer.from(zip.base64, 'base64'));
+          const listing = execFileSync('unzip', ['-l', zipFile], { encoding: 'utf8' });
+          check(`${label}: several parts come in a ZIP`, zip.filename === 'pdf-sample-split.zip' && listing.includes('pdf-sample-pages-1-4.pdf') && listing.includes('pdf-sample-pages-5-6.pdf'), listing);
+          const secondPart = execFileSync('pdftotext', ['-layout', '-', '-'], { input: execFileSync('unzip', ['-p', zipFile, 'pdf-sample-pages-5-6.pdf']), encoding: 'utf8' });
+          check(`${label}: the parts hold the right pages`, secondPart.includes('Page 5') && secondPart.includes('Page 6') && !secondPart.includes('Page 4'));
+        },
+      }),
+  },
+{
+    name: 'extractpages',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Extract PDF Pages',
+        path: '/extract-pdf-pages',
+        screenshot: 'extract-pdf-pages',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#extract-file', 'pdf-sample.pdf', 800);
+          await page.waitForFunction(() => document.querySelectorAll('ol[aria-label="Pages"] img').length === 6, { timeout: 15000 }).catch(() => {});
+          check(`${label}: shows a preview of every page`, (await page.$$('ol[aria-label="Pages"] img')).length === 6);
+          await page.click('button[aria-label="Page 5"]');
+          await page.click('button[aria-label="Page 2"]');
+          check(`${label}: clicked pages fill the field`, (await page.$eval('#extract-pages', (input) => input.value)) === '2, 5');
+          await setText(page, '#extract-pages', '5, 1-2');
+          await clickButton(page, 'Extract pages');
+          await factsInclude(page, 'Pages extracted');
+          const pdf = await capturePdf(page, 'Download PDF');
+          check(`${label}: extracts the chosen pages in order`, pdf.filename === 'pdf-sample-extracted.pdf' && firstLines(pdf).join('|') === 'Page 1|Page 2|Page 5', firstLines(pdf).join('|'));
+        },
+      }),
+  },
+{
+    name: 'deletepages',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Delete PDF Pages',
+        path: '/delete-pdf-pages',
+        screenshot: 'delete-pdf-pages',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#delete-file', 'pdf-sample.pdf', 800);
+          await setText(page, '#delete-pages', '1-6');
+          check(`${label}: keeps at least one page`, await hasText(page, 'at least one page'));
+          await setText(page, '#delete-pages', '2, 4-5');
+          await clickButton(page, 'Delete pages');
+          await factsInclude(page, 'Pages left');
+          const pdf = await capturePdf(page, 'Download PDF');
+          check(`${label}: removes only the chosen pages`, pdf.filename === 'pdf-sample-edited.pdf' && firstLines(pdf).join('|') === 'Page 1|Page 3|Page 6', firstLines(pdf).join('|'));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

@@ -56,3 +56,7 @@ export async function readPageText(pdf, pageNumber) {
   page.cleanup();
   return content.items;
 }
+
+export function closeRendering(pdf) {
+  pdf?.loadingTask?.destroy().catch(() => {});
+}
