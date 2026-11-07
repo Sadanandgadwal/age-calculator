@@ -15,6 +15,10 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | CM to Feet Converter | `/cm-to-feet-converter` |
 | Date Calculator | `/date-calculator` |
 | GST Calculator | `/gst-calculator` |
+| JPG to PDF | `/jpg-to-pdf` |
+| PDF to JPG | `/pdf-to-jpg` |
+| Reorder PDF Pages | `/reorder-pdf-pages` |
+| Rotate PDF | `/rotate-pdf` |
 | Delete PDF Pages | `/delete-pdf-pages` |
 | Extract PDF Pages | `/extract-pdf-pages` |
 | Split PDF | `/split-pdf` |

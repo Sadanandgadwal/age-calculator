@@ -40,8 +40,8 @@ export async function renderPage(pdf, pageNumber, { scale = 1, width, background
   const base = page.getViewport({ scale: 1 });
   const viewport = page.getViewport({ scale: width ? width / base.width : scale });
   const canvas = document.createElement('canvas');
-  canvas.width = Math.max(1, Math.floor(viewport.width));
-  canvas.height = Math.max(1, Math.floor(viewport.height));
+  canvas.width = Math.max(1, Math.round(viewport.width));
+  canvas.height = Math.max(1, Math.round(viewport.height));
   const context = canvas.getContext('2d');
   context.fillStyle = background;
   context.fillRect(0, 0, canvas.width, canvas.height);

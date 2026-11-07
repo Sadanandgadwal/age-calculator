@@ -2059,6 +2059,122 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'rotatepdf',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Rotate PDF',
+        path: '/rotate-pdf',
+        screenshot: 'rotate-pdf',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#rotate-file', 'pdf-sample.pdf', 800);
+          check(`${label}: selects every page to begin with`, (await page.$eval('#rotate-pages', (input) => input.value)) === '1-6');
+          await clickButton(page, 'Right');
+          await setText(page, '#rotate-pages', '2');
+          await clickButton(page, '180°');
+          await clickButton(page, 'Save rotated PDF');
+          await factsInclude(page, 'Pages rotated');
+          const pdf = await capturePdf(page, 'Download PDF');
+          check(`${label}: saves the new angles`, pdf.filename === 'pdf-sample-rotated.pdf' && pdf.rotations.join(',') === '90,270,90,90,90,90', pdf.rotations.join(','));
+          check(`${label}: keeps the text`, firstLines(pdf).length === 6 && pdf.pageTexts.join(' ').includes('Page 4'));
+        },
+      }),
+  },
+{
+    name: 'reorderpages',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Reorder PDF Pages',
+        path: '/reorder-pdf-pages',
+        screenshot: 'reorder-pdf-pages',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#reorder-file', 'pdf-sample.pdf', 800);
+          await clickButton(page, 'Reverse order');
+          await page.click('button[aria-label="Move page 1 earlier"]');
+          await clickButton(page, 'Save new order');
+          await factsInclude(page, 'New order');
+          const pdf = await capturePdf(page, 'Download PDF');
+          check(`${label}: saves the new order`, pdf.filename === 'pdf-sample-reordered.pdf' && firstLines(pdf).join('|') === 'Page 6|Page 5|Page 4|Page 3|Page 1|Page 2', firstLines(pdf).join('|'));
+          await page.evaluate(() => {
+            const tiles = [...document.querySelectorAll('ol[aria-label="Page order"] > li')];
+            const transfer = new DataTransfer();
+            const fire = (element, type) => element.dispatchEvent(new DragEvent(type, { bubbles: true, cancelable: true, dataTransfer: transfer }));
+            fire(tiles[0], 'dragstart');
+            fire(tiles[2], 'dragover');
+            fire(tiles[2], 'drop');
+            fire(tiles[0], 'dragend');
+          });
+          await pause(200);
+          const labels = await page.$$eval('ol[aria-label="Page order"] > li > span.text-xs', (items) => items.map((item) => item.textContent));
+          check(`${label}: pages can be dragged`, labels.slice(0, 3).join('|') === 'Page 5|Page 4|Page 6', labels.join('|'));
+          await clickButton(page, 'Save new order');
+          await factsInclude(page, 'New order');
+        },
+      }),
+  },
+{
+    name: 'pdftojpg',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'PDF to JPG',
+        path: '/pdf-to-jpg',
+        screenshot: 'pdf-to-jpg',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#jpg-file', 'pdf-sample.pdf', 800);
+          await setText(page, '#jpg-pages', '1');
+          await clickButton(page, 'Convert to JPG');
+          await factsInclude(page, 'Image size');
+          const single = await captureDownload(page, 'Download JPG');
+          check(`${label}: an A4 page at 150 DPI is 1240 × 1754`, single.filename === 'pdf-sample-page-1.jpg' && single.type === 'image/jpeg' && single.width === 1240 && single.height === 1754, JSON.stringify(single));
+          await clickButton(page, '72 DPI');
+          await setText(page, '#jpg-pages', '');
+          await clickButton(page, 'Convert to JPG');
+          await factsInclude(page, 'ZIP size', 20000);
+          const zip = await captureDownload(page, 'Download ZIP', true);
+          const zipFile = `${OUTPUT_DIR}/jpg-check.zip`;
+          writeFileSync(zipFile, Buffer.from(zip.base64, 'base64'));
+          const listing = execFileSync('unzip', ['-l', zipFile], { encoding: 'utf8' });
+          const landscape = execFileSync('file', ['-'], { input: execFileSync('unzip', ['-p', zipFile, 'pdf-sample-page-3.jpg']), encoding: 'utf8' });
+          check(`${label}: every page is in the ZIP`, [1, 2, 3, 4, 5, 6].every((number) => listing.includes(`pdf-sample-page-${number}.jpg`)), listing);
+          check(`${label}: a landscape Letter page at 72 DPI is 792 × 612`, landscape.includes('792x612'), landscape);
+        },
+      }),
+  },
+{
+    name: 'jpgtopdf',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'JPG to PDF',
+        path: '/jpg-to-pdf',
+        screenshot: 'jpg-to-pdf',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          const input = await page.$('#pdf-images');
+          await input.uploadFile(fixturePath('image-photo.jpg'), fixturePath('image-sample.png'), fixturePath('pdf-short.pdf'));
+          await page.waitForSelector('ol[aria-label="Images, in page order"]');
+          await pause(300);
+          check(`${label}: refuses a file that is not an image`, await hasText(page, 'Please choose an image file'));
+          await clickButton(page, 'Create PDF');
+          await factsInclude(page, 'Pages');
+          const pdf = await capturePdf(page, 'Download PDF');
+          const sizes = execFileSync('pdfinfo', ['-f', '1', '-l', '2', `${OUTPUT_DIR}/download-check.pdf`], { encoding: 'utf8' });
+          check(`${label}: puts each image on landscape A4`, pdf.pages === 2 && (sizes.match(/841\.89 x 595\.28/g) ?? []).length === 2, sizes);
+          const images = execFileSync('pdfimages', ['-list', `${OUTPUT_DIR}/download-check.pdf`], { encoding: 'utf8' });
+          check(`${label}: keeps the full image resolution`, /\s1200\s+900\s/.test(images) && /\s400\s+300\s/.test(images), images);
+          check(`${label}: keeps PNG transparency`, /smask/.test(images));
+          await clickButton(page, 'Same as image');
+          await page.click('button[aria-label="Move image-sample.png up"]');
+          await clickButton(page, 'Create PDF');
+          await factsInclude(page, 'Pages');
+          await capturePdf(page, 'Download PDF');
+          const fitted = execFileSync('pdfinfo', ['-f', '1', '-l', '2', `${OUTPUT_DIR}/download-check.pdf`], { encoding: 'utf8' });
+          check(`${label}: matches each page to its image, in the new order`, /Page\s+1 size:\s+300 x 225/.test(fitted) && /Page\s+2 size:\s+900 x 675/.test(fitted), fitted);
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

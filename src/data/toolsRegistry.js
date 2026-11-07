@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Combine, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileDigit, FileImage, FileJson, FileMinus2, FileOutput, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, Ruler, Scale, Scaling, ScanLine, ScanText, Scissors, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Combine, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileDigit, FileImage, FileJson, FileMinus2, FileOutput, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, Images, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, RotateCw, Ruler, Scale, Scaling, ScanLine, ScanText, Scissors, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1651,6 +1651,82 @@ export const TOOLS = [
     },
     load: () => import('../tools/delete-pdf-pages/Page.jsx'),
     loadContent: () => import('../tools/delete-pdf-pages/content.js'),
+  },
+  {
+    id: 'rotate-pdf',
+    name: 'Rotate PDF',
+    route: '/rotate-pdf',
+    categories: ['pdf-tools'],
+    icon: RotateCw,
+    description: 'Turn all pages or chosen pages of a PDF, and save it the right way up.',
+    keywords: ['rotate pdf', 'rotate pdf pages', 'turn pdf', 'rotate pdf 90 degrees', 'fix sideways pdf', 'rotate scanned pdf', 'flip pdf page'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Rotate PDF – Turn PDF Pages and Save',
+      description:
+        'Rotate every page or just the pages you choose by 90 or 180 degrees, see the result in previews, and save the PDF. Your file is processed in your browser.',
+      featureList: ['Rotate all or chosen pages', '90 and 180 degrees', 'Page previews', 'Keeps text selectable', 'Files stay on your device'],
+    },
+    load: () => import('../tools/rotate-pdf/Page.jsx'),
+    loadContent: () => import('../tools/rotate-pdf/content.js'),
+  },
+  {
+    id: 'reorder-pdf-pages',
+    name: 'Reorder PDF Pages',
+    route: '/reorder-pdf-pages',
+    categories: ['pdf-tools'],
+    icon: ListOrdered,
+    description: 'Change the order of pages in a PDF by dragging or moving them.',
+    keywords: ['reorder pdf pages', 'rearrange pdf pages', 'change page order pdf', 'sort pdf pages', 'move pdf pages', 'organize pdf', 'reverse pdf pages'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Reorder PDF Pages – Rearrange Pages in a PDF',
+      description:
+        'Rearrange the pages of a PDF by dragging the previews or using move buttons, reverse the order if needed, then save. Your file is processed in your browser.',
+      featureList: ['Drag or use move buttons', 'Page previews', 'Reverse the order', 'Keeps text selectable', 'Files stay on your device'],
+    },
+    load: () => import('../tools/reorder-pdf-pages/Page.jsx'),
+    loadContent: () => import('../tools/reorder-pdf-pages/content.js'),
+  },
+  {
+    id: 'pdf-to-jpg',
+    name: 'PDF to JPG',
+    route: '/pdf-to-jpg',
+    categories: ['pdf-tools', 'image-tools'],
+    icon: Images,
+    description: 'Turn PDF pages into JPG images at the quality you need.',
+    keywords: ['pdf to jpg', 'pdf to image', 'convert pdf to jpg', 'pdf to jpeg', 'save pdf as image', 'pdf page to picture', 'pdf to png'],
+    featured: true,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'PDF to JPG – Convert PDF Pages to Images',
+      description:
+        'Convert all or chosen pages of a PDF into JPG images at 72, 150 or 300 DPI, and download them, several at once in a ZIP. Your PDF stays on your device.',
+      featureList: ['72, 150 or 300 DPI', 'All or chosen pages', 'Several pages in one ZIP', 'High quality JPG', 'Files stay on your device'],
+    },
+    load: () => import('../tools/pdf-to-jpg/Page.jsx'),
+    loadContent: () => import('../tools/pdf-to-jpg/content.js'),
+  },
+  {
+    id: 'jpg-to-pdf',
+    name: 'JPG to PDF',
+    route: '/jpg-to-pdf',
+    categories: ['pdf-tools', 'image-tools'],
+    icon: FileImage,
+    description: 'Turn photos and images into one PDF, one image per page.',
+    keywords: ['jpg to pdf', 'image to pdf', 'convert jpg to pdf', 'png to pdf', 'photos to pdf', 'pictures to pdf', 'combine images into pdf'],
+    featured: true,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'JPG to PDF – Convert Images to a PDF Online',
+      description:
+        'Turn JPG, PNG or WebP images into one PDF, in the order you choose, on A4, Letter or pages that match each image. Your images stay on your device.',
+      featureList: ['JPG, PNG and WebP', 'Choose the order', 'A4, Letter or image-sized pages', 'Optional margins', 'Images stay on your device'],
+    },
+    load: () => import('../tools/jpg-to-pdf/Page.jsx'),
+    loadContent: () => import('../tools/jpg-to-pdf/content.js'),
   },
 ];
 

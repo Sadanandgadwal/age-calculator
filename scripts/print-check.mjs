@@ -105,6 +105,10 @@ const CASES = [
   { route: '/split-pdf', fileOnly: true, steps: [['upload', '#split-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 800], ['click', 'Every page'], ['click', 'Split PDF'], ['wait', 1500]], expected: [] },
   { route: '/extract-pdf-pages', fileOnly: true, steps: [['upload', '#extract-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 1000], ['#extract-pages', '1-2'], ['click', 'Extract pages'], ['wait', 1000]], expected: [] },
   { route: '/delete-pdf-pages', fileOnly: true, steps: [['upload', '#delete-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 1000], ['#delete-pages', '2'], ['click', 'Delete pages'], ['wait', 1000]], expected: [] },
+  { route: '/rotate-pdf', fileOnly: true, steps: [['upload', '#rotate-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 1000], ['click', 'Right'], ['click', 'Save rotated PDF'], ['wait', 1000]], expected: [] },
+  { route: '/reorder-pdf-pages', fileOnly: true, steps: [['upload', '#reorder-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 1000], ['click', 'Reverse order'], ['click', 'Save new order'], ['wait', 1000]], expected: [] },
+  { route: '/pdf-to-jpg', fileOnly: true, steps: [['upload', '#jpg-file', 'scripts/fixtures/pdf-short.pdf'], ['wait', 800], ['click', 'Convert to JPG'], ['wait', 3000]], expected: [] },
+  { route: '/jpg-to-pdf', fileOnly: true, steps: [['upload', '#pdf-images', 'scripts/fixtures/image-photo.jpg'], ['wait', 800], ['click', 'Create PDF'], ['wait', 1500]], expected: [] },
 ];
 
 const failures = [];
