@@ -2175,6 +2175,97 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'protectpdf',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Protect PDF',
+        path: '/protect-pdf',
+        screenshot: 'protect-pdf',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          const sent = [];
+          page.on('request', (request) => request.method() !== 'GET' && sent.push(request.url()));
+          await uploadFile(page, '#protect-file', 'pdf-sample.pdf', 800);
+          await setText(page, '#protect-password', 'Tiger-Moon-42');
+          await setText(page, '#protect-confirm', 'Tiger-Moon-41');
+          await clickButton(page, 'Protect PDF');
+          check(`${label}: needs matching passwords`, await hasText(page, 'do not match'));
+          await setText(page, '#protect-confirm', 'Tiger-Moon-42');
+          await page.evaluate(() => [...document.querySelectorAll('label')].find((item) => item.textContent.trim() === 'Copy text').click());
+          await clickButton(page, 'Protect PDF');
+          await factsInclude(page, 'AES-256');
+          const pdf = await capturePdf(page, 'Download PDF', 'Tiger-Moon-42');
+          check(`${label}: encrypts with AES-256`, pdf.encrypted && /AES-256/.test(pdf.meta) && /copy:no/.test(pdf.meta) && /print:yes/.test(pdf.meta), pdf.meta);
+          check(`${label}: opens with the password and keeps every page`, pdf.pages === 6 && firstLines(pdf)[0] === 'Page 1');
+          let opened = true;
+          try {
+            execFileSync('pdftotext', [`${OUTPUT_DIR}/download-check.pdf`, '-'], { stdio: 'pipe' });
+          } catch {
+            opened = false;
+          }
+          check(`${label}: does not open without the password`, !opened);
+          check(`${label}: sends nothing anywhere`, sent.length === 0, sent.join(','));
+        },
+      }),
+  },
+{
+    name: 'unlockpdf',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Unlock PDF',
+        path: '/unlock-pdf',
+        screenshot: 'unlock-pdf',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          await uploadFile(page, '#unlock-file', 'pdf-sample.pdf', 800);
+          check(`${label}: says when there is no password`, await hasText(page, 'has no password'));
+          await uploadFile(page, '#unlock-file', 'pdf-locked.pdf', 800);
+          check(`${label}: recognises a protected file`, await hasText(page, '3 pages, password protected'));
+          await clickButton(page, 'Unlock PDF');
+          check(`${label}: asks for the password`, await hasText(page, 'Please enter the password'));
+          await setText(page, '#unlock-password', 'guess');
+          await clickButton(page, 'Unlock PDF');
+          await pause(500);
+          check(`${label}: refuses a wrong password`, await hasText(page, 'password is not correct') && !(await page.$('[data-testid="facts"]')));
+          await setText(page, '#unlock-password', 'open123');
+          await clickButton(page, 'Unlock PDF');
+          await factsInclude(page, 'Removed');
+          const pdf = await capturePdf(page, 'Download PDF');
+          check(`${label}: saves a copy without a password`, pdf.filename === 'pdf-locked-unlocked.pdf' && !pdf.encrypted && pdf.pages === 3 && firstLines(pdf)[0] === 'Locked 1', pdf.meta);
+          check(`${label}: clears the password field`, (await page.$eval('#unlock-password', (input) => input.value)) === '');
+        },
+      }),
+  },
+{
+    name: 'compresspdf',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Compress PDF',
+        path: '/compress-pdf',
+        screenshot: 'compress-pdf',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          const sent = [];
+          page.on('request', (request) => request.method() !== 'GET' && sent.push(request.url()));
+          await uploadFile(page, '#compress-file', 'pdf-short.pdf', 800);
+          await clickButton(page, 'Compress PDF');
+          check(`${label}: says when a text PDF cannot get smaller`, await page.waitForFunction(() => document.body.innerText.includes('no photos that can be made smaller'), { timeout: 8000 }).then(() => true, () => false));
+          await uploadFile(page, '#compress-file', 'pdf-photo.pdf', 800);
+          await clickButton(page, 'Strong');
+          await clickButton(page, 'Compress PDF');
+          await factsInclude(page, 'Photos made smaller', 15000);
+          check(`${label}: reports the saving`, (await factText(page)).includes('1 of 1'), await factText(page));
+          const pdf = await capturePdf(page, 'Download PDF');
+          check(`${label}: keeps every page and its text`, pdf.pages === 3 && firstLines(pdf)[0] === 'Photo page 1', JSON.stringify(firstLines(pdf)));
+          const size = readFileSync(`${OUTPUT_DIR}/download-check.pdf`).length;
+          check(`${label}: makes the file smaller`, size < readFileSync(fixturePath('pdf-photo.pdf')).length / 2, String(size));
+          const listing = execFileSync('pdfimages', ['-list', `${OUTPUT_DIR}/download-check.pdf`], { encoding: 'utf8' });
+          check(`${label}: scales the photo down`, /\s1000\s+750\s/.test(listing), listing);
+          check(`${label}: sends nothing anywhere`, sent.length === 0, sent.join(','));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {

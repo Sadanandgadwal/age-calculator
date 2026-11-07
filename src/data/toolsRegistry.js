@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Combine, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileDigit, FileImage, FileJson, FileMinus2, FileOutput, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, Images, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, RotateCw, Ruler, Scale, Scaling, ScanLine, ScanText, Scissors, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Combine, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileDigit, FileImage, FileJson, FileMinus2, FileOutput, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, Images, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Lock, LockOpen, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, RotateCw, Ruler, Scale, Scaling, ScanLine, ScanText, Scissors, Shrink, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1727,6 +1727,63 @@ export const TOOLS = [
     },
     load: () => import('../tools/jpg-to-pdf/Page.jsx'),
     loadContent: () => import('../tools/jpg-to-pdf/content.js'),
+  },
+  {
+    id: 'protect-pdf',
+    name: 'Protect PDF',
+    route: '/protect-pdf',
+    categories: ['pdf-tools'],
+    icon: Lock,
+    description: 'Add a password to a PDF so only people who know it can open the file.',
+    keywords: ['protect pdf', 'password protect pdf', 'encrypt pdf', 'lock pdf', 'add password to pdf', 'secure pdf', 'pdf password'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Protect PDF – Add a Password to a PDF',
+      description:
+        'Lock a PDF with a password using AES-256 encryption, and choose whether printing and copying are allowed. Your file and password never leave your device.',
+      featureList: ['AES-256 encryption', 'Password to open', 'Optional print and copy limits', 'Password never leaves your device', 'Files stay on your device'],
+    },
+    load: () => import('../tools/protect-pdf/Page.jsx'),
+    loadContent: () => import('../tools/protect-pdf/content.js'),
+  },
+  {
+    id: 'unlock-pdf',
+    name: 'Unlock PDF',
+    route: '/unlock-pdf',
+    categories: ['pdf-tools'],
+    icon: LockOpen,
+    description: 'Remove the password from a PDF you can open, using the password you already have.',
+    keywords: ['unlock pdf', 'remove pdf password', 'decrypt pdf', 'pdf password remover', 'remove password from pdf', 'unlock pdf with password'],
+    featured: false,
+    addedOn: '2026-11-05',
+    seo: {
+      title: 'Unlock PDF – Remove a Password You Already Know',
+      description:
+        'Remove the password from a PDF by entering the password you already have, then save a copy that opens without it. Your file and password stay on your device.',
+      featureList: ['Uses your existing password', 'Removes open and permission passwords', 'Never guesses passwords', 'Password never leaves your device', 'Files stay on your device'],
+    },
+    load: () => import('../tools/unlock-pdf/Page.jsx'),
+    loadContent: () => import('../tools/unlock-pdf/content.js'),
+  },
+  {
+    id: 'compress-pdf',
+    name: 'Compress PDF',
+    route: '/compress-pdf',
+    categories: ['pdf-tools'],
+    icon: Shrink,
+    description: 'Make a PDF smaller by shrinking the photos inside it, while text stays sharp and selectable.',
+    keywords: ['compress pdf', 'reduce pdf size', 'shrink pdf', 'make pdf smaller', 'pdf compressor', 'optimize pdf', 'pdf size reducer'],
+    featured: false,
+    addedOn: '2026-11-07',
+    seo: {
+      title: 'Compress PDF – Reduce PDF File Size',
+      description:
+        'Reduce the size of a PDF by recompressing the photos inside it. Text stays sharp and selectable, and you see the exact saving. Your file stays in your browser.',
+      featureList: ['Three compression levels', 'Text stays selectable', 'Shows the exact saving', 'Never makes a file bigger', 'Files stay on your device'],
+    },
+    load: () => import('../tools/compress-pdf/Page.jsx'),
+    loadContent: () => import('../tools/compress-pdf/content.js'),
   },
 ];
 

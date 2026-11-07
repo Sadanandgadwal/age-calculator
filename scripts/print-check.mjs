@@ -109,6 +109,9 @@ const CASES = [
   { route: '/reorder-pdf-pages', fileOnly: true, steps: [['upload', '#reorder-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 1000], ['click', 'Reverse order'], ['click', 'Save new order'], ['wait', 1000]], expected: [] },
   { route: '/pdf-to-jpg', fileOnly: true, steps: [['upload', '#jpg-file', 'scripts/fixtures/pdf-short.pdf'], ['wait', 800], ['click', 'Convert to JPG'], ['wait', 3000]], expected: [] },
   { route: '/jpg-to-pdf', fileOnly: true, steps: [['upload', '#pdf-images', 'scripts/fixtures/image-photo.jpg'], ['wait', 800], ['click', 'Create PDF'], ['wait', 1500]], expected: [] },
+  { route: '/protect-pdf', fileOnly: true, steps: [['upload', '#protect-file', 'scripts/fixtures/pdf-short.pdf'], ['wait', 800], ['#protect-password', 'Tiger-Moon-42'], ['#protect-confirm', 'Tiger-Moon-42'], ['click', 'Protect PDF'], ['wait', 1000]], expected: [] },
+  { route: '/unlock-pdf', fileOnly: true, steps: [['upload', '#unlock-file', 'scripts/fixtures/pdf-locked.pdf'], ['wait', 800], ['#unlock-password', 'open123'], ['click', 'Unlock PDF'], ['wait', 1000]], expected: [] },
+  { route: '/compress-pdf', fileOnly: true, steps: [['upload', '#compress-file', 'scripts/fixtures/pdf-photo.pdf'], ['wait', 800], ['click', 'Compress PDF'], ['wait', 3000]], expected: [] },
 ];
 
 const failures = [];
