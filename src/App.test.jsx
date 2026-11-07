@@ -112,6 +112,8 @@ describe('routes', () => {
     ['/protect-pdf', 'Protect PDF'],
     ['/unlock-pdf', 'Unlock PDF'],
     ['/compress-pdf', 'Compress PDF'],
+    ['/word-to-pdf', 'Word to PDF'],
+    ['/pdf-to-word', 'PDF to Word'],
     ['/about', 'About ToolNest'],
     ['/contact', 'Contact'],
     ['/age-calculator', 'Age Calculator'],

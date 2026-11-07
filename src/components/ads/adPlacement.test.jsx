@@ -10,6 +10,8 @@ const TOOL_PATHS = [
   '/cm-to-feet-converter',
   '/date-calculator',
   '/gst-calculator',
+  '/pdf-to-word',
+  '/word-to-pdf',
   '/compress-pdf',
   '/unlock-pdf',
   '/protect-pdf',

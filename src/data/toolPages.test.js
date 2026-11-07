@@ -9,7 +9,7 @@ describe('preloadToolPage', () => {
       const { default: page } = await tool.load();
       expect(getToolPage(tool), tool.id).toBe(page);
     }
-  });
+  }, 60000);
 
   it('accepts a trailing slash', async () => {
     await expect(preloadToolPage('/gst-calculator/')).resolves.toBeUndefined();

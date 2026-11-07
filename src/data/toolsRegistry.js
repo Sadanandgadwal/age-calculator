@@ -1,4 +1,4 @@
-import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Combine, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileDigit, FileImage, FileJson, FileMinus2, FileOutput, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, Images, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Lock, LockOpen, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, RotateCw, Ruler, Scale, Scaling, ScanLine, ScanText, Scissors, Shrink, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
+import { Activity, AlarmClock, ArrowDownAZ, AudioWaveform, Barcode, Beaker, Binary, BookOpen, Braces, BriefcaseBusiness, Cake, CalendarHeart, CalendarRange, CalendarSearch, CaseSensitive, CaseUpper, CircleGauge, Clock, ClockArrowUp, CodeXml, Coins, Combine, Contact, Crop, Database, Dice5, Dices, DraftingCompass, FileCheck2, FileCode, FileDigit, FileImage, FileJson, FileMinus2, FileOutput, FileText, FileType, Fingerprint, Gauge, Globe, GraduationCap, HardDrive, Hash, Hourglass, ImageDown, Images, KeyRound, KeySquare, Keyboard, LandPlot, Landmark, Link, Link2, ListOrdered, ListX, Lock, LockOpen, Minimize2, Monitor, Paintbrush, Percent, Pilcrow, Pipette, QrCode, ReceiptIndianRupee, Regex, Replace, RotateCw, Ruler, Scale, Scaling, ScanLine, ScanText, Scissors, Shrink, Signpost, Space, Tag, Thermometer, Timer, Undo2, UserRoundCheck, Users, Watch, WholeWord, Zap } from 'lucide-react';
 
 /**
  * The single list of tools. Each entry drives the tool's route, cards, search
@@ -1784,6 +1784,44 @@ export const TOOLS = [
     },
     load: () => import('../tools/compress-pdf/Page.jsx'),
     loadContent: () => import('../tools/compress-pdf/content.js'),
+  },
+  {
+    id: 'word-to-pdf',
+    name: 'Word to PDF',
+    route: '/word-to-pdf',
+    categories: ['pdf-tools'],
+    icon: FileText,
+    description: 'Turn a .docx document into a PDF with its text, headings, lists, tables and pictures.',
+    keywords: ['word to pdf', 'docx to pdf', 'convert word to pdf', 'doc to pdf', 'word document to pdf', 'save word as pdf'],
+    featured: false,
+    addedOn: '2026-11-07',
+    seo: {
+      title: 'Word to PDF – Convert DOCX to PDF',
+      description:
+        'Convert a Word .docx file to PDF in your browser. Text, headings, lists, tables and pictures are kept in a clean A4 layout. Nothing is uploaded.',
+      featureList: ['Keeps headings, lists and tables', 'Keeps PNG and JPEG pictures', 'Clean A4 layout', 'Says what was left out', 'Files stay on your device'],
+    },
+    load: () => import('../tools/word-to-pdf/Page.jsx'),
+    loadContent: () => import('../tools/word-to-pdf/content.js'),
+  },
+  {
+    id: 'pdf-to-word',
+    name: 'PDF to Word',
+    route: '/pdf-to-word',
+    categories: ['pdf-tools'],
+    icon: FileType,
+    description: 'Get the text out of a PDF as an editable Word document, with paragraphs and headings.',
+    keywords: ['pdf to word', 'pdf to docx', 'convert pdf to word', 'pdf to editable word', 'extract text from pdf', 'pdf to doc'],
+    featured: false,
+    addedOn: '2026-11-07',
+    seo: {
+      title: 'PDF to Word – Convert PDF Text to DOCX',
+      description:
+        'Convert the text of a PDF into an editable Word .docx file, with paragraphs and headings, in your browser. Nothing is uploaded.',
+      featureList: ['Editable .docx output', 'Paragraphs and headings', 'One Word page per PDF page', 'Spots scanned PDFs', 'Files stay on your device'],
+    },
+    load: () => import('../tools/pdf-to-word/Page.jsx'),
+    loadContent: () => import('../tools/pdf-to-word/content.js'),
   },
 ];
 

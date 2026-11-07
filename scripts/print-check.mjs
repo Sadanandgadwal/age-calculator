@@ -112,6 +112,8 @@ const CASES = [
   { route: '/protect-pdf', fileOnly: true, steps: [['upload', '#protect-file', 'scripts/fixtures/pdf-short.pdf'], ['wait', 800], ['#protect-password', 'Tiger-Moon-42'], ['#protect-confirm', 'Tiger-Moon-42'], ['click', 'Protect PDF'], ['wait', 1000]], expected: [] },
   { route: '/unlock-pdf', fileOnly: true, steps: [['upload', '#unlock-file', 'scripts/fixtures/pdf-locked.pdf'], ['wait', 800], ['#unlock-password', 'open123'], ['click', 'Unlock PDF'], ['wait', 1000]], expected: [] },
   { route: '/compress-pdf', fileOnly: true, steps: [['upload', '#compress-file', 'scripts/fixtures/pdf-photo.pdf'], ['wait', 800], ['click', 'Compress PDF'], ['wait', 3000]], expected: [] },
+  { route: '/word-to-pdf', fileOnly: true, steps: [['upload', '#word-file', 'scripts/fixtures/word-sample.docx'], ['wait', 500], ['click', 'Convert to PDF'], ['wait', 4000]], expected: [] },
+  { route: '/pdf-to-word', fileOnly: true, steps: [['upload', '#word-pdf-file', 'scripts/fixtures/pdf-sample.pdf'], ['wait', 800], ['click', 'Convert to Word'], ['wait', 3000]], expected: [] },
 ];
 
 const failures = [];

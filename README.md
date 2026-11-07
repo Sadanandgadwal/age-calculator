@@ -15,6 +15,8 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | CM to Feet Converter | `/cm-to-feet-converter` |
 | Date Calculator | `/date-calculator` |
 | GST Calculator | `/gst-calculator` |
+| PDF to Word | `/pdf-to-word` |
+| Word to PDF | `/word-to-pdf` |
 | Compress PDF | `/compress-pdf` |
 | Unlock PDF | `/unlock-pdf` |
 | Protect PDF | `/protect-pdf` |

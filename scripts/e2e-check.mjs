@@ -2266,6 +2266,58 @@ const DATE_TIME_CHECKS = [
         },
       }),
   },
+{
+    name: 'wordtopdf',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Word to PDF',
+        path: '/word-to-pdf',
+        screenshot: 'word-to-pdf',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          const sent = [];
+          page.on('request', (request) => request.method() !== 'GET' && sent.push(request.url()));
+          await uploadFile(page, '#word-file', 'word-sample.docx', 500);
+          await clickButton(page, 'Convert to PDF');
+          await factsInclude(page, 'Tables', 30000);
+          const pdf = await capturePdf(page, 'Download PDF');
+          const text = pdf.pageTexts.join('\n');
+          check(`${label}: keeps the text, lists and table`, ['Quarterly Report', 'twelve percent', 'New stores opened', 'Plan the launch', 'North', '1200', 'The end of the sample document.'].every((item) => text.includes(item)), text);
+          check(`${label}: names the file after the document`, pdf.filename === 'word-sample-converted.pdf' && pdf.pages === 1, `${pdf.filename} ${pdf.pages}`);
+          const images = execFileSync('pdfimages', ['-list', `${OUTPUT_DIR}/download-check.pdf`], { encoding: 'utf8' });
+          check(`${label}: keeps the picture`, /\s400\s+300\s/.test(images), images);
+          check(`${label}: says what is not kept`, await hasText(page, 'Page layout, headers, footers'));
+          check(`${label}: sends nothing anywhere`, sent.length === 0, sent.join(','));
+        },
+      }),
+  },
+{
+    name: 'pdftoword',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'PDF to Word',
+        path: '/pdf-to-word',
+        screenshot: 'pdf-to-word',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          const sent = [];
+          page.on('request', (request) => request.method() !== 'GET' && sent.push(request.url()));
+          await uploadFile(page, '#word-pdf-file', 'pdf-scan.pdf', 800);
+          await clickButton(page, 'Convert to Word');
+          check(`${label}: spots a scanned PDF`, await page.waitForFunction(() => document.body.innerText.includes('has no text that can be copied'), { timeout: 15000 }).then(() => true, () => false));
+          await uploadFile(page, '#word-pdf-file', 'pdf-sample.pdf', 800);
+          await clickButton(page, 'Convert to Word');
+          await factsInclude(page, 'Paragraphs', 20000);
+          const doc = await captureDownload(page, 'Download Word file', true);
+          writeFileSync(`${OUTPUT_DIR}/download-check.docx`, Buffer.from(doc.base64, 'base64'));
+          const xml = execFileSync('unzip', ['-p', `${OUTPUT_DIR}/download-check.docx`, 'word/document.xml'], { encoding: 'utf8' });
+          check(`${label}: saves a Word file`, doc.filename === 'pdf-sample-converted.docx' && doc.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', `${doc.filename} ${doc.type}`);
+          check(`${label}: keeps the text of every page`, [1, 2, 3, 4, 5, 6].every((number) => xml.includes(`Page ${number}`)) && xml.includes('ToolNest test document'));
+          check(`${label}: starts each PDF page on a new page`, (xml.match(/<w:pageBreakBefore/g) ?? []).length === 5, String((xml.match(/<w:pageBreakBefore/g) ?? []).length));
+          check(`${label}: sends nothing anywhere`, sent.length === 0, sent.join(','));
+        },
+      }),
+  },
 ];
 
 async function checkPlatform(browser, siteUrl) {
