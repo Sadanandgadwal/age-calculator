@@ -106,6 +106,8 @@ const DOWNLOAD_ONLY_TOOLS = [
   'pdf-to-word',
   'protect-pdf',
   'unlock-pdf',
+  'image-converter',
+  'audio-converter',
 ];
 
 describe('every tool', () => {
@@ -127,7 +129,7 @@ describe('every tool', () => {
       expect(/<ImageResult\b|<DownloadButton\b/.test(code)).toBe(true);
       return;
     }
-    expect(/<ResultActions\b|<UnitConverter\b/.test(code)).toBe(true);
+    expect(/<ResultActions\b|<UnitConverter\b|<BasePairConverter\b|<SizeChartConverter\b/.test(code)).toBe(true);
     expect(code.match(/<ResultActions\b[^\n]*/g)?.every((line) => line.includes('getReport=') || line.includes('copyOnly')) ?? true).toBe(true);
   });
 });

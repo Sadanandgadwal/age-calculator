@@ -15,6 +15,38 @@ Built with React, React Router, Vite, JavaScript, Tailwind CSS and Lucide icons.
 | CM to Feet Converter | `/cm-to-feet-converter` |
 | Date Calculator | `/date-calculator` |
 | GST Calculator | `/gst-calculator` |
+| Audio Converter | `/audio-converter` |
+| Image Converter | `/image-converter` |
+| Currency Converter | `/currency-converter` |
+| Clothing Size Converter | `/clothing-size-converter` |
+| Shoe Size Converter | `/shoe-size-converter` |
+| Cooking Converter | `/cooking-converter` |
+| Color Code Converter | `/color-code-converter` |
+| Paper Size Converter | `/paper-size-converter` |
+| Roman Numeral Converter | `/roman-numeral-converter` |
+| Decimal to Hex Converter | `/decimal-to-hex-converter` |
+| Binary to Decimal Converter | `/binary-to-decimal-converter` |
+| Number Base Converter | `/number-base-converter` |
+| Salary Calculator | `/salary-calculator` |
+| Inflation Calculator | `/inflation-calculator` |
+| SIP Calculator | `/sip-calculator` |
+| Investment Return Calculator | `/investment-return-calculator` |
+| Retirement Calculator | `/retirement-calculator` |
+| Savings Goal Calculator | `/savings-goal-calculator` |
+| Simple Interest Calculator | `/simple-interest-calculator` |
+| Compound Interest Calculator | `/compound-interest-calculator` |
+| Loan Payoff Calculator | `/loan-payoff-calculator` |
+| Sales Tax Calculator | `/sales-tax-calculator` |
+| Tip Calculator | `/tip-calculator` |
+| Markup Calculator | `/markup-calculator` |
+| Profit and Loss Calculator | `/profit-loss-calculator` |
+| Grade Calculator | `/grade-calculator` |
+| CGPA to Percentage Calculator | `/cgpa-to-percentage-calculator` |
+| GPA Calculator | `/gpa-calculator` |
+| Fraction Calculator | `/fraction-calculator` |
+| Ratio Calculator | `/ratio-calculator` |
+| Average Calculator | `/average-calculator` |
+| Scientific Calculator | `/scientific-calculator` |
 | PDF to Word | `/pdf-to-word` |
 | Word to PDF | `/word-to-pdf` |
 | Compress PDF | `/compress-pdf` |

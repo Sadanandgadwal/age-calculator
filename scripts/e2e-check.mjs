@@ -44,7 +44,7 @@ const setDate = (page, selector, value) =>
   page.$eval(
     selector,
     (element, nextValue) => {
-      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      const setter = Object.getOwnPropertyDescriptor(element.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype, 'value').set;
       setter.call(element, nextValue);
       element.dispatchEvent(new Event('input', { bubbles: true }));
     },
@@ -205,7 +205,7 @@ async function checkSeo(browser, baseUrl) {
       .filter((schema) => ['WebApplication', 'WebSite'].includes(schema['@type']))
       .every((schema) => schema.author?.name === 'Sadanand Gadwal' && schema.author?.url === authorUrl),
   );
-  check('author is not displayed on the page', !(await page.evaluate(() => /sadanand/i.test(document.body.innerText))));
+  check('author is not displayed on the page', !(await page.evaluate(() => /sadanand/i.test(document.body.innerText.replace(/\S+@\S+/g, '')))));
 
   const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
   const pageText = await page.evaluate(() => document.body.textContent.replace(/\s+/g, ' '));
@@ -276,7 +276,7 @@ async function checkRoutes(browser, siteUrl) {
         h1: [...document.querySelectorAll('h1')].map((heading) => heading.textContent),
         title: document.title,
         overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
-        author: /sadanand/i.test(document.body.innerText),
+        author: /sadanand/i.test(document.body.innerText.replace(/\S+@\S+/g, '')),
       }));
       const label = `${path} at ${viewport.width}px`;
       const wanted = expectedH1.get(path);
@@ -2314,6 +2314,545 @@ const DATE_TIME_CHECKS = [
           check(`${label}: saves a Word file`, doc.filename === 'pdf-sample-converted.docx' && doc.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', `${doc.filename} ${doc.type}`);
           check(`${label}: keeps the text of every page`, [1, 2, 3, 4, 5, 6].every((number) => xml.includes(`Page ${number}`)) && xml.includes('ToolNest test document'));
           check(`${label}: starts each PDF page on a new page`, (xml.match(/<w:pageBreakBefore/g) ?? []).length === 5, String((xml.match(/<w:pageBreakBefore/g) ?? []).length));
+          check(`${label}: sends nothing anywhere`, sent.length === 0, sent.join(','));
+        },
+      }),
+  },
+{
+    name: 'scientific',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Scientific Calculator',
+        path: '/scientific-calculator',
+        screenshot: 'scientific',
+        requiredError: 'Please enter a calculation.',
+        flows: [
+          { inputs: { '#sci-expression': '12345×2' }, answer: '24690' },
+          { inputs: { '#sci-expression': 'sqrt(2)' }, answer: '1.41421356237' },
+          { inputs: { '#sci-expression': '7!+sin(30)' }, answer: '5040.5' },
+          { mode: 'Radians', inputs: { '#sci-expression': 'asin(1)' }, answer: '1.57079632679' },
+        ],
+      }),
+  },
+{
+    name: 'average',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Average Calculator',
+        path: '/average-calculator',
+        screenshot: 'average',
+        requiredError: 'Please enter some numbers.',
+        flows: [
+          { inputs: { '#average-numbers': '3, 7, 7, 2, 9' }, answer: '7 (2 times)' },
+          { inputs: { '#average-numbers': '1234 4321' }, answer: '2,777.5' },
+          { mode: 'Weighted average', inputs: { '#average-numbers': '80 60', '#average-weights': '3 1' }, answer: 'Weighted average' },
+        ],
+      }),
+  },
+{
+    name: 'ratio',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Ratio Calculator',
+        path: '/ratio-calculator',
+        screenshot: 'ratio',
+        requiredError: 'Please enter the first number.',
+        flows: [
+          { inputs: { '#ratio-a': '1.5', '#ratio-b': '2.25' }, answer: '2 : 3' },
+          { mode: 'Find the missing value', inputs: { '#ratio-a': '4', '#ratio-b': '7', '#ratio-c': '12' }, answer: '4 : 7 = 12 : 21' },
+          { mode: 'Share a total', inputs: { '#ratio-c': '1000', '#ratio-a': '2', '#ratio-b': '3' }, answer: '40% : 60%' },
+        ],
+      }),
+  },
+{
+    name: 'fraction',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Fraction Calculator',
+        path: '/fraction-calculator',
+        screenshot: 'fraction',
+        requiredError: 'Please enter the first fraction.',
+        flows: [
+          { inputs: { '#fraction-a': '2 1/3', '#fraction-b': '3/5' }, answer: '2 14/15' },
+          { mode: 'Simplify', inputs: { '#fraction-a': '84/126' }, answer: '84/126 ÷ 42 = 2/3' },
+          { mode: 'Decimal to fraction', inputs: { '#fraction-a': '0.0625' }, answer: '1/16' },
+        ],
+      }),
+  },
+{
+    name: 'gpa',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'GPA Calculator',
+        path: '/gpa-calculator',
+        screenshot: 'gpa',
+        requiredError: 'Please add at least one course with a grade and credits.',
+        flows: [
+          { selects: { '#gpa-1-grade': 'A', '#gpa-2-grade': 'B+' }, inputs: { '#gpa-1-credits': '4', '#gpa-2-credits': '3' }, answer: '3.70' },
+          { inputs: { '#gpa-previous': '3.5', '#gpa-previous-credits': '30' }, answer: '3.54' },
+        ],
+      }),
+  },
+{
+    name: 'cgpa',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'CGPA to Percentage Calculator',
+        path: '/cgpa-to-percentage-calculator',
+        screenshot: 'cgpa',
+        requiredError: 'Please enter your CGPA.',
+        flows: [
+          { inputs: { '#cgpa-value': '8.6' }, answer: '81.7%' },
+          { selects: { '#cgpa-formula': 'aicte' }, inputs: { '#cgpa-value': '7.8' }, answer: '73%' },
+          { selects: { '#cgpa-formula': 'custom' }, inputs: { '#cgpa-value': '8', '#cgpa-multiplier': '9.3' }, answer: '74.4%' },
+        ],
+      }),
+  },
+{
+    name: 'grade',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Grade Calculator',
+        path: '/grade-calculator',
+        screenshot: 'grade',
+        requiredError: 'Please enter at least one score and its weight.',
+        flows: [
+          { inputs: { '#assessment-1-score': '90', '#assessment-1-weight': '50', '#assessment-2-score': '80', '#assessment-2-weight': '50' }, answer: '85%' },
+          { inputs: { '#assessment-1-score': '80', '#assessment-1-weight': '20', '#assessment-2-score': '70', '#assessment-2-weight': '30', '#grade-target': '75' }, answer: 'You need 76% on the remaining 50%' },
+        ],
+      }),
+  },
+{
+    name: 'profitloss',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Profit and Loss Calculator',
+        path: '/profit-loss-calculator',
+        screenshot: 'profit-loss',
+        requiredError: 'Please enter the cost price.',
+        flows: [
+          { inputs: { '#profit-a': '800', '#profit-b': '1000' }, answer: '₹200.00' },
+          { inputs: { '#profit-a': '1250', '#profit-b': '1000' }, answer: 'Loss %' },
+          { mode: 'Find selling price', inputs: { '#profit-a': '640', '#profit-b': '-12.5' }, answer: '₹560.00' },
+          { mode: 'Find cost price', inputs: { '#profit-a': '1150', '#profit-b': '15' }, answer: '₹1,000.00' },
+        ],
+      }),
+  },
+{
+    name: 'markup',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Markup Calculator',
+        path: '/markup-calculator',
+        screenshot: 'markup',
+        requiredError: 'Please enter the cost.',
+        flows: [
+          { inputs: { '#markup-a': '400', '#markup-b': '50' }, answer: '₹600.00' },
+          { mode: 'Price from margin', inputs: { '#markup-a': '600', '#markup-b': '40' }, answer: '66.67%' },
+          { mode: 'Find the markup', inputs: { '#markup-a': '250', '#markup-b': '400' }, answer: '37.5%' },
+        ],
+      }),
+  },
+{
+    name: 'tip',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Tip Calculator',
+        path: '/tip-calculator',
+        screenshot: 'tip',
+        requiredError: 'Please enter the bill amount.',
+        flows: [
+          { inputs: { '#tip-bill': '1000' }, answer: '₹1,100.00' },
+          { inputs: { '#tip-bill': '2400', '#tip-percent': '15', '#tip-people': '4' }, answer: '₹690.00' },
+        ],
+      }),
+  },
+{
+    name: 'salestax',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Sales Tax Calculator',
+        path: '/sales-tax-calculator',
+        screenshot: 'sales-tax',
+        requiredError: 'Please enter the price.',
+        flows: [
+          { inputs: { '#tax-amount': '250', '#tax-rate': '8' }, answer: '₹270.00' },
+          { mode: 'Remove tax', inputs: { '#tax-amount': '1120', '#tax-rate': '12' }, answer: '₹1,000.00' },
+        ],
+      }),
+  },
+{
+    name: 'loanpayoff',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Loan Payoff Calculator',
+        path: '/loan-payoff-calculator',
+        screenshot: 'loan-payoff',
+        requiredError: 'Please enter the loan balance.',
+        flows: [
+          { inputs: { '#payoff-balance': '1000000', '#payoff-rate': '8.5', '#payoff-tenure': '20', '#payoff-extra': '5000' }, answer: '₹6,69,067.37' },
+          { inputs: { '#payoff-balance': '9999999999999', '#payoff-rate': '12', '#payoff-tenure': '50', '#payoff-extra': '0' }, answer: 'Yearly schedule with extra payments' },
+        ],
+      }),
+  },
+{
+    name: 'compound',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Compound Interest Calculator',
+        path: '/compound-interest-calculator',
+        screenshot: 'compound-interest',
+        requiredError: 'Please enter the starting amount.',
+        flows: [
+          { inputs: { '#ci-principal': '100000', '#ci-rate': '8', '#ci-years': '5' }, answer: '₹1,48,594.74' },
+          { selects: { '#ci-frequency': '12' }, inputs: { '#ci-principal': '0', '#ci-rate': '12', '#ci-years': '10', '#ci-deposit': '5000' }, answer: '₹11,50,193.45' },
+          { inputs: { '#ci-principal': '1000000000', '#ci-rate': '50', '#ci-years': '100', '#ci-deposit': '' }, answer: 'The result is too large to show.' },
+          { inputs: { '#ci-principal': '1000', '#ci-rate': '7', '#ci-years': '100', '#ci-deposit': '' }, answer: 'Yearly growth' },
+        ],
+      }),
+  },
+{
+    name: 'simpleinterest',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Simple Interest Calculator',
+        path: '/simple-interest-calculator',
+        screenshot: 'simple-interest',
+        requiredError: 'Please enter the principal.',
+        flows: [
+          { inputs: { '#si-principal': '50000', '#si-rate': '8', '#si-time': '3' }, answer: '₹62,000.00' },
+          { mode: 'Find principal', inputs: { '#si-interest': '4500', '#si-rate': '6', '#si-time': '2.5' }, answer: '₹30,000.00' },
+          { mode: 'Find time', inputs: { '#si-principal': '50000', '#si-interest': '5000', '#si-rate': '8' }, answer: '1.25 years (about 15 months)' },
+        ],
+      }),
+  },
+{
+    name: 'savings',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Savings Goal Calculator',
+        path: '/savings-goal-calculator',
+        screenshot: 'savings-goal',
+        requiredError: 'Please enter the goal amount.',
+        flows: [
+          { inputs: { '#savings-goal': '1000000', '#savings-rate': '8', '#savings-years': '5' }, answer: '₹13,609.73' },
+          { mode: 'Time to reach a goal', inputs: { '#savings-goal': '500000', '#savings-current': '50000', '#savings-rate': '7', '#savings-monthly': '10000' }, answer: '3 years 4 months' },
+        ],
+      }),
+  },
+{
+    name: 'retirement',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Retirement Calculator',
+        path: '/retirement-calculator',
+        screenshot: 'retirement',
+        requiredError: 'Please enter your current age.',
+        flows: [
+          { inputs: { '#retire-age': '30', '#retire-expenses': '50000', '#retire-preReturn': '12', '#retire-savings': '500000' }, answer: '₹7,48,85,443.07' },
+          { inputs: { '#retire-age': '50', '#retire-retireAge': '55', '#retire-lifeAge': '60', '#retire-expenses': '1000', '#retire-savings': '10000000' }, answer: 'you do not need to save more' },
+        ],
+      }),
+  },
+{
+    name: 'investmentreturn',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Investment Return Calculator',
+        path: '/investment-return-calculator',
+        screenshot: 'investment-return',
+        requiredError: 'Please enter the amount invested.',
+        flows: [
+          { inputs: { '#return-invested': '100000', '#return-current': '200000', '#return-years': '5' }, answer: '14.87%' },
+          { inputs: { '#return-invested': '50000', '#return-current': '40000', '#return-years': '2' }, answer: '-10.56%' },
+        ],
+      }),
+  },
+{
+    name: 'sip',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'SIP Calculator',
+        path: '/sip-calculator',
+        screenshot: 'sip',
+        requiredError: 'Please enter the monthly investment.',
+        flows: [
+          { inputs: { '#sip-monthly': '5000', '#sip-years': '10' }, answer: '₹11,61,695.38' },
+          { inputs: { '#sip-monthly': '5000', '#sip-years': '10', '#sip-step': '10' }, answer: '₹9,56,245.80' },
+        ],
+      }),
+  },
+{
+    name: 'inflation',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Inflation Calculator',
+        path: '/inflation-calculator',
+        screenshot: 'inflation',
+        requiredError: 'Please enter the amount.',
+        flows: [
+          { inputs: { '#inflation-amount': '100000', '#inflation-years': '10' }, answer: '₹1,79,084.77' },
+          { mode: 'Value of past money', inputs: { '#inflation-amount': '1000', '#inflation-rate': '7', '#inflation-years': '20' }, answer: '₹3,869.68' },
+        ],
+      }),
+  },
+{
+    name: 'salary',
+    run: (browser, siteUrl) =>
+      checkFlows(browser, siteUrl, {
+        title: 'Salary Calculator',
+        path: '/salary-calculator',
+        screenshot: 'salary',
+        requiredError: 'Please enter your pay.',
+        flows: [
+          { inputs: { '#salary-amount': '50000' }, answer: '₹6,00,000.00' },
+          { inputs: { '#salary-amount': '50000', '#salary-raise': '10' }, answer: 'After 10% raise' },
+        ],
+      }),
+  },
+{
+    name: 'numberbase',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Number Base Converter',
+        path: '/number-base-converter',
+        screenshot: 'number-base',
+        steps: async (page, label) => {
+          await setText(page, '#base-value', '255');
+          check(`${label}: decimal to binary`, await page.evaluate(() => document.body.innerText.includes('11111111')));
+          await page.select('#base-from', '36');
+          await page.select('#base-to', '10');
+          await setText(page, '#base-value', 'zz');
+          check(`${label}: base 36 to decimal`, await page.evaluate(() => document.body.innerText.includes('1295')));
+          await setText(page, '#base-value', '1'.repeat(200));
+          check(`${label}: long numbers do not overflow`, await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth));
+        },
+      }),
+  },
+{
+    name: 'binarydecimal',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Binary to Decimal Converter',
+        path: '/binary-to-decimal-converter',
+        screenshot: 'binary-to-decimal',
+        steps: async (page, label) => {
+          await setText(page, '#binary-value', '1011');
+          check(`${label}: shows the working`, await hasText(page, '1 × 2³ + 0 × 2² + 1 × 2¹ + 1 × 2⁰ = 8 + 0 + 2 + 1 = 11'));
+          await clickButton(page, 'Decimal to binary');
+          await settle();
+          await setText(page, '#binary-value', '25');
+          check(`${label}: decimal to binary`, await hasText(page, 'Read the remainders from bottom to top: 11001'));
+        },
+      }),
+  },
+{
+    name: 'decimalhex',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Decimal to Hex Converter',
+        path: '/decimal-to-hex-converter',
+        screenshot: 'decimal-to-hex',
+        steps: async (page, label) => {
+          await setText(page, '#hex-value', '48879');
+          check(`${label}: decimal to hex`, await hasText(page, 'Read the remainders from bottom to top: BEEF'));
+          await clickButton(page, 'Hex to decimal');
+          await settle();
+          await setText(page, '#hex-value', '0x1A');
+          check(`${label}: hex to decimal`, await hasText(page, '1 × 16¹ + 10 × 16⁰ = 16 + 10 = 26'));
+        },
+      }),
+  },
+{
+    name: 'roman',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Roman Numeral Converter',
+        path: '/roman-numeral-converter',
+        screenshot: 'roman',
+        steps: async (page, label) => {
+          await setText(page, '#roman-value', '3999');
+          check(`${label}: number to numeral`, await hasText(page, 'MMMCMXCIX'));
+          await setText(page, '#roman-value', 'IIII');
+          check(`${label}: points out a bad numeral`, await hasText(page, 'Did you mean IV (4)?'));
+          await setText(page, '#roman-value', 'mcmxciv');
+          check(`${label}: numeral to number`, await hasText(page, '1,994'));
+        },
+      }),
+  },
+{
+    name: 'paper',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Paper Size Converter',
+        path: '/paper-size-converter',
+        screenshot: 'paper-size',
+        steps: async (page, label) => {
+          check(`${label}: starts with A4`, await hasText(page, '2,480 × 3,508 px'));
+          await page.select('#paper-size', 'letter');
+          await clickButton(page, 'Landscape');
+          await clickButton(page, '96 DPI');
+          await settle();
+          check(`${label}: letter landscape at 96 DPI`, await hasText(page, '1,056 × 816 px'));
+        },
+      }),
+  },
+{
+    name: 'colorcode',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Color Code Converter',
+        path: '/color-code-converter',
+        screenshot: 'color-code',
+        steps: async (page, label) => {
+          await setText(page, '#color-value', 'hsl(0, 100%, 50%)');
+          check(`${label}: HSL to HEX`, await hasText(page, '#FF0000'));
+          await setText(page, '#color-value', '#1A73E8');
+          check(`${label}: HEX to CMYK`, await hasText(page, 'cmyk(89%, 50%, 0%, 9%)'));
+          check(`${label}: checks contrast`, await hasText(page, '4.51 : 1, passes AA'));
+        },
+      }),
+  },
+{
+    name: 'cooking',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Cooking Converter',
+        path: '/cooking-converter',
+        screenshot: 'cooking',
+        steps: async (page, label) => {
+          await setText(page, '#cook-value', '1');
+          check(`${label}: cup of flour to grams`, await hasText(page, '1 cup of all-purpose flour (maida) = 125.39 g'));
+          await page.select('#cook-ingredient', 'honey');
+          await settle();
+          check(`${label}: ingredient changes the weight`, await hasText(page, '1 cup of honey = 335.96 g'));
+        },
+      }),
+  },
+{
+    name: 'shoesize',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Shoe Size Converter',
+        path: '/shoe-size-converter',
+        screenshot: 'shoe-size',
+        steps: async (page, label) => {
+          check(`${label}: starts with men’s UK 8`, await hasText(page, 'Men’s shoes: UK 8 = US 8.5, EU 42'));
+          await clickButton(page, 'Women’s shoes');
+          await settle();
+          await page.select('#shoe-system', '2');
+          await settle();
+          await page.select('#shoe-size', '40');
+          await settle();
+          check(`${label}: women’s EU 40`, await hasText(page, 'Women’s shoes: EU 40 = UK 7, US 9'));
+        },
+      }),
+  },
+{
+    name: 'clothingsize',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Clothing Size Converter',
+        path: '/clothing-size-converter',
+        screenshot: 'clothing-size',
+        steps: async (page, label) => {
+          check(`${label}: starts with men’s M`, await hasText(page, 'Letter M = India 40, US 38, UK 38, EU 48'));
+          await clickButton(page, 'Women’s tops and dresses');
+          await settle();
+          await page.select('#clothing-system', '4');
+          await settle();
+          await page.select('#clothing-size', '40');
+          await settle();
+          check(`${label}: women’s EU 40`, await hasText(page, 'EU 40 = Letter L, India 12, US 8, UK 12'));
+        },
+      }),
+  },
+{
+    name: 'currency',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Currency Converter',
+        path: '/currency-converter',
+        screenshot: 'currency',
+        steps: async (page, label) => {
+          const asked = [];
+          let failNext = true;
+          await page.setRequestInterception(true);
+          page.on('request', (request) => {
+            if (!request.url().startsWith('https://api.frankfurter.dev/')) return request.continue();
+            asked.push(request.url());
+            if (failNext) {
+              failNext = false;
+              return request.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: '{}' });
+            }
+            return request.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify([{ date: '2026-11-06', base: 'INR', quote: 'USD', rate: 0.0125 }]) });
+          });
+          check(`${label}: no request before an amount`, asked.length === 0);
+          await setText(page, '#currency-amount', '1000');
+          check(`${label}: explains a failed load`, await page.waitForFunction(() => document.body.innerText.includes('could not be loaded'), { timeout: 5000 }).then(() => true, () => false));
+          await clickButton(page, 'Try again');
+          check(`${label}: converts at the loaded rate`, await page.waitForFunction(() => document.body.innerText.includes('INR 1,000.00 = USD 12.50'), { timeout: 5000 }).then(() => true, () => false));
+          check(`${label}: only sends the currency codes`, asked.every((url) => url === 'https://api.frankfurter.dev/v2/rates?base=INR&quotes=USD'), asked.join(','));
+        },
+      }),
+  },
+{
+    name: 'imageconverter',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Image Converter',
+        path: '/image-converter',
+        screenshot: 'image-converter',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          const sent = [];
+          page.on('request', (request) => request.method() !== 'GET' && sent.push(request.url()));
+          const input = await page.$('#convert-files');
+          await input.uploadFile(fixturePath('image-sample.png'), fixturePath('image-photo.jpg'));
+          await page.waitForSelector('ol[aria-label="Images to convert"]');
+          await clickButton(page, 'JPEG');
+          await clickButton(page, 'Convert images');
+          await page.waitForSelector('ul[aria-label="Converted images"]', { timeout: 20000 });
+          const first = await captureDownload(page, 'Download image-sample-converted.jpg');
+          check(`${label}: PNG becomes JPEG at full size`, first.type === 'image/jpeg' && first.width === 400 && first.height === 300 && first.filename === 'image-sample-converted.jpg', JSON.stringify(first));
+          check(`${label}: warns about transparency`, await hasText(page, 'transparent areas are filled with white'));
+          const zipLabel = await page.evaluate(() => [...document.querySelectorAll('button')].find((button) => button.textContent.trim().startsWith('Download all as ZIP')).textContent.trim());
+          const zip = await captureDownload(page, zipLabel, true);
+          writeFileSync(`${OUTPUT_DIR}/download-check.zip`, Buffer.from(zip.base64, 'base64'));
+          const listing = execFileSync('unzip', ['-l', `${OUTPUT_DIR}/download-check.zip`], { encoding: 'utf8' });
+          check(`${label}: ZIP holds both images`, /image-sample-converted\.jpg/.test(listing) && /image-photo-converted\.jpg/.test(listing), listing);
+          await clickButton(page, 'WebP');
+          await clickButton(page, 'Convert images');
+          await page.waitForFunction(() => [...document.querySelectorAll('button')].some((button) => button.textContent.includes('image-sample-converted.webp')), { timeout: 20000 });
+          const webp = await captureDownload(page, 'Download image-sample-converted.webp');
+          check(`${label}: PNG becomes WebP`, webp.type === 'image/webp' && webp.width === 400, JSON.stringify(webp));
+          check(`${label}: sends nothing anywhere`, sent.length === 0, sent.join(','));
+        },
+      }),
+  },
+{
+    name: 'audioconverter',
+    run: (browser, siteUrl) =>
+      checkLiveTool(browser, siteUrl, {
+        title: 'Audio Converter',
+        path: '/audio-converter',
+        screenshot: 'audio-converter',
+        actions: ['Download'],
+        steps: async (page, label) => {
+          const sent = [];
+          page.on('request', (request) => request.method() !== 'GET' && sent.push(request.url()));
+          await uploadFile(page, '#audio-file', 'audio-sample.wav', 1500);
+          check(`${label}: reads the audio`, await hasText(page, '1 s, 2 channels, 48,000 Hz'));
+          await clickButton(page, '16 kHz');
+          await clickButton(page, 'Mono');
+          await setText(page, '#audio-start', '0.25');
+          await setText(page, '#audio-end', '0.75');
+          await clickButton(page, 'Convert to WAV');
+          await factsInclude(page, 'Sample rate', 10000);
+          const wav = await captureDownload(page, 'Download WAV', true);
+          const bytes = Buffer.from(wav.base64, 'base64');
+          const ok = bytes.toString('ascii', 0, 4) === 'RIFF' && bytes.readUInt16LE(22) === 1 && bytes.readUInt32LE(24) === 16000 && bytes.readUInt32LE(40) === 16000;
+          check(`${label}: saves half a second of 16 kHz mono WAV`, ok && wav.filename === 'audio-sample-converted.wav', `${wav.filename} ${bytes.readUInt16LE(22)} ${bytes.readUInt32LE(24)} ${bytes.readUInt32LE(40)}`);
           check(`${label}: sends nothing anywhere`, sent.length === 0, sent.join(','));
         },
       }),
