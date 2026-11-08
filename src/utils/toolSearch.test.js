@@ -88,6 +88,13 @@ describe('tool listings', () => {
     expect(ids(getRelatedTools([main, ...others], main))).toEqual(['Same main', 'Shares second', 'Unrelated']);
   });
 
+  it('suggests the next tools and the previous one in the same category, so every tool is suggested somewhere', () => {
+    const list = ['A', 'B', 'C', 'D', 'E'].map((id) => tool(id));
+    expect(ids(getRelatedTools(list, list[3]))).toEqual(['E', 'A', 'C']);
+    const suggested = new Set(list.flatMap((item) => ids(getRelatedTools(list, item, 1))));
+    expect(suggested.size).toBe(list.length);
+  });
+
   it('lists featured tools', () => {
     expect(ids(getFeaturedTools(TOOLS))).toEqual(['Age Calculator']);
   });

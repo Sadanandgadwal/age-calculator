@@ -3,6 +3,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import Page from './Page.jsx';
+import { TOOLS, getToolById } from '../../data/toolsRegistry.js';
+import { getRelatedTools } from '../../utils/toolSearch.js';
 
 function setup() {
   const user = userEvent.setup();
@@ -60,7 +62,10 @@ describe('Pressure Converter', () => {
     for (const name of ['How it works', 'Formulas', 'Examples', 'Frequently asked questions', 'Related tools']) {
       expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument();
     }
-    expect(screen.getByRole('link', { name: 'Open Tool: KG to Gram Converter' })).toBeInTheDocument();
+    for (const { name, categories } of getRelatedTools(TOOLS, getToolById('pressure-converter'))) {
+      expect(categories).toContain('converters');
+      expect(screen.getByRole('link', { name: `Open Tool: ${name}` })).toBeInTheDocument();
+    }
     expect(screen.queryByRole('link', { name: 'Open Tool: Age Calculator' })).not.toBeInTheDocument();
   });
 });

@@ -9,7 +9,7 @@ export const CATEGORIES = [
     icon: Calculator,
     description: 'Work out ages, marks, percentages and more in seconds.',
     seo: {
-      title: 'Free Online Calculators – Quick Everyday Calculations | ToolNest',
+      title: 'Free Online Calculators – Everyday Calculations | ToolNest',
       description:
         'Free online calculators for everyday needs. Get accurate answers instantly in your browser, with no sign-up required.',
     },

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { getHeadTags, headTagsToHtml } from './headTags.js';
-import { absoluteUrl, getAllPaths, getPageMeta, normalizePath } from './pageMeta.js';
+import { absoluteUrl, getAllPaths, getLastModified, getPageMeta, normalizePath } from './pageMeta.js';
 import { CATEGORIES, getCategory } from '../data/toolCategories.js';
-import { TOOLS } from '../data/toolsRegistry.js';
+import { TOOLS, getToolByRoute } from '../data/toolsRegistry.js';
 
 describe('tool registry', () => {
   it('gives every tool unique identifiers and the required fields', () => {
@@ -134,5 +134,16 @@ describe('head tags', () => {
   it('escapes special characters', () => {
     const html = headTagsToHtml(getHeadTags({ ...getPageMeta('/about'), title: 'A & B "C" <D>' }));
     expect(html).toContain('A &amp; B &quot;C&quot; &lt;D&gt;');
+  });
+});
+
+describe('getLastModified', () => {
+  it('dates tools by when they were added and hubs by their newest tool', () => {
+    const newest = TOOLS.map(({ addedOn }) => addedOn).sort().at(-1);
+    expect(getLastModified('/age-calculator')).toBe(getToolByRoute('/age-calculator').addedOn);
+    expect(getLastModified('/')).toBe(newest);
+    expect(getLastModified('/all-tools')).toBe(newest);
+    expect(getLastModified('/converters')).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(getLastModified('/about')).toBeNull();
   });
 });

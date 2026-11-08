@@ -225,7 +225,7 @@ async function checkSeo(browser, baseUrl) {
 async function checkRoutes(browser, siteUrl) {
   console.log('\nRoutes');
   const sitemap = await (await fetch(new URL('/sitemap.xml', siteUrl))).text();
-  const sitemapPaths = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => new URL(match[1]).pathname);
+  const sitemapPaths = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => new URL(match[1]).pathname).filter((path) => !path.endsWith('.html'));
   const routes = [...new Set([...STATIC_ROUTES.map(({ path }) => path), ...sitemapPaths])];
   const expectedH1 = new Map(STATIC_ROUTES.map(({ path, h1 }) => [path, h1]));
 

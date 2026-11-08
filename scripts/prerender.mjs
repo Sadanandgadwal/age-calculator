@@ -19,7 +19,7 @@ const HEAD_MARKER = '<!--page-head-->';
 const TITLE_PATTERN = /<title>.*?<\/title>/;
 const NOT_FOUND_PATH = '/__not-found__';
 
-const { absoluteUrl, getAllPaths, renderPage } = await import(
+const { absoluteUrl, buildLlmsText, getAllPaths, getLastModified, renderPage } = await import(
   pathToFileURL(resolve(SSR_DIR, 'entry-server.js')).href
 );
 
@@ -47,18 +47,19 @@ async function buildPage(path, outputFile) {
   return page;
 }
 
-const today = new Date().toISOString().slice(0, 10);
 const sitemapEntries = [];
 
 for (const path of getAllPaths()) {
   const output = path === '/' ? 'index.html' : `${path.slice(1)}/index.html`;
   const { indexable } = await buildPage(path, output);
   if (indexable) {
-    sitemapEntries.push(`  <url>\n    <loc>${absoluteUrl(path)}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`);
+    const lastmod = getLastModified(path);
+    sitemapEntries.push(`  <url>\n    <loc>${absoluteUrl(path)}</loc>\n${lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : ''}  </url>`);
   }
 }
 
 await buildPage(NOT_FOUND_PATH, '404.html');
+sitemapEntries.push(`  <url>\n    <loc>${absoluteUrl('/privacy.html')}</loc>\n  </url>`);
 
 const privacyFile = resolve(DIST, 'privacy.html');
 writeFileSync(
@@ -70,6 +71,7 @@ writeFileSync(
   resolve(DIST, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries.join('\n')}\n</urlset>\n`,
 );
+writeFileSync(resolve(DIST, 'llms.txt'), buildLlmsText());
 rmSync(SSR_DIR, { recursive: true, force: true });
 
 console.log(`Prerendered ${getAllPaths().length} pages and 404.html (${sitemapEntries.length} in the sitemap)`);

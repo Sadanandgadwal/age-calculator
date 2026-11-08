@@ -1,6 +1,6 @@
 import { CircleAlert } from 'lucide-react';
 
-export default function CalculatorInput({ id, label, value, onChange, error, inputMode = 'decimal', suffix, ...props }) {
+export default function CalculatorInput({ id, label, value, onChange, error, inputMode = 'decimal', suffix, className = '', ...props }) {
   const errorId = `${id}-error`;
 
   return (
@@ -20,7 +20,7 @@ export default function CalculatorInput({ id, label, value, onChange, error, inp
           aria-describedby={error ? errorId : undefined}
           className={`block min-h-12 w-full rounded-2xl border-2 bg-white px-4 py-2 text-base font-medium text-ink transition-colors outline-none focus-visible:border-primary focus-visible:ring-3 focus-visible:ring-mint ${
             suffix ? 'pr-10' : ''
-          } ${error ? 'border-danger' : 'border-line hover:border-mint'}`}
+          } ${error ? 'border-danger' : 'border-line hover:border-mint'} ${className}`}
           {...props}
         />
         {suffix && (

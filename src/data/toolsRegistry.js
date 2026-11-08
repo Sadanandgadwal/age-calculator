@@ -2081,7 +2081,7 @@ export const TOOLS = [
     featured: false,
     addedOn: '2026-11-07',
     seo: {
-      title: 'Simple Interest Calculator – Interest, Principal, Rate and Time',
+      title: 'Simple Interest Calculator – Interest, Principal and Rate',
       description:
         'Calculate simple interest and the total amount, or solve for the principal, rate or time from the other three values, with the formula shown.',
       featureList: ['Find interest and total', 'Solve for principal, rate or time', 'Part years allowed', 'Formula shown for each mode'],

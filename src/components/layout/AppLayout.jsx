@@ -17,9 +17,15 @@ export default function AppLayout() {
 
   return (
     <div className="relative isolate flex min-h-screen flex-col">
+      <a
+        href="#content"
+        className="sr-only rounded-xl bg-primary px-4 py-3 font-bold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:outline-none focus-visible:ring-3 focus-visible:ring-mint print:hidden"
+      >
+        Skip to content
+      </a>
       <BackgroundDecor />
       <SiteNav />
-      <div className="flex-1">
+      <div id="content" tabIndex={-1} className="flex-1 outline-none">
         {/* The key clears a loading error once the user moves to another page. */}
         <ErrorBoundary key={pathname}>
           <Suspense fallback={<p className="py-20 text-center text-ink/80">Loading…</p>}>

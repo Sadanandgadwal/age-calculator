@@ -180,6 +180,18 @@ describe('routes', () => {
   }, 60000);
 });
 
+describe('skip link', () => {
+  it('is the first control on the page and points at the page content', async () => {
+    const user = renderAt('/age-calculator');
+    await pageHeading('Age Calculator');
+    await user.tab();
+    const link = screen.getByRole('link', { name: 'Skip to content' });
+    expect(link).toHaveFocus();
+    expect(link).toHaveAttribute('href', '#content');
+    expect(document.getElementById('content')).toContainElement(screen.getByRole('main'));
+  });
+});
+
 describe('categories', () => {
   it('/pdf-tools lists its tools and can be indexed', async () => {
     renderAt('/pdf-tools');

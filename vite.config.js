@@ -10,6 +10,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tailwindcss(), siteMeta(siteUrl, env.VITE_GOOGLE_SITE_VERIFICATION)],
+    build: {
+      chunkSizeWarningLimit: 900,
+    },
     define: {
       'import.meta.env.VITE_SITE_URL': JSON.stringify(siteUrl),
     },

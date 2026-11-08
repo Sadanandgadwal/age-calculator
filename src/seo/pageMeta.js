@@ -124,7 +124,7 @@ const STATIC_PAGES = {
       path: '/all-tools',
       name: 'All Tools',
       title: 'All Free Online Tools | ToolNest',
-      description: 'Browse every free ToolNest calculator and converter. Search by name or filter by category.',
+      description: 'Browse every free ToolNest tool: calculators, converters, PDF, image, text and developer tools. Search by name or filter by category.',
       tools: TOOLS,
     }),
   '/about': () =>
@@ -132,14 +132,14 @@ const STATIC_PAGES = {
       path: '/about',
       name: 'About',
       title: 'About ToolNest – Free Everyday Online Tools',
-      description: 'ToolNest is a growing collection of free online tools that run in your browser, with no sign-up required.',
+      description: 'ToolNest is a growing collection of free online calculators, converters and file tools that run in your browser, with no sign-up required.',
     }),
   '/contact': () =>
     simplePageMeta({
       path: '/contact',
       name: 'Contact',
       title: 'Contact ToolNest',
-      description: 'Get in touch with ToolNest to report a problem, suggest a tool or ask a question.',
+      description: 'Get in touch with ToolNest to report a problem with a tool, suggest a new calculator or converter, or ask a question about the site.',
       // Stays out of search results until there is a real address to show.
       indexable: Boolean(siteConfig.contactEmail),
     }),
@@ -187,3 +187,15 @@ export const getAllPaths = () => [
   ...CATEGORIES.map(({ route }) => route),
   ...TOOLS.map(({ route }) => route),
 ];
+
+const newest = (tools) => tools.reduce((latest, { addedOn }) => (addedOn > latest ? addedOn : latest), '');
+
+/** The sitemap date for a page: when its tool, or the newest tool it lists, was added. */
+export function getLastModified(pathname) {
+  const path = normalizePath(pathname);
+  const tool = getToolByRoute(path);
+  if (tool) return tool.addedOn;
+  const category = CATEGORIES.find(({ route }) => route === path);
+  if (category) return newest(getToolsInCategory(TOOLS, category.id));
+  return path === '/' || path === '/all-tools' ? newest(TOOLS) : null;
+}

@@ -4,10 +4,11 @@ import App from './App.jsx';
 import { preloadToolPage } from './data/toolPages.js';
 import { getToolByRoute } from './data/toolsRegistry.js';
 import { getHeadTags, headTagsToHtml, escapeHtml } from './seo/headTags.js';
-import { absoluteUrl, getAllPaths, getPageMeta } from './seo/pageMeta.js';
+import { absoluteUrl, getAllPaths, getLastModified, getPageMeta } from './seo/pageMeta.js';
 import { buildFaqSchema, toJsonLdScript } from './utils/structuredData.js';
+import { buildLlmsText } from './seo/llmsText.js';
 
-export { absoluteUrl, getAllPaths };
+export { absoluteUrl, buildLlmsText, getAllPaths, getLastModified };
 
 /** Renders one page for scripts/prerender.mjs. Used only at build time. */
 export async function renderPage(path) {

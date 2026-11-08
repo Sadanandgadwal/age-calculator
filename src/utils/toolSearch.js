@@ -34,12 +34,16 @@ export const getActiveCategories = (categories, tools) =>
 export function getRelatedTools(tools, tool, limit = 3) {
   const rank = ({ categories }) => {
     if (categories[0] === tool.categories[0]) return 0;
+    if (tool.categories.includes(categories[0]) && categories.includes(tool.categories[0])) return 0;
     return categories.some((id) => tool.categories.includes(id)) ? 1 : 2;
   };
-  return tools
-    .filter(({ id }) => id !== tool.id)
-    .sort((a, b) => rank(a) - rank(b))
-    .slice(0, limit);
+  const start = tools.findIndex(({ id }) => id === tool.id);
+  const distance = (other) => (tools.indexOf(other) - start + tools.length) % tools.length;
+  const sorted = tools.filter(({ id }) => id !== tool.id).sort((a, b) => rank(a) - rank(b) || distance(a) - distance(b));
+  const closest = sorted.filter((other) => rank(other) === 0);
+  const previous = closest.length > limit ? closest.at(-1) : null;
+  if (!previous) return sorted.slice(0, limit);
+  return [...sorted.filter((other) => other !== previous).slice(0, limit - 1), previous];
 }
 
 export const getFeaturedTools = (tools) => tools.filter((tool) => tool.featured);
